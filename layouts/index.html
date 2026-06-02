@@ -6,6 +6,10 @@
     <title>American Innovation $1 | Tech Coins Crypto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* 🛠️ 終極大絕招：強制全站中英文字體、連結、標籤一律變成絕對純白，無視任何瀏覽器套件搞鬼 */
+        body, h1, h2, h4, h5, p, a, span, div {
+            color: #ffffff !important;
+        }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
@@ -26,16 +30,16 @@
         </div>
     </nav>
 
-    <header class="relative min-h-[80vh] flex items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12">
+    <header class="relative min-h-[75vh] flex items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12">
         
         <div class="relative z-10 max-w-2xl lg:pl-12 my-auto">
-            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none text-white uppercase mb-6">
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-none text-white uppercase mb-6 whitespace-nowrap">
                 American Innovation $1
             </h1>
-            <p class="text-white text-sm md:text-base font-medium leading-relaxed max-w-xl mb-3">
+            <p class="text-white text-sm md:text-base font-bold leading-relaxed max-w-xl mb-3">
                 2018美國創新1美元紀念幣。喬治·華盛頓簽署全美第一份專利證書。
             </p>
-            <p class="text-white text-sm md:text-base font-medium leading-relaxed max-w-xl mb-8">
+            <p class="text-white text-sm md:text-base font-bold leading-relaxed max-w-xl mb-8">
                 這個網站所有圖片跟文字<br>
                 就是要勸敗你買幣
             </p>
@@ -44,7 +48,7 @@
             </a>
         </div>
 
-        <div class="absolute -right-16 sm:-right-20 md:-right-28 top-1/2 -translate-y-1/2 w-[260px] h-[260px] sm:w-[380px] sm:h-[380px] md:w-[480px] md:h-[480px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none">
+        <div class="absolute -right-24 sm:-right-32 md:-right-40 lg:-right-44 top-1/2 -translate-y-1/2 w-[220px] h-[220px] sm:w-[320px] sm:h-[320px] md:w-[420px] md:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full overflow-hidden select-none pointer-events-none">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
             <img src="/coin2018.png" alt="2018 Innovation Coin" 
                  class="w-full h-full object-cover rounded-full opacity-80 brightness-[0.85] contrast-[1.1]"
@@ -67,7 +71,7 @@
                     <div>
                         <div class="flex justify-between items-center text-xs tracking-widest font-mono text-white">
                             <span>{{ .Params.coin_number }} // {{ .Params.state }}</span>
-                            <span class="text-white font-bold border border-white/40 bg-white/5 px-2 py-0.5 rounded-none">{{ .Params.status }}</span>
+                            <span class="text-white font-bold border border-white/40 bg-white/5 px-2 py-0.5 rounded-none status-tag">{{ .Params.status }}</span>
                         </div>
                         <h4 class="font-bold text-white mt-4 text-xl tracking-wide">
                             <a href="{{ .RelPermalink }}">{{ .Title }}</a>
@@ -75,4 +79,41 @@
                         <p class="text-white text-xs mt-3 leading-relaxed font-light line-clamp-3">{{ .Summary }}</p>
                     </div>
                     <div class="mt-8 pt-4 border-t border-zinc-900 flex justify-between items-center">
-                        <span class="text-[10px]
+                        <span class="text-[10px] font-mono tracking-wider text-white border border-white/20 bg-white/5 px-2 py-1 uppercase">{{ .Params.grade_suggest }}</span>
+                        <a href="{{ .RelPermalink }}" class="text-xs text-white underline tracking-wider font-bold hover:text-zinc-300 transition">READ MANIFESTO →</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
+                <span class="w-1 h-3 bg-white"></span>
+                <span>COLLECTION TIMELINE / 年份編年史</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+                <div class="border border-zinc-900 bg-zinc-950 p-6">
+                    <h5 class="font-bold text-white font-mono tracking-wider mb-2">2018 - 2019 // CORE</h5>
+                    <p class="text-xs text-white font-light leading-relaxed">首枚專利概念幣、德拉瓦天文學、賓州疫苗、紐澤西燈泡。資料整備中。</p>
+                </div>
+                <div class="border border-zinc-600 bg-zinc-950 p-6 relative shadow-[0_0_20px_rgba(255,255,255,0.02)]">
+                    <div class="absolute top-0 right-0 bg-white text-black text-[9px] font-mono font-bold px-2 py-0.5 uppercase tracking-wider">ONLINE</div>
+                    <h5 class="font-bold text-white font-mono tracking-wider mb-2">2020 - 2021 // HARDWARE</h5>
+                    <p class="text-xs text-white font-light leading-relaxed">麻薩諸塞電話、馬里蘭哈伯望遠鏡。加利福尼亞微處理器任務已成功部署！</p>
+                </div>
+                <div class="border border-zinc-900 bg-zinc-950 p-6">
+                    <h5 class="font-bold text-white font-mono tracking-wider mb-2">2022 - 2026 // FUTURE</h5>
+                    <p class="text-xs text-white font-light leading-relaxed">年底親自帶貨、精品現貨與預購清單。漫遊至 2032 年計畫有條不紊推進中。</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-zinc-900 bg-black text-white text-center py-12 text-[10px] tracking-widest font-mono uppercase">
+        <p>© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
+    </footer>
+
+</body>
+</html>
