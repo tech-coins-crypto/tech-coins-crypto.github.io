@@ -35,19 +35,19 @@
     <!-- 2. SpaceX 風格巨幕 (Hero Section) -->
     <header class="relative min-h-[95vh] flex items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-16">
         
-        <!-- 左側：純白硬核標題與完全等大（text-2xl sm:text-4xl md:text-5xl）的勸敗中文文案 -->
-        <div class="relative z-10 max-w-5xl lg:pl-12 my-auto space-y-8 md:space-y-12">
-            <!-- 英文主標題 -->
-            <h1 class="text-2xl sm:text-4xl md:text-5xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">
+        <!-- 左側：純白硬核標題與響應式等比例優化的勸敗中文文案 -->
+        <div class="relative z-10 max-w-5xl lg:pl-12 my-auto space-y-6 md:space-y-12">
+            <!-- 英文主標題：手機版微調為 text-xl 防止 whitespace-nowrap 撐破螢幕，電腦版維持 md:text-5xl 不動 -->
+            <h1 class="text-xl sm:text-3xl md:text-5xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">
                 American Innovation $1
             </h1>
-            <!-- 中文副標題（放大至與主標題等大，提升張力） -->
-            <p class="text-white text-2xl sm:text-3xl md:text-2xl font-black tracking-tight leading-tight md:leading-snug">
+            <!-- 中文副標題：手機與平板等比例縮小（text-sm / sm:text-lg），電腦版維持 md:text-2xl 不動 -->
+            <p class="text-white text-sm sm:text-lg md:text-2xl font-black tracking-tight leading-tight md:leading-snug">
                 2018美國創新1美元紀念幣<br>
                 喬治·華盛頓簽署全美第一份專利證書。
             </p>
-            <!-- 核心勸敗宗旨（放大至與主標題等大） -->
-            <p class="text-white text-2xl sm:text-4xl md:text-2xl font-black tracking-tight leading-tight md:leading-snug">
+            <!-- 核心勸敗宗旨：手機與平板等比例縮小（text-sm / sm:text-lg），電腦版維持 md:text-2xl 不動 -->
+            <p class="text-white text-sm sm:text-lg md:text-2xl font-black tracking-tight leading-tight md:leading-snug">
                勸誘你買幣的網站
             </p>
             <!-- SpaceX 標誌性純白方框按鈕 -->
@@ -58,8 +58,7 @@
             </div>
         </div>
 
-        <!-- 右側：大幅往左平移展示出 "AMERICAN" 字樣的 2018 創新幣 -->
-        <!-- 修改為正值 right 定位，讓硬幣大面積向左突入畫面，並維持精緻半透明背景襯底效果 -->
+        <!-- 右側：2018 創新幣（所有參數、大小、包括你改好的 lg:w-[600px]、lg:right-4 全部原封不動） -->
         <div class="absolute right-4 sm:right-12 md:right-20 lg:right-4 top-1/2 -translate-y-1/2 w-[240px] h-[240px] sm:w-[360px] sm:h-[360px] md:w-[480px] md:h-[480px] lg:w-[600px] lg:h-[600px] rounded-full overflow-hidden select-none pointer-events-none opacity-30 md:opacity-60 z-0">
             <!-- 暗黑邊緣光晕效果 -->
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
