@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Coins Crypto | 美國創新1美元紀念幣故事網</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="font-bold text-xl tracking-wider text-indigo-400">🪙 Tech Coins Crypto</div>
+        </div>
+    </nav>
+
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-16 px-4 text-center">
+        <div class="max-w-3xl mx-auto">
+            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">美國創新 1 美元紀念幣</h1>
+            <p class="text-slate-400 mt-4 text-base">專為台灣收藏家與科技硬體控打造。解密硬幣背後的硬核發明故事。</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10">
+        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+            <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+            <span>📅 已上線硬幣故事點檢（自動更新牆）</span>
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {{ range .Site.RegularPages }}
+            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:border-indigo-500 transition transform hover:-translate-y-1">
+                <div>
+                    <div class="flex justify-between items-start">
+                        <span class="text-xs font-mono text-slate-400">{{ .Params.coin_number }} · {{ .Params.state }}</span>
+                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">{{ .Params.status }}</span>
+                    </div>
+                    <h4 class="font-bold text-slate-900 mt-2 text-lg hover:text-indigo-600"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+                    <p class="text-xs text-slate-500 mt-2 line-clamp-3">{{ .Summary }}</p>
+                </div>
+                <div class="mt-6 pt-3 border-t border-slate-100 flex justify-between items-center">
+                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">{{ .Params.grade_suggest }}</span>
+                    <a href="{{ .RelPermalink }}" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-sm">閱讀完整故事 →</a>
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-500 text-center py-8 text-xs mt-20">
+        <p>© 2026 Tech Coins Crypto. Built automatically with Hugo.</p>
+    </footer>
+</body>
+</html>
