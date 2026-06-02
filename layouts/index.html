@@ -11,44 +11,103 @@
     <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
         <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
             <div class="font-bold text-xl tracking-wider text-indigo-400">🪙 Tech Coins Crypto</div>
+            <div class="flex space-x-6 text-sm font-medium text-slate-300">
+                <a href="#" class="hover:text-indigo-400 transition">首頁</a>
+                <a href="#" class="hover:text-indigo-400 transition">年份點檢</a>
+            </div>
         </div>
     </nav>
 
-    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-16 px-4 text-center">
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-16 px-4 text-center shadow-inner">
         <div class="max-w-3xl mx-auto">
-            <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight">美國創新 1 美元紀念幣</h1>
-            <p class="text-slate-400 mt-4 text-base">專為台灣收藏家與科技硬體控打造。解密硬幣背後的硬核發明故事。</p>
+            <span class="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider border border-indigo-500/30">Numismatics & Technology</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold mt-4 tracking-tight">美國創新 1 美元紀念幣</h1>
+            <p class="text-slate-400 mt-4 text-base font-light max-w-xl mx-auto">专为台灣收藏家與科技硬體控打造。橫跨 2018–2032 年，解密美國鑄幣局 56 枚硬幣背後的硬核發明故事。</p>
         </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4 py-10">
-        <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
-            <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
-            <span>📅 已上線硬幣故事點檢（自動更新牆）</span>
-        </h2>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {{ range .Site.RegularPages }}
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:border-indigo-500 transition transform hover:-translate-y-1">
-                <div>
-                    <div class="flex justify-between items-start">
-                        <span class="text-xs font-mono text-slate-400">{{ .Params.coin_number }} · {{ .Params.state }}</span>
-                        <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">{{ .Params.status }}</span>
-                    </div>
-                    <h4 class="font-bold text-slate-900 mt-2 text-lg hover:text-indigo-600"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
-                    <p class="text-xs text-slate-500 mt-2 line-clamp-3">{{ .Summary }}</p>
+        <section class="mb-12">
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                <span>🎯 依「科技創新領域」快速導覽</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-indigo-400 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🚀</div>
+                    <div class="font-bold text-slate-900">太空與天文</div>
+                    <p class="text-xs text-slate-500 mt-1">哈伯望遠鏡、阿波羅計畫...</p>
                 </div>
-                <div class="mt-6 pt-3 border-t border-slate-100 flex justify-between items-center">
-                    <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">{{ .Params.grade_suggest }}</span>
-                    <a href="{{ .RelPermalink }}" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-sm">閱讀完整故事 →</a>
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-indigo-400 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🎮</div>
+                    <div class="font-bold text-slate-900">資訊與電子遊戲</div>
+                    <p class="text-xs text-slate-500 mt-1">雅達利電視遊樂器、微處理器...</p>
+                </div>
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-indigo-400 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🔬</div>
+                    <div class="font-bold text-slate-900">生醫與生活發明</div>
+                    <p class="text-xs text-slate-500 mt-1">愛迪生燈泡、小兒麻痺疫苗...</p>
+                </div>
+                <div class="p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:border-indigo-400 transition cursor-pointer">
+                    <div class="text-2xl mb-2">🏂</div>
+                    <div class="font-bold text-slate-900">經典大眾與運動</div>
+                    <p class="text-xs text-slate-500 mt-1">單板滑雪、第一所公立大學...</p>
                 </div>
             </div>
-            {{ end }}
-        </div>
+        </section>
+
+        <section class="mb-12">
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                <span>💡 已解密硬幣故事（純文字自動抽屜區）</span>
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {{ range .Site.RegularPages }}
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm flex flex-col justify-between hover:border-indigo-500 transition transform hover:-translate-y-1">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-mono text-slate-400">{{ .Params.coin_number }} · {{ .Params.state }}</span>
+                            <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">{{ .Params.status }}</span>
+                        </div>
+                        <h4 class="font-bold text-slate-900 mt-2 text-lg hover:text-indigo-600"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h4>
+                        <p class="text-xs text-slate-500 mt-2 line-clamp-3">{{ .Summary }}</p>
+                    </div>
+                    <div class="mt-6 pt-3 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-1 rounded">{{ .Params.grade_suggest }}</span>
+                        <a href="{{ .RelPermalink }}" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-sm">閱讀完整故事 →</a>
+                    </div>
+                </div>
+                {{ end }}
+            </div>
+        </section>
+
+        <section class="space-y-6">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center space-x-2">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                <span>📅 依「發行年份」系統化收藏（其餘年份內容籌備中）</span>
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-slate-500">
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <h5 class="font-bold text-slate-700 mb-2">2018 - 2019 系列</h5>
+                    <p class="text-xs">華盛頓專利、愛迪生燈泡故事撰寫中...</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm border-l-4 border-l-indigo-500">
+                    <h5 class="font-bold text-slate-800 mb-2">2020 - 2021 系列（熱門）</h5>
+                    <p class="text-xs text-indigo-600 font-medium">✨ 加州微處理器故事已解密上線！</p>
+                </div>
+                <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+                    <h5 class="font-bold text-slate-700 mb-2">2022 - 2026 系列</h5>
+                    <p class="text-xs">年底帶貨現貨預購清單規劃中...</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-slate-900 text-slate-500 text-center py-8 text-xs mt-20">
-        <p>© 2026 Tech Coins Crypto. Built automatically with Hugo.</p>
+        <p>© 2026 Tech Coins Crypto. Powered by Hugo & Cloudflare Ecosystem.</p>
     </footer>
 </body>
 </html>
