@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpaceX Style | Tech Coins Crypto</title>
+    <!-- Tailwind CSS 引擎 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 隱藏滾動條但保持功能 */
@@ -14,6 +15,7 @@
 </head>
 <body class="bg-black text-white antialiased font-sans">
 
+    <!-- 1. SpaceX 風格極簡導覽列 -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-black text-lg tracking-[0.25em] text-white">
@@ -27,32 +29,47 @@
         </div>
     </nav>
 
-    <header class="relative relative min-h-[85vh] flex items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12">
+    <!-- 2. SpaceX 巨幕改版：硬幣縮小左移 + 誠實勸敗文案 -->
+    <header class="relative min-h-[85vh] flex items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12">
         
+        <!-- 左側：全新排版大標與文案 -->
         <div class="relative z-10 max-w-2xl lg:pl-12 my-auto">
-            <span class="text-xs font-bold tracking-[0.3em] text-zinc-500 uppercase">INTRODUCING THE INITIAL PIECE</span>
-            <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-none text-white uppercase mt-4 mb-6">
-                MAKING LIFE<br><span class="text-zinc-200">NUMISMATIC</span>
+            <!-- 換成單排字 American Innovation $1 -->
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-none text-white mt-2 mb-6">
+                American Innovation $1
             </h1>
-            <p class="text-zinc-400 text-sm md:text-base font-light leading-relaxed max-w-md mb-8">
-                2018 美國創新 1 美元紀念幣首發章。致敬喬治·華盛頓簽署全美第一項專利權，開啟人類硬體與科技井噴的偉大紀元。
+            <!-- 縮減版新文案 -->
+            <p class="text-zinc-400 text-sm md:text-base font-light leading-relaxed max-w-md mb-2">
+                2018美國創新1美元紀念幣。喬治·華盛頓簽署全美第一份專利證書。
             </p>
+            <!-- 新增兩行終極勸敗字 -->
+            <p class="text-amber-500 text-sm md:text-base font-medium leading-relaxed max-w-md mb-8 tracking-wide">
+                這個網站所有圖片跟文字<br>
+                就是要勸敗你買幣
+            </p>
+            <!-- SpaceX 標誌性方框按鈕 -->
             <a href="#explore" class="inline-block border border-white text-white text-xs font-bold tracking-widest uppercase px-8 py-4 hover:bg-white hover:text-black transition-all duration-300">
                 EXPLORE NOW →
             </a>
         </div>
 
-       <div class="absolute -right-16 sm:-right-24 md:-right-36 top-1/2 -translate-y-1/2 w-[300px] h-[300px] sm:w-[450px] sm:h-[450px] md:w-[550px] md:h-[550px] lg:w-[650px] lg:h-[650px] rounded-full overflow-hidden select-none pointer-events-none">
-            <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
+        <!-- 右側：縮小且左移版 2018 創新幣 -->
+        <div class="absolute right-2 sm:right-6 md:right-12 lg:right-24 top-1/2 -translate-y-1/2 w-[240px] h-[240px] sm:w-[350px] sm:h-[350px] md:w-[460px] md:h-[460px] lg:w-[540px] lg:h-[540px] rounded-full overflow-hidden select-none pointer-events-none">
+            <!-- 暗黑邊緣光晕效果 -->
+            <div class="absolute inset-0 rounded-full shadow-[inset_-25px_0px_50px_rgba(0,0,0,0.9),inset_25px_0px_50px_rgba(255,255,255,0.05)] z-10"></div>
+            <!-- 硬幣本體圖片 -->
             <img src="/coin2018.png" alt="2018 Innovation Coin" 
                  class="w-full h-full object-cover rounded-full opacity-80 brightness-[0.85] contrast-[1.1]"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <!-- 兜底用科技感漸層 -->
             <div class="hidden w-full h-full bg-gradient-to-r from-zinc-950 via-zinc-800 to-amber-950/40 items-center justify-center rounded-full"></div>
         </div>
     </header>
 
+    <!-- 3. 主內容區（暗黑儀表板風） -->
     <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
         
+        <!-- 動態故事牆 -->
         <section class="mb-20">
             <h2 class="text-xs font-bold tracking-[0.3em] text-zinc-500 uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -73,7 +90,7 @@
                         <p class="text-zinc-400 text-xs mt-3 leading-relaxed font-light line-clamp-3">{{ .Summary }}</p>
                     </div>
                     <div class="mt-8 pt-4 border-t border-zinc-900 flex justify-between items-center">
-                        <span class="text-[10px] font-mono tracking-wider text-amber-500/80 border border-amber-500/20 bg-amber-500/5 px-2 py-1 uppercase">{{ .Params.grade_suggest }}</span>
+                        <span class="text-xs font-bold text-amber-500/80 border border-amber-500/20 bg-amber-500/5 px-2 py-1 uppercase">{{ .Params.grade_suggest }}</span>
                         <a href="{{ .RelPermalink }}" class="text-xs text-white underline tracking-wider font-bold hover:text-zinc-400 transition">READ MANIFESTO →</a>
                     </div>
                 </div>
@@ -81,6 +98,7 @@
             </div>
         </section>
 
+        <!-- 依年份系統化收藏 -->
         <section>
             <h2 class="text-xs font-bold tracking-[0.3em] text-zinc-500 uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -105,6 +123,7 @@
 
     </main>
 
+    <!-- 4. 極簡頁尾 -->
     <footer class="border-t border-zinc-900 bg-black text-zinc-600 text-center py-12 text-[10px] tracking-widest font-mono uppercase">
         <p>© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
     </footer>
