@@ -3,63 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>科技與歷史的交會：美國創新1美元紀念幣</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css">
-    <style>
-        body { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; font-family: system-ui, sans-serif; }
-        .hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, #1e293b, #0f172a); color: white; border-radius: 12px; margin-bottom: 2rem; }
-        .hero h1 { margin: 0; color: #f8fafc; font-size: 2.2rem; }
-        .hero p { color: #94a3b8; margin-top: 0.5rem; }
-        .tag-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .tag-card { background: #f1f5f9; padding: 1rem; border-radius: 8px; text-align: center; text-decoration: none; color: #1e293b; font-weight: bold; border: 1px solid #e2e8f0; transition: all 0.2s; }
-        .tag-card:hover { background: #e2e8f0; transform: translateY(-2px); }
-        .year-section { background: #ffffff; border: 1px solid #e2e8f0; padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
-        .coin-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem; }
-        .coin-badge { background: #f8fafc; border: 1px solid #cbd5e1; padding: 0.4rem 0.8rem; border-radius: 6px; font-size: 0.9rem; text-decoration: none; color: #334155; }
-        .coin-badge:hover { background: #2563eb; color: white; border-color: #2563eb; }
-    </style>
+    <title>Tech Coins Crypto | 美國創新1美元紀念幣故事網</title>
+    <!-- 引入全球頂尖科技公司愛用的 Tailwind 視覺美化引擎 -->
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans">
 
-    <div class="hero">
-        <h1>美國創新 1 美元紀念幣</h1>
-        <p>台灣專屬硬核科技故事與收藏點檢系統</p>
-    </div>
-
-    <blockquote>
-        💡 <b>站長提示：</b> 這裡專為台灣錢幣收藏家與科技硬體控打造。帶你一口氣看懂美國鑄幣局（US Mint）56枚創新紀念幣背後的歷史發明。
-    </blockquote>
-
-    <h2>🎯 依「科技創新領域」快速導覽</h2>
-    <div class="tag-container">
-        <a href="#" class="tag-card">🚀 太空與天文</a>
-        <a href="#" class="tag-card">🎮 資訊與電子遊戲</a>
-        <a href="#" class="tag-card">🔬 生醫與生活發明</a>
-        <a href="#" class="tag-card">🏂 經典大眾與運動</a>
-    </div>
-
-    <h2>📅 依「發行年份」系統化收藏</h2>
-
-    <div class="year-section">
-        <h3>2018 - 2019（概念奠基與絕版熱銷）</h3>
-        <div class="coin-grid">
-            <a href="#" class="coin-badge">2018 首枚：華盛頓專利權</a>
-            <a href="#" class="coin-badge">2019 德拉瓦州：天文學家珍妮</a>
-            <a href="#" class="coin-badge">2019 賓州：小兒麻痺疫苗</a>
-            <a href="#" class="coin-badge">2019 紐澤西州：愛迪生燈泡</a>
-            <a href="#" class="coin-badge">2019 喬治亞州：蓋勒特信託花園</a>
+    <!-- 頂部高級感導覽列 -->
+    <nav class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2 font-bold text-xl tracking-wider text-indigo-400">
+                <span>🪙 Tech Coins Crypto</span>
+            </div>
+            <div class="hidden md:flex space-x-6 text-sm font-medium text-slate-300">
+                <a href="#" class="hover:text-indigo-400 transition">首頁</a>
+                <a href="#" class="hover:text-indigo-400 transition">年份點檢</a>
+                <a href="#" class="hover:text-indigo-400 transition">拍賣賣場</a>
+            </div>
         </div>
-    </div>
+    </nav>
 
-    <div class="year-section">
-        <h3>2020 - 2021（硬體黃金年代）</h3>
-        <div class="coin-grid">
-            <a href="#" class="coin-badge">2020 麻薩諸塞州：電話發明</a>
-            <a href="#" class="coin-badge">2020 馬里蘭州：哈伯望遠鏡</a>
-            <a href="#" class="coin-badge">2021 加州：矽谷微處理器</a>
-            <a href="#" class="coin-badge">2021 北卡羅來納：第一所公立大學</a>
+    <!-- 科技感大橫幅 (Hero Section) -->
+    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-16 px-4 text-center shadow-inner">
+        <div class="max-w-3xl mx-auto">
+            <span class="bg-indigo-500/20 text-indigo-300 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider border border-indigo-500/30">Numismatics & Technology</span>
+            <h1 class="text-4xl md:text-5xl font-extrabold mt-4 tracking-tight leading-none bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-indigo-200">
+                美國創新 1 美元紀念幣
+            </h1>
+            <p class="text-slate-400 mt-4 text-base md:text-lg font-light max-w-xl mx-auto">
+                專為台灣收藏家與科技硬體控打造。橫跨 2018–2032 年，解密美國鑄幣局 56 枚硬幣背後的硬核發明故事。
+            </p>
         </div>
-    </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 py-10">
+        
+        <!-- 核心導覽標籤（科技直男最愛的分流卡片） -->
+        <section class="mb-12">
+            <h2 class="text-xl font-bold text-slate-900 mb-6 flex items-center space-x-2">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                <span>🎯 依「科技創新領域」快速導覽</span>
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <a href="#" class="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition-all duration-200 transform hover:-translate-y-1">
+                    <div class="text-2xl mb-2">🚀</div>
+                    <div class="font-bold text-slate-900 group-hover:text-indigo-600 transition">太空與天文</div>
+                    <p class="text-xs text-slate-500 mt-1">哈伯望遠鏡、阿波羅計畫...</p>
+                </a>
+                <a href="#" class="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition-all duration-200 transform hover:-translate-y-1">
+                    <div class="text-2xl mb-2">🎮</div>
+                    <div class="font-bold text-slate-900 group-hover:text-indigo-600 transition">資訊與電子遊戲</div>
+                    <p class="text-xs text-slate-500 mt-1">雅達利電視遊樂器、微處理器...</p>
+                </a>
+                <a href="#" class="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition-all duration-200 transform hover:-translate-y-1">
+                    <div class="text-2xl mb-2">🔬</div>
+                    <div class="font-bold text-slate-900 group-hover:text-indigo-600 transition">生醫與生活發明</div>
+                    <p class="text-xs text-slate-500 mt-1">愛迪生燈泡、小兒麻痺疫苗...</p>
+                </a>
+                <a href="#" class="group p-5 bg-white border border-slate-200 rounded-2xl shadow-sm hover:shadow-md hover:border-indigo-500 transition-all duration-200 transform hover:-translate-y-1">
+                    <div class="text-2xl mb-2">🏂</div>
+                    <div class="font-bold text-slate-900 group-hover:text-indigo-600 transition">經典大眾與運動</div>
+                    <p class="text-xs text-slate-500 mt-1">單板滑雪、第一所公立大學...</p>
+                </a>
+            </div>
+        </section>
+
+        <!-- 系統化年份收藏區（精品卡片牆設計） -->
+        <section class="space-y-10">
+            <h2 class="text-xl font-bold text-slate-900 flex items-center space-x-2">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded-full"></span>
+                <span>📅 依「發行年份」系統化收藏點檢</span>
+            </h2>
+
+            <!-- 年份區塊：2021 -->
+            <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+                    <h3 class="text-lg font-bold text-slate-900 flex items-center space-x-2">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2.5 py-1 rounded font-mono">2021 SERIES</span>
+                        <span>硬體與科技黃金年代</span>
+                    </h3>
+                    <span class="text-xs text-slate-400">每年限量 4 枚</span>
+                </div>
+                
+                <!-- 硬幣九宮格卡片 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
+                    <!-- 硬幣 1：加州微處理器 -->
+                    <div class="border border-slate-100 bg-slate-50/50 rounded-xl p-4 flex flex-col justify-between hover:border-slate-300 transition">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs font-mono text-slate-400">#12 加利福尼亞州</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">現貨供應</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 mt-2 text-base">矽谷誕生：微處理器紀念幣</h4>
+                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">點構矽谷的核心技術！致敬徹底改變現代人類運算邏輯的微處理器發明...</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400">PCGS / NGC 認證熱銷中</span>
+                            <a href="#" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-sm">讀歷史 / 買現貨 →</a>
+                        </div>
+                    </div>
+
+                    <!-- 硬幣 2：北卡公立大學 -->
+                    <div class="border border-slate-100 bg-slate-50/50 rounded-xl p-4 flex flex-col justify-between hover:border-slate-300 transition">
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs font-mono text-slate-400">#13 北卡羅來納州</span>
+                                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-semibold px-2 py-0.5 rounded-full">年底帶貨預購</span>
+                            </div>
+                            <h4 class="font-bold text-slate-900 mt-2 text-base">教育創新：第一所公立大學紀念幣</h4>
+                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">全美首創！探索北卡羅來納大學如何開啟高等教育平民化的偉大歷程...</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs font-bold text-slate-400">精品級高分Specimen</span>
+                            <a href="#" class="text-xs bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-3 py-1.5 rounded-lg transition shadow-sm">讀歷史 / 預購 →</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="bg-slate-900 text-slate-500 text-center py-8 text-xs border-t border-slate-800 mt-20">
+        <p>© 2026 Tech Coins Crypto. Hosted safely on GitHub & Cloudflare Ecosystem.</p>
+    </footer>
 
 </body>
 </html>
