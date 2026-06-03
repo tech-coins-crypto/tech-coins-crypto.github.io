@@ -57,12 +57,12 @@
 
     <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16">
         
-        <div class="flex items-center gap-4 border-b border-zinc-900 pb-8 mb-12">
-            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300">
-                年份排序
+        <div class="flex items-center gap-6 border-b border-zinc-900 pb-8 mb-12">
+            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded transition-all duration-300">
+                年份
             </button>
-            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300">
-                技術主題
+            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded hover:border-zinc-500 transition-all duration-300">
+                主題
             </button>
         </div>
 
@@ -108,7 +108,7 @@
                 csvCoinsData = lines.map(line => {
                     const parts = line.split(',');
                     return {
-                        nickname: parts[0]?.trim(), // 🚀 新增：綽號欄位
+                        nickname: parts[0]?.trim(), 
                         subject: parts[1]?.trim(),
                         manifesto: parts[2]?.trim(),
                         year: parts[3]?.trim(),
@@ -129,7 +129,7 @@
             }
         }
 
-        // 🗓️ 繪製年份排序視窗（更新呈現：綽號 + 州名）
+        // 🗓️ 繪製年份排序視窗（🔥 升級：二行字的字體大小調成跟綽號一樣大）
         function renderYearView() {
             const container = document.getElementById('view-year');
             container.innerHTML = '';
@@ -150,9 +150,9 @@
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-1">
+                            <div class="mt-4 space-y-1 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="text-zinc-500 text-xs">${coin.state}</p>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
                             </div>
                         </a>
                     `;
@@ -169,7 +169,7 @@
             });
         }
 
-        // 🪐 繪製技術主題視窗（🔥 重磅升級：精準呈現三行字 + 總數統計計數器）
+        // 🪐 繪製技術主題視窗（🔥 升級：三行字的字體大小調成跟綽號一樣大）
         function renderSubjectView() {
             const container = document.getElementById('view-subject');
             container.innerHTML = '';
@@ -192,10 +192,10 @@
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-0.5 flex flex-col items-center">
+                            <div class="mt-4 space-y-1 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="text-zinc-400 text-xs font-light">${coin.state}</p>
-                                <p class="text-zinc-600 font-mono text-[11px] font-bold tracking-wider">${coin.year}</p>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition font-mono">${coin.year}</p>
                             </div>
                         </a>
                     `;
@@ -221,16 +221,20 @@
             const btnYear = document.getElementById('btn-year');
             const btnSubject = document.getElementById('btn-subject');
 
+            // 按鈕選中/未選中樣式重設
+            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded transition-all duration-300";
+            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded hover:border-zinc-500 transition-all duration-300";
+
             if (viewType === 'year') {
                 viewYear.classList.remove('hidden');
                 viewSubject.classList.add('hidden');
-                btnYear.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
-                btnSubject.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
+                btnYear.className = activeClass;
+                btnSubject.className = inactiveClass;
             } else if (viewType === 'subject') {
                 viewYear.classList.add('hidden');
                 viewSubject.classList.remove('hidden');
-                btnSubject.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
-                btnYear.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
+                btnSubject.className = activeClass;
+                btnYear.className = inactiveClass;
             }
         }
 
