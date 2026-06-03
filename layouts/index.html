@@ -45,3 +45,127 @@
         <div id="view-year" class="space-y-16">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">Loading Year Timeline Matrix...</div>
         </div>
+        <div id="view-subject" class="hidden space-y-16">
+            <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">Loading Subject Categories Matrix...</div>
+        </div>
+    </main>
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <p class="text-[10px] tracking-widest uppercase">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span></p>
+        </div>
+    </footer>
+    <script>
+        let csvCoinsData = []; 
+        let isDataLoaded = false;
+        async function loadAndRenderMatrix() {
+            if (isDataLoaded) return;
+            try {
+                const response = await fetch('/data/subjects.csv');
+                const csvText = await response.text();
+                const lines = csvText.replace(/\r/g, '').split('\n').filter(line => line.trim() !== '');
+                lines.shift(); 
+                csvCoinsData = lines.map(line => {
+                    const parts = line.split(',');
+                    return { nickname: parts[0]?.trim(), subject: parts[1]?.trim(), manifesto: parts[2]?.trim(), year: parts[3]?.trim(), state: parts[4]?.trim(), img: parts[5]?.trim() };
+                }).filter(coin => coin.state && coin.year && coin.img);
+                renderYearView();
+                renderSubjectView();
+                isDataLoaded = true;
+            } catch (err) {
+                console.error("CSV Engine Error:", err);
+                const errorHTML = `<div class="text-red-500 text-xs font-mono text-center py-12">DATA LINK INTERRUPTED // 請確認 csv 是否正確</div>`;
+                document.getElementById('view-year').innerHTML = errorHTML;
+                document.getElementById('view-subject').innerHTML = errorHTML;
+            }
+        }
+        function renderYearView() {
+            const container = document.getElementById('view-year');
+            container.innerHTML = '';
+            const yearGroups = {};
+            csvCoinsData.forEach(coin => {
+                if (!yearGroups[coin.year]) yearGroups[coin.year] = [];
+                yearGroups[coin.year].push(coin);
+            });
+            const sortedYears = Object.keys(yearGroups).sort((a, b) => a - b);
+            sortedYears.forEach(year => {
+                let coinsHTML = '';
+                yearGroups[year].forEach(coin => {
+                    coinsHTML += `
+                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                            </div>
+                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
+                            </div>
+                        </a>
+                    `;
+                });
+                container.innerHTML += `
+                    <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
+                    </div>
+                `;
+            });
+        }
+        function renderSubjectView() {
+            const container = document.getElementById('view-subject');
+            container.innerHTML = '';
+            const subjectGroups = {};
+            csvCoinsData.forEach(coin => {
+                if (!subjectGroups[coin.subject]) {
+                    subjectGroups[coin.subject] = { category: coin.subject, coins: [] };
+                }
+                subjectGroups[coin.subject].coins.push(coin);
+            });
+            Object.values(subjectGroups).forEach(group => {
+                let coinsHTML = '';
+                const totalCoinsCount = group.coins.length;
+                group.coins.forEach(coin => {
+                    coinsHTML += `
+                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
+                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                            </div>
+                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
+                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition font-mono">${coin.year}</p>
+                            </div>
+                        </a>
+                    `;
+                });
+                container.innerHTML += `
+                    <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 flex items-baseline space-x-3 select-none">
+                            <span>【${group.category}】</span>
+                            <span class="text-sm md:text-base font-mono font-bold text-zinc-500 bg-zinc-900/40 border border-zinc-800/60 px-2.5 py-0.5 rounded">${totalCoinsCount}</span>
+                        </h3>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
+                    </div>
+                `;
+            });
+        }
+        function switchView(viewType) {
+            const viewYear = document.getElementById('view-year');
+            const viewSubject = document.getElementById('view-subject');
+            const btnYear = document.getElementById('btn-year');
+            const btnSubject = document.getElementById('btn-subject');
+            // 核心修改：同步 switchView 內的 class，確保動態切換時完美維持 py-4 短框高度與文字長度
+            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded transition-all duration-300";
+            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded hover:border-zinc-500 transition-all duration-300";
+            if (viewType === 'year') {
+                viewYear.classList.remove('hidden'); viewSubject.classList.add('hidden');
+                btnYear.className = activeClass; btnSubject.className = inactiveClass;
+            } else if (viewType === 'subject') {
+                viewYear.classList.add('hidden'); viewSubject.classList.remove('hidden');
+                btnSubject.className = activeClass; btnYear.className = inactiveClass;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', loadAndRenderMatrix);
+    </script>
+</body>
+</html>
