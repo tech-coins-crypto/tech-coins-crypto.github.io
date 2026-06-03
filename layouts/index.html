@@ -66,35 +66,56 @@
             <span>DESIGNS BY YEAR / 鑄幣編年矩陣</span>
         </h2>
 
-        {{ $mints := slice
-            (dict "year" "2019" "coins" (slice
-                (dict "state" "德拉瓦州" "img" "/coins/coin-2019-delaware.png")
-                (dict "state" "賓夕法尼亞州" "img" "/coins/coin-2019-pennsylvania.png")
-                (dict "state" "紐澤西州" "img" "/coins/coin-2019-newjersey.png")
-                (dict "state" "喬治亞州" "img" "/coins/coin-2019-georgia.png")
-            ))
-            (dict "year" "2020" "coins" (slice
-                (dict "state" "康乃狄克州" "img" "/coins/coin-2020-connecticut.png")
-                (dict "state" "麻薩諸塞州" "img" "/coins/coin-2020-massachusetts.png")
-                (dict "state" "馬里蘭州" "img" "/coins/coin-2020-maryland.png")
-                (dict "state" "南卡羅萊納州" "img" "/coins/coin-2020-southcarolina.png")
-            ))
-            (dict "year" "2021" "coins" (slice
-                (dict "state" "新罕布夏州" "img" "/coins/coin-2021-newhampshire.png")
-                (dict "state" "維吉尼亞州" "img" "/coins/coin-2021-virginia.png")
-                (dict "state" "紐約州" "img" "/coins/coin-2021-newyork.png")
-                (dict "state" "北卡羅萊納州" "img" "/coins/coin-2021-northcarolina.png")
-            ))
-            (dict "year" "2022" "coins" (slice
-                (dict "state" "羅德島州" "img" "/coins/coin-2022-rhodeisland.png")
-                (dict "state" "佛蒙特州" "img" "/coins/coin-2022-vermont.png")
-                (dict "state" "肯塔基州" "img" "/coins/coin-2022-kentucky.png")
-                (dict "state" "田納西州" "img" "/coins/coin-2022-tennessee.png")
-            ))
-            (dict "year" "2023" "coins" (slice
-                (dict "state" "俄亥俄州" "img" "/coins/coin-2023-ohio.png")
-                (dict "state" "路易斯安那州" "img" "/coins/coin-2023-louisiana.png")
-                (dict "state" "印地安納州" "img" "/coins/coin-2023-indiana.png")
-                (dict "state" "密西西比州" "img" "/coins/coin-2023-mississippi.png")
-            ))
-            (dict "
+        <div class="space-y-16">
+
+            <div class="border-t border-zinc-900 pt-8">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2019</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    {{ range slice "德拉瓦州:delaware" "賓夕法尼亞州:pennsylvania" "紐澤西州:newjersey" "喬治亞州:georgia" }}
+                        {{ $item := split . ":" }}{{ $state := index $item 0 }}{{ $slug := index $item 1 }}
+                        {{ $p := where $.Site.RegularPages "Params.state" $state }}
+                        {{ range $p }}
+                            <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
+                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
+                                    <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2019-{{ $slug }}.png{{ end }}" alt="{{ .Title }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                    {{ if .Params.status }}
+                                    <span class="absolute bottom-2 text-[9px] font-mono border border-white/20 bg-black/90 px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ .Params.status }}</span>
+                                    {{ end }}
+                                </div>
+                                <h4 class="mt-4 font-bold text-white text-sm md:text-base tracking-wide group-hover:underline decoration-white transition">{{ .Params.state }}</h4>
+                                <p class="mt-1 text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300 line-clamp-2 max-w-[160px]">{{ .Title }}</p>
+                            </a>
+                        {{ else }}
+                            <div class="flex flex-col items-center text-center opacity-25 transition-opacity duration-300">
+                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-dashed border-zinc-800 bg-zinc-950/40 flex items-center justify-center overflow-hidden relative">
+                                    <img src="/coins/coin-2019-{{ $slug }}.png" alt="{{ $state }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.3] grayscale" onerror="this.src='/coins/coin-2018-Introductory.png'; this.style.opacity='0.15';">
+                                </div>
+                                <h4 class="mt-4 font-bold text-zinc-500 text-sm md:text-base tracking-wide">{{ $state }}</h4>
+                                <p class="mt-1 text-[10px] text-zinc-600 font-mono tracking-wider uppercase">任務整備中</p>
+                            </div>
+                        {{ end }}
+                    {{ end }}
+                </div>
+            </div>
+
+            <div class="border-t border-zinc-900 pt-8">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2020</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    {{ range slice "康乃狄克州:connecticut" "麻薩諸塞州:massachusetts" "馬里蘭州:maryland" "南卡羅萊納州:southcarolina" }}
+                        {{ $item := split . ":" }}{{ $state := index $item 0 }}{{ $slug := index $item 1 }}
+                        {{ $p := where $.Site.RegularPages "Params.state" $state }}
+                        {{ range $p }}
+                            <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
+                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
+                                    <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2020-{{ $slug }}.png{{ end }}" alt="{{ .Title }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                    {{ if .Params.status }}
+                                    <span class="absolute bottom-2 text-[9px] font-mono border border-white/20 bg-black/90 px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ .Params.status }}</span>
+                                    {{ end }}
+                                </div>
+                                <h4 class="mt-4 font-bold text-white text-sm md:text-base tracking-wide group-hover:underline decoration-white transition">{{ .Params.state }}</h4>
+                                <p class="mt-1 text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300 line-clamp-2 max-w-[160px]">{{ .Title }}</p>
+                            </a>
+                        {{ else }}
+                            <div class="flex flex-col items-center text-center opacity-25 transition-opacity duration-300">
+                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-dashed border-zinc-800 bg-zinc-950/40 flex items-center justify-center overflow-hidden relative">
+                                    <img src="/coins/coin-2020-{{ $slug }}.png" alt="{{ $state }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.3] grayscale" onerror="this.src='/coins
