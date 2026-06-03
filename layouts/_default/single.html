@@ -3,35 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ .Title }} | Tech Coins Crypto</title>
-    <!-- 引入美化視覺引擎 -->
+    <title id="dynamic-title">{{ .Title }} | Tech Coins Crypto</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 🛠️ 強制全站中英文字體、連結、標籤一律變成絕對純白 */
+        body, h1, h2, h3, h4, h5, p, a, span, div, li {
+            color: #ffffff !important;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+    </style>
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+<body class="bg-black text-white antialiased font-sans min-h-screen flex flex-col justify-between">
 
-    <!-- 內頁導覽列 -->
-    <nav class="bg-slate-900 text-white shadow-md">
-        <div class="max-w-3xl mx-auto px-4 py-3 flex justify-between items-center">
-            <a href="/" class="font-bold text-xl tracking-wider text-indigo-400">🪙 Tech Coins Crypto</a>
-            <a href="/" class="text-sm text-slate-300 hover:text-white">← 返回首頁</a>
+    <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="font-black text-lg tracking-[0.25em] text-white hover:text-zinc-300 transition">
+                TECH COINS CRYPTO
+            </a>
+            <a href="/" class="text-xs font-bold tracking-widest text-white hover:underline transition">
+                ← BACK TO HOME
+            </a>
         </div>
     </nav>
 
-    <!-- 故事內文區塊 -->
-    <main class="max-w-3xl mx-auto px-4 py-12">
-        <article class="bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-            <div class="flex justify-between items-center">
-                <span class="text-xs font-mono text-indigo-600 font-bold uppercase tracking-wider">{{ .Params.coin_number }} · {{ .Params.state }}</span>
-                <span class="text-xs text-amber-600 font-bold bg-amber-50 px-2.5 py-1 rounded-md">{{ .Params.grade_suggest }}</span>
-            </div>
-            <h1 class="text-3xl font-extrabold text-slate-900 mt-3 mb-6 pb-4 border-b border-slate-100">{{ .Title }}</h1>
+    <main class="max-w-4xl mx-auto px-6 py-16 flex-grow w-full">
+        <article class="border border-zinc-900 bg-zinc-950 p-8 md:p-12 shadow-[0_0_30px_rgba(255,255,255,0.01)]">
             
-            <!-- 魔法核心：這裡會自動倒入你寫的純文字故事 -->
-            <div class="text-slate-700 leading-relaxed space-y-6 text-base prose">
+            <div class="flex justify-between items-center border-b border-zinc-900 pb-4 mb-6">
+                <span id="meta-info" class="text-xs font-mono tracking-widest uppercase text-zinc-400">
+                    MISSION // {{ if .Params.year }}{{ .Params.year }}{{ else }}SYSTEM{{ end }} // {{ if .Params.state }}{{ .Params.state }}{{ else }}MANIFEST{{ end }}
+                </span>
+                <span class="text-xs font-mono tracking-widest text-zinc-400 border border-zinc-800 bg-zinc-900/50 px-3 py-1">
+                    NGC SPECIMEN
+                </span>
+            </div>
+
+            <h1 id="page-title" class="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-white uppercase mb-8">
+                {{ .Title }}
+            </h1>
+            
+            <div id="content-area" class="text-zinc-300 leading-relaxed space-y-6 text-sm md:text-base font-light tracking-wide prose prose-invert max-w-none">
                 {{ .Content }}
             </div>
+            
         </article>
     </main>
+
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center space-y-4">
+            <p class="text-[10px] tracking-widest font-mono uppercase text-zinc-500">
+                © 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.
+            </p>
+            <p class="text-[9px] font-mono leading-relaxed text-zinc-600 max-w-2xl mx-auto uppercase">
+                Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br>
+                <span class="block mt-1 text-zinc-600">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const year = params.get('year');
+            const state = params.get('state');
+            const img = params.get('img');
+            
+            if (year && state) {
+                // 1. 自動修正瀏覽器分頁標題與身分證標籤
+                document.title = `${state} (${year}) | Tech Coins Crypto`;
+                document.getElementById('meta-info').innerText = `MISSION // ${year} // ${state}`;
+                document.getElementById('page-title').innerText = `${state} 1美元紀念任務`;
+                
+                // 2. 自動在內頁亮出對應的硬幣去背精品圓盤與提示文字
+                document.getElementById('content-area').innerHTML = `
+                    <div class="flex flex-col items-center space-y-8 py-6">
+                        <div class="w-56 h-56 sm:w-64 sm:h-64 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden shadow-[inset_0_0_40px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.03)]">
+                            <img src="/coins/${img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.9] contrast-[1.05]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <div class="text-center space-y-4 max-w-lg pt-4">
+                            <p class="text-white font-bold tracking-widest text-lg">【 任務整備中 / DATA LOADING 】</p>
+                            <p class="text-zinc-500 text-xs leading-relaxed uppercase tracking-wider">
+                                這是 ${year} 年發行的 ${state} 美國創新一美元硬幣專屬解密艙。<br>
+                                目前主控台正在對本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯，詳細報告將在隨後解密部署。
+                            </p>
+                        </div>
+                    </div>
+                `;
+            }
+        });
+    </script>
 
 </body>
 </html>
