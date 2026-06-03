@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>American Innovation $1 | Tech Coins Crypto</title>
+    <!-- Tailwind CSS 引擎 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 🛠️ 強制全站中英文字體、連結、標籤一律變成絕對純白 */
@@ -17,6 +18,7 @@
 </head>
 <body class="bg-black text-white antialiased font-sans">
 
+    <!-- 1. SpaceX 風格純白極簡導覽列 -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-black text-lg tracking-[0.25em] text-white">
@@ -30,6 +32,7 @@
         </div>
     </nav>
 
+    <!-- 2. SpaceX 風格巨幕 (Hero Section) -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
             <h1 class="text-2xl sm:text-4xl md:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">
@@ -43,7 +46,7 @@
                錢幣勸敗網
             </p>
             <div class="pt-2 md:pt-4">
-                <a href="#explore" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">
+                <a href="#matrix-control" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">
                     來去瞧瞧 →
                 </a>
             </div>
@@ -55,16 +58,24 @@
         </div>
     </header>
 
-    <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
+    <!-- 3. 控制中樞：已移除舊標題，替換為 SpaceX 多維切換按鈕 -->
+    <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16">
         
-        <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-12 flex items-center space-x-3">
-            <span class="w-1 h-3 bg-white"></span>
-            <span>DESIGNS BY YEAR / 鑄幣編年矩陣</span>
-        </h2>
+        <!-- 🎯 核心切換鈕 -->
+        <div class="flex items-center gap-4 border-b border-zinc-900 pb-8 mb-12">
+            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300">
+                年份排序
+            </button>
+            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300">
+                技術主題
+            </button>
+        </div>
 
-        <div class="space-y-16">
+        <!-- ==================== 📦 視窗一：年份矩陣（預設開啟） ==================== -->
+        <div id="view-year" class="space-y-16">
 
-            <div class="border-t border-zinc-900 pt-8">
+            <!-- 2019 -->
+            <div class="pt-4">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2019</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
                     <a href="/coins/detail/?year=2019&state=德拉瓦州&img=coin-2019-delaware.png" class="group flex flex-col items-center text-center">
@@ -94,6 +105,7 @@
                 </div>
             </div>
 
+            <!-- 2020 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2020</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -124,6 +136,7 @@
                 </div>
             </div>
 
+            <!-- 2021 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2021</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -146,7 +159,7 @@
                         <h4 class="mt-4 font-bold text-sm md:text-base">紐約州</h4>
                     </a>
                     <a href="/coins/detail/?year=2021&state=北卡羅萊納州&img=coin-2021-northcarolina.png" class="group flex flex-col items-center text-center">
-                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105">
                             <img src="/coins/coin-2021-northcarolina.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                         </div>
                         <h4 class="mt-4 font-bold text-sm md:text-base">北卡羅萊納州</h4>
@@ -154,6 +167,7 @@
                 </div>
             </div>
 
+            <!-- 2022 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2022</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -184,6 +198,7 @@
                 </div>
             </div>
 
+            <!-- 2023 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2023</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -205,7 +220,7 @@
                         </div>
                         <h4 class="mt-4 font-bold text-sm md:text-base">印地安納州</h4>
                     </a>
-                    <a href="/coins/detail/?year=2023&state=密西比州&img=coin-2023-mississippi.png" class="group flex flex-col items-center text-center">
+                    <a href="/coins/detail/?year=2023&state=密西西比州&img=coin-2023-mississippi.png" class="group flex flex-col items-center text-center">
                         <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                             <img src="/coins/coin-2023-mississippi.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                         </div>
@@ -214,6 +229,7 @@
                 </div>
             </div>
 
+            <!-- 2024 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2024</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -244,6 +260,7 @@
                 </div>
             </div>
 
+            <!-- 2025 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2025</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -274,6 +291,7 @@
                 </div>
             </div>
 
+            <!-- 2026 -->
             <div class="border-t border-zinc-900 pt-8">
                 <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2026</h3>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
@@ -290,7 +308,7 @@
                         <h4 class="mt-4 font-bold text-sm md:text-base">威斯康辛州</h4>
                     </a>
                     <a href="/coins/detail/?year=2026&state=加利福尼亞州&img=coin-2026-california.png" class="group flex flex-col items-center text-center">
-                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-400 group-hover:scale-105">
                             <img src="/coins/coin-2026-california.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                         </div>
                         <h4 class="mt-4 font-bold text-sm md:text-base">加利福尼亞州</h4>
@@ -305,8 +323,178 @@
             </div>
 
         </div>
+
+
+        <!-- ==================== 📦 視窗二：技術主題分流艙（預設隱藏） ==================== -->
+        <div id="view-subject" class="hidden space-y-16">
+            
+            <!-- 🪐 【太空與天文】 -->
+            <div class="pt-4">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-2 font-mono uppercase">【太空與天文】</h3>
+                <p class="text-zinc-500 text-xs font-mono mb-8">// SPACE & ASTRONOMY MANIFESTO</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    <a href="/coins/detail/?year=2019&state=德拉瓦州&img=coin-2019-delaware.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2019-delaware.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">德拉瓦州 <span class="text-zinc-600 font-mono text-xs">(2019)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2020&state=馬里蘭州&img=coin-2020-maryland.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2020-maryland.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">馬里蘭州 <span class="text-zinc-600 font-mono text-xs">(2020)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2024&state=阿拉巴馬州&img=coin-2024-alabama.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2024-alabama.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">阿拉巴馬州 <span class="text-zinc-600 font-mono text-xs">(2024)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2025&state=佛羅里達州&img=coin-2025-florida.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2025-florida.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">佛羅里達州 <span class="text-zinc-600 font-mono text-xs">(2025)</span></h4>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 🎮 【資訊與電子遊戲】 -->
+            <div class="border-t border-zinc-900 pt-8">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-2 font-mono uppercase">【資訊與電子遊戲】</h3>
+                <p class="text-zinc-500 text-xs font-mono mb-8">// COMPUTING & VIDEO GAMES REVOLUTION</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    <a href="/coins/detail/?year=2020&state=麻薩諸塞州&img=coin-2020-massachusetts.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2020-massachusetts.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">麻薩諸塞州 <span class="text-zinc-600 font-mono text-xs">(2020)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2021&state=新罕布夏州&img=coin-2021-newhampshire.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2021-newhampshire.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">新罕布夏州 <span class="text-zinc-600 font-mono text-xs">(2021)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2025&state=德克薩斯州&img=coin-2025-texas.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2025-texas.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">德克薩斯州 <span class="text-zinc-600 font-mono text-xs">(2025)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2026&state=加利福尼亞州&img=coin-2026-california.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-400 group-hover:scale-105">
+                            <img src="/coins/coin-2026-california.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">加利福尼亞州 <span class="text-zinc-600 font-mono text-xs">(2026)</span></h4>
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 mt-12">
+                    <a href="/coins/detail/?year=2026&state=威斯康辛州&img=coin-2026-wisconsin.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2026-wisconsin.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">威斯康辛州 <span class="text-zinc-600 font-mono text-xs">(2026)</span></h4>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 🧬 【生醫與生活】 -->
+            <div class="border-t border-zinc-900 pt-8">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-2 font-mono uppercase">【生醫與生活】</h3>
+                <p class="text-zinc-500 text-xs font-mono mb-8">// BIOMEDICINE & DAILY INNOVATIONS</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    <a href="/coins/detail/?year=2019&state=賓夕法尼亞州&img=coin-2019-pennsylvania.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2019-pennsylvania.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">賓夕法尼亞州 <span class="text-zinc-600 font-mono text-xs">(2019)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2019&state=紐澤西州&img=coin-2019-newjersey.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2019-newjersey.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">紐澤西州 <span class="text-zinc-600 font-mono text-xs">(2019)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2019&state=喬治亞州&img=coin-2019-georgia.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2019-georgia.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">喬治亞州 <span class="text-zinc-600 font-mono text-xs">(2019)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2023&state=密西西比州&img=coin-2023-mississippi.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2023-mississippi.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">密西西比州 <span class="text-zinc-600 font-mono text-xs">(2023)</span></h4>
+                    </a>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12 mt-12">
+                    <a href="/coins/detail/?year=2024&state=伊利諾州&img=coin-2024-illinois.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2024-illinois.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">伊利諾州 <span class="text-zinc-600 font-mono text-xs">(2024)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2024&state=密蘇里州&img=coin-2024-missouri.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2024-missouri.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">密蘇里州 <span class="text-zinc-600 font-mono text-xs">(2024)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2026&state=愛荷華州&img=coin-2026-iowa.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2026-iowa.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">愛荷華州 <span class="text-zinc-600 font-mono text-xs">(2026)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2026&state=明尼蘇達州&img=coin-2026-minnesota.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2026-minnesota.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">明尼蘇達州 <span class="text-zinc-600 font-mono text-xs">(2026)</span></h4>
+                    </a>
+                </div>
+            </div>
+
+            <!-- 💡 【學術與運動】 -->
+            <div class="border-t border-zinc-900 pt-8">
+                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-2 font-mono uppercase">【學術與運動】</h3>
+                <p class="text-zinc-500 text-xs font-mono mb-8">// ACADEMIA, HUMANITIES & SPORTS INNOVATIONS</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                    <a href="/coins/detail/?year=2020&state=南卡羅萊納州&img=coin-2020-southcarolina.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2020-southcarolina.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">南卡羅萊納州 <span class="text-zinc-600 font-mono text-xs">(2020)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2021&state=北卡羅萊納州&img=coin-2021-northcarolina.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-400 group-hover:scale-105">
+                            <img src="/coins/coin-2021-northcarolina.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">北卡羅萊納州 <span class="text-zinc-600 font-mono text-xs">(2021)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2022&state=佛蒙特州&img=coin-2022-vermont.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2022-vermont.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">佛蒙特州 <span class="text-zinc-600 font-mono text-xs">(2022)</span></h4>
+                    </a>
+                    <a href="/coins/detail/?year=2023&state=印地安納州&img=coin-2023-indiana.png" class="group flex flex-col items-center text-center">
+                        <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                            <img src="/coins/coin-2023-indiana.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                        </div>
+                        <h4 class="mt-4 font-bold text-sm md:text-base">印地安納州 <span class="text-zinc-600 font-mono text-xs">(2023)</span></h4>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
     </main>
 
+    <!-- 4. 融合免責加註的極簡純白字頁尾 -->
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">
@@ -318,6 +506,28 @@
             </p>
         </div>
     </footer>
+
+    <!-- 📡 SpaceX 核心視窗分流邏輯 -->
+    <script>
+        function switchView(viewType) {
+            const viewYear = document.getElementById('view-year');
+            const viewSubject = document.getElementById('view-subject');
+            const btnYear = document.getElementById('btn-year');
+            const btnSubject = document.getElementById('btn-subject');
+
+            if (viewType === 'year') {
+                viewYear.classList.remove('hidden');
+                viewSubject.classList.add('hidden');
+                btnYear.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
+                btnSubject.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
+            } else if (viewType === 'subject') {
+                viewYear.classList.add('hidden');
+                viewSubject.classList.remove('hidden');
+                btnSubject.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
+                btnYear.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
+            }
+        }
+    </script>
 
 </body>
 </html>
