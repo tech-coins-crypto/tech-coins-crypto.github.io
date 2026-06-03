@@ -18,7 +18,7 @@
 </head>
 <body class="bg-black text-white antialiased font-sans">
 
-    <!-- 1. SpaceX 風格純白極簡導覽列 -->
+    <!-- 1. SpaceX 風格純白極簡導覽列（完全保留你的最新版文字） -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-black text-lg tracking-[0.25em] text-white">
@@ -32,7 +32,7 @@
         </div>
     </nav>
 
-    <!-- 2. SpaceX 風格巨幕 (Hero Section) -->
+    <!-- 2. SpaceX 風格巨幕 (Hero Section)（完全保留你的最新版配置與參數） -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
@@ -47,7 +47,6 @@
                錢幣勸敗網
             </p>
             <div class="pt-2 md:pt-4">
-                <!-- 🛠️ 修正點：加上 rounded 微圓角，並將 hover:text-black 改成 hover:!text-black 強制黑字 -->
                 <a href="#explore" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">
                     來去瞧瞧 →
                 </a>
@@ -63,39 +62,65 @@
         </div>
     </header>
 
-    <!-- 3. 主內容區（純白文字儀表板風） -->
+    <!-- 3. 主內容區：🔥 完美復刻 US Mint 官網「每年一排 4 枚硬幣」編年矩陣（維持暗黑底與 SpaceX 特效） -->
     <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
         
-        <!-- 動態故事牆 -->
+        <!-- 矩陣大標題 -->
         <section class="mb-20">
-            <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
+            <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-12 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
-                <span>ACTIVE MISSIONS / 已解密故事庫</span>
+                <span>DESIGNS BY YEAR / 鑄幣編年矩陣</span>
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {{ range .Site.RegularPages }}
-                <div class="bg-zinc-950 border border-zinc-900 rounded-none p-6 flex flex-col justify-between hover:border-zinc-500 transition-all duration-300 group">
-                    <div>
-                        <div class="flex justify-between items-center text-xs tracking-widest font-mono text-white">
-                            <span>{{ .Params.coin_number }} // {{ .Params.state }}</span>
-                            <span class="text-white font-bold border border-white/40 bg-white/5 px-2 py-0.5 rounded-none status-tag">{{ .Params.status }}</span>
-                        </div>
-                        <h4 class="font-bold text-white mt-4 text-xl tracking-wide">
-                            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                        </h4>
-                        <p class="text-white text-xs mt-3 leading-relaxed font-light line-clamp-3">{{ .Summary }}</p>
+            <!-- Hugo 自動分組：依據文章 front matter 裡的 year 參數自動進行橫向排序列出 -->
+            <div class="space-y-16">
+                {{ range .Site.RegularPages.GroupByParam "year" "desc" }}
+                <div class="border-t border-zinc-900 pt-8">
+                    
+                    <!-- 年份橫條標頭（對照 US Mint 樣式） -->
+                    <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">
+                        {{ .Key }}
+                    </h3>
+                    
+                    <!-- 核心硬幣網格：手機一排 2 枚，平板/電腦精準控制一排 4 枚幣 (md:grid-cols-4) -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
+                        {{ range .Pages }}
+                        <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
+                            
+                            <!-- 正圓形去背硬幣艙：內嵌 SpaceX 懸停微擴散與高冷白邊框特效 -->
+                            <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
+                                <!-- 硬幣圖片：若沒設定 coin_image 則用預設 2018 創新幣面面兜底 -->
+                                <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coin2018.png{{ end }}" 
+                                     alt="{{ .Title }}" 
+                                     class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500">
+                                
+                                <!-- 懸停時才在圓底浮現的現貨狀態標籤（不破壞正面金屬美感） -->
+                                {{ if .Params.status }}
+                                <span class="absolute bottom-2 text-[9px] font-mono border border-white/20 bg-black/90 px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                                    {{ .Params.status }}
+                                </span>
+                                {{ end }}
+                            </div>
+
+                            <!-- 州別標題（粗體） -->
+                            <h4 class="mt-4 font-bold text-white text-sm md:text-base tracking-wide group-hover:underline decoration-white transition">
+                                {{ .Params.state }}
+                            </h4>
+                            
+                            <!-- 核心主題/文章標題（細體，滑鼠滑過時變亮白） -->
+                            <p class="mt-1 text-xs text-zinc-500 group-hover:text-zinc-200 transition-colors duration-300 line-clamp-2 max-w-[160px]">
+                                {{ .Title }}
+                            </p>
+                        </a>
+                        {{ end }}
                     </div>
-                    <div class="mt-8 pt-4 border-t border-zinc-900 flex justify-between items-center">
-                        <span class="text-[10px] font-mono tracking-wider text-white border border-white/20 bg-white/5 px-2 py-1 uppercase">{{ .Params.grade_suggest }}</span>
-                        <a href="{{ .RelPermalink }}" class="text-xs text-white underline tracking-wider font-bold hover:text-zinc-300 transition">READ MANIFESTO →</a>
-                    </div>
+                    
                 </div>
                 {{ end }}
             </div>
         </section>
 
-        <!-- 依年份系統化收藏 -->
+        <!-- 依年份系統化收藏（保留原底層區塊） -->
         <section>
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -120,7 +145,7 @@
 
     </main>
 
-    <!-- 4. 融合免責加註的極簡純白字頁尾 -->
+    <!-- 4. 融合免責加註的極簡純白字頁尾（完全保留你的免責聲明） -->
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">
