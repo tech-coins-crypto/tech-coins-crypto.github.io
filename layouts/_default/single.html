@@ -57,7 +57,7 @@
 
     <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16">
         
-        <div class="flex flex-wrap items-center gap-4 border-b border-zinc-900 pb-8 mb-12">
+        <div class="flex items-center gap-4 border-b border-zinc-900 pb-8 mb-12">
             <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300">
                 年份排序
             </button>
@@ -495,19 +495,13 @@
             const btnSubject = document.getElementById('btn-subject');
 
             if (viewType === 'year') {
-                // 顯示年份，隱藏主題
                 viewYear.classList.remove('hidden');
                 viewSubject.classList.add('hidden');
-                
-                // 按鈕樣式反白互換
                 btnYear.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
                 btnSubject.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
             } else if (viewType === 'subject') {
-                // 顯示主題，隱藏年份
                 viewYear.classList.add('hidden');
                 viewSubject.classList.remove('hidden');
-                
-                // 按鈕樣式反白互換
                 btnSubject.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
                 btnYear.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
             }
