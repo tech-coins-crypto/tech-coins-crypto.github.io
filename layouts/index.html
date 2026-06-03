@@ -310,10 +310,9 @@
 
         </div>
 
-
         <div id="view-subject" class="hidden space-y-16">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">
-                Loading Mission Data matrix...
+                Loading Data from CSV Table...
             </div>
         </div>
 
@@ -334,16 +333,41 @@
     <script>
         let subjectsLoaded = false;
 
-        // 🧠 自動拉取 GitHub data/subjects.json 表格的超級引擎
         async function fetchAndRenderSubjects() {
             if (subjectsLoaded) return;
             try {
-                const response = await fetch('/data/subjects.json');
-                const data = await response.json();
-                const container = document.getElementById('view-subject');
-                container.innerHTML = ''; // 清空加載中提示
+                // 1. 自動去 GitHub 的 static/data 抓取那張 CSV 表格
+                const response = await fetch('/data/subjects.csv');
+                const csvText = await response.text();
+                
+                // 2. 解析 CSV (去除空白行、去除系統隱藏的斷行符號)
+                const lines = csvText.replace(/\r/g, '').split('\n').filter(line => line.trim() !== '');
+                lines.shift(); // 把第一行的「主題,副標題,年份...」表頭拔掉
+                
+                const groups = {};
+                
+                // 3. 把表格裡面的硬幣，自動排隊分類裝箱
+                lines.forEach(line => {
+                    const parts = line.split(',');
+                    if (parts.length < 5) return; // 略過沒寫完整的行
+                    
+                    const category = parts[0].trim();
+                    const manifesto = parts[1].trim();
+                    const year = parts[2].trim();
+                    const state = parts[3].trim();
+                    const img = parts[4].trim();
+                    
+                    if (!groups[category]) {
+                        groups[category] = { category, manifesto, coins: [] };
+                    }
+                    groups[category].coins.push({ year, state, img });
+                });
 
-                data.forEach(group => {
+                const container = document.getElementById('view-subject');
+                container.innerHTML = ''; 
+
+                // 4. 動態把分類好的硬幣繪製成高冷矩陣
+                Object.values(groups).forEach(group => {
                     let coinsHTML = '';
                     group.coins.forEach(coin => {
                         coinsHTML += `
@@ -368,8 +392,8 @@
                 });
                 subjectsLoaded = true;
             } catch (err) {
-                console.error("Failed to inject grid matrix from table:", err);
-                document.getElementById('view-subject').innerHTML = `<div class="text-red-500 text-xs font-mono text-center py-12">DATA LINK INTERRUPTED // 請確認 static/data/subjects.json 是否存在</div>`;
+                console.error("Failed to inject grid matrix from CSV table:", err);
+                document.getElementById('view-subject').innerHTML = `<div class="text-red-500 text-xs font-mono text-center py-12">DATA LINK INTERRUPTED // 請確認 static/data/subjects.csv 是否存在</div>`;
             }
         }
 
@@ -390,7 +414,7 @@
                 btnSubject.className = "border border-white bg-white !text-black text-xs font-bold tracking-widest uppercase px-6 py-3 rounded transition-all duration-300";
                 btnYear.className = "border border-zinc-800 text-zinc-400 text-xs font-bold tracking-widest uppercase px-6 py-3 rounded hover:border-zinc-500 transition-all duration-300";
                 
-                // 🚀 當點選技術主題時，瞬間通電讀取剛才建立的 JSON 表格
+                // 🚀 切換時觸發 CSV 表格讀取器
                 fetchAndRenderSubjects();
             }
         }
