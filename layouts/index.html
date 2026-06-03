@@ -55,16 +55,18 @@
 
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
-            <img src="/coin2018.png" alt="2018 Innovation Coin" 
+            <!-- 🛠️ 已精準修正：大硬幣圖片改抓新目錄下的去背 Introductory PNG 檔 -->
+            <img src="/coins/coin-2018-Introductory.png" alt="2018 Innovation Coin" 
                  class="w-full h-full object-cover rounded-full brightness-[0.85] contrast-[1.1]"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
             <div class="hidden w-full h-full bg-gradient-to-r from-zinc-950 via-zinc-800 to-amber-950/40 items-center justify-center rounded-full"></div>
         </div>
     </header>
 
-    <!-- 3. 主內容區：🔥 修正為 GroupByDate，全自動抓取既有文章年份 -->
+    <!-- 3. 主內容區（US Mint 編年史矩陣） -->
     <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
         
+        <!-- 矩陣大標題 -->
         <section class="mb-20">
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-12 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -72,7 +74,6 @@
             </h2>
 
             <div class="space-y-16">
-                <!-- 🛠️ 核心修改：改用 GroupByDate "2006"，直接讀取文章內建的日期年份 -->
                 {{ range .Site.RegularPages.GroupByDate "2006" "desc" }}
                 <div class="border-t border-zinc-900 pt-8">
                     
@@ -85,7 +86,8 @@
                         <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
                             
                             <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
-                                <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coin2018.png{{ end }}" 
+                                <!-- 🛠️ 已精準修正：列表中的兜底圖同步改抓新路徑，未配圖前都會自動展示新版 Introductory 去背圓盤 -->
+                                <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2018-Introductory.png{{ end }}" 
                                      alt="{{ .Title }}" 
                                      class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500">
                                 
@@ -145,7 +147,7 @@
             </p>
             <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">
                 Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br>
-                <span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書 or 授權。）</span>
+                <span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span>
             </p>
         </div>
     </footer>
