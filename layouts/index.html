@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>American Innovation $1 | Tech Coins Crypto</title>
+    <!-- Tailwind CSS 引擎 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 🛠️ 強制全站中英文字體、連結、標籤一律變成絕對純白 */
@@ -17,6 +18,7 @@
 </head>
 <body class="bg-black text-white antialiased font-sans">
 
+    <!-- 1. SpaceX 風格純白極簡導覽列 -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-black text-lg tracking-[0.25em] text-white">
@@ -30,6 +32,7 @@
         </div>
     </nav>
 
+    <!-- 2. SpaceX 風格巨幕 (Hero Section) -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
@@ -59,8 +62,10 @@
         </div>
     </header>
 
+    <!-- 3. 主內容區（純白文字儀表板風） -->
     <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
         
+        <!-- 動態故事牆 -->
         <section class="mb-20">
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -89,6 +94,7 @@
             </div>
         </section>
 
+        <!-- 依年份系統化收藏 -->
         <section>
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -113,8 +119,17 @@
 
     </main>
 
-    <footer class="border-t border-zinc-900 bg-black text-white text-center py-12 text-[10px] tracking-widest font-mono uppercase">
-        <p>© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
+    <!-- 4. 融合免責加註的極簡純白字頁尾 -->
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <p class="text-[10px] tracking-widest uppercase">
+                © 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.
+            </p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">
+                Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br>
+                <span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span>
+            </p>
+        </div>
     </footer>
 
 </body>
