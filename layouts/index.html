@@ -15,7 +15,7 @@
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-black text-white antialiased font-sans">
+<body class="bg-black text-white antialiased font-sans min-h-screen flex flex-col justify-between">
 
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -30,7 +30,7 @@
         </div>
     </nav>
 
-    <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
+    <header class="relative flex-grow flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
             <h1 class="text-2xl sm:text-4xl md:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">
@@ -44,7 +44,7 @@
                錢幣勸敗網
             </p>
             <div class="pt-2 md:pt-4">
-                <a href="#explore" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">
+                <a href="#" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">
                     來去瞧瞧 →
                 </a>
             </div>
@@ -59,63 +59,17 @@
         </div>
     </header>
 
-    <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
-        
-        <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-12 flex items-center space-x-3">
-            <span class="w-1 h-3 bg-white"></span>
-            <span>DESIGNS BY YEAR / 鑄幣編年矩陣</span>
-        </h2>
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <p class="text-[10px] tracking-widest uppercase">
+                © 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.
+            </p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">
+                Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br>
+                <span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span>
+            </p>
+        </div>
+    </footer>
 
-        <div class="space-y-16">
-
-            <div class="border-t border-zinc-900 pt-8">
-                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2019</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
-                    {{ range slice "德拉瓦州:delaware" "賓夕法尼亞州:pennsylvania" "紐澤西州:newjersey" "喬治亞州:georgia" }}
-                        {{ $item := split . ":" }}{{ $state := index $item 0 }}{{ $slug := index $item 1 }}
-                        {{ $p := where $.Site.RegularPages "Params.state" $state }}
-                        {{ range $p }}
-                            <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
-                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
-                                    <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2019-{{ $slug }}.png{{ end }}" alt="{{ .Title }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                                    {{ if .Params.status }}
-                                    <span class="absolute bottom-2 text-[9px] font-mono border border-white/20 bg-black/90 px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ .Params.status }}</span>
-                                    {{ end }}
-                                </div>
-                                <h4 class="mt-4 font-bold text-white text-sm md:text-base tracking-wide group-hover:underline decoration-white transition">{{ .Params.state }}</h4>
-                                <p class="mt-1 text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300 line-clamp-2 max-w-[160px]">{{ .Title }}</p>
-                            </a>
-                        {{ else }}
-                            <div class="flex flex-col items-center text-center opacity-25 transition-opacity duration-300">
-                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-dashed border-zinc-800 bg-zinc-950/40 flex items-center justify-center overflow-hidden relative">
-                                    <img src="/coins/coin-2019-{{ $slug }}.png" alt="{{ $state }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.3] grayscale" onerror="this.src='/coins/coin-2018-Introductory.png'; this.style.opacity='0.15';">
-                                </div>
-                                <h4 class="mt-4 font-bold text-zinc-500 text-sm md:text-base tracking-wide">{{ $state }}</h4>
-                                <p class="mt-1 text-[10px] text-zinc-600 font-mono tracking-wider uppercase">任務整備中</p>
-                            </div>
-                        {{ end }}
-                    {{ end }}
-                </div>
-            </div>
-
-            <div class="border-t border-zinc-900 pt-8">
-                <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">2020</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
-                    {{ range slice "康乃狄克州:connecticut" "麻薩諸塞州:massachusetts" "馬里蘭州:maryland" "南卡羅萊納州:southcarolina" }}
-                        {{ $item := split . ":" }}{{ $state := index $item 0 }}{{ $slug := index $item 1 }}
-                        {{ $p := where $.Site.RegularPages "Params.state" $state }}
-                        {{ range $p }}
-                            <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
-                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
-                                    <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2020-{{ $slug }}.png{{ end }}" alt="{{ .Title }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                                    {{ if .Params.status }}
-                                    <span class="absolute bottom-2 text-[9px] font-mono border border-white/20 bg-black/90 px-2 py-0.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">{{ .Params.status }}</span>
-                                    {{ end }}
-                                </div>
-                                <h4 class="mt-4 font-bold text-white text-sm md:text-base tracking-wide group-hover:underline decoration-white transition">{{ .Params.state }}</h4>
-                                <p class="mt-1 text-xs text-zinc-400 group-hover:text-zinc-200 transition-colors duration-300 line-clamp-2 max-w-[160px]">{{ .Title }}</p>
-                            </a>
-                        {{ else }}
-                            <div class="flex flex-col items-center text-center opacity-25 transition-opacity duration-300">
-                                <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-dashed border-zinc-800 bg-zinc-950/40 flex items-center justify-center overflow-hidden relative">
-                                    <img src="/coins/coin-2020-{{ $slug }}.png" alt="{{ $state }}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.3] grayscale" onerror="this.src='/coins
+</body>
+</html>
