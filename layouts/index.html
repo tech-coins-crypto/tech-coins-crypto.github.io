@@ -93,20 +93,17 @@
     </footer>
 
     <script>
-        let csvCoinsData = []; // 全域儲存解析後的硬幣表格數據
+        let csvCoinsData = []; 
         let isDataLoaded = false;
 
-        // 🧠 核心大腦：一次性讀取 CSV 表格並分流渲染兩大視窗
         async function loadAndRenderMatrix() {
             if (isDataLoaded) return;
             try {
-                // 🎯 1. 抓取專案內 static/data/subjects.csv 表格
                 const response = await fetch('/data/subjects.csv');
                 const csvText = await response.text();
                 
-                // 🎯 2. 解析 CSV 行列數據
                 const lines = csvText.replace(/\r/g, '').split('\n').filter(line => line.trim() !== '');
-                lines.shift(); // 剔除表頭一行
+                lines.shift(); 
                 
                 csvCoinsData = lines.map(line => {
                     const parts = line.split(',');
@@ -119,7 +116,6 @@
                     };
                 }).filter(coin => coin.state && coin.year && coin.img);
 
-                // 🎯 3. 執行兩大視窗的全自動動態繪製
                 renderYearView();
                 renderSubjectView();
 
@@ -132,19 +128,17 @@
             }
         }
 
-        // 🗓️ 繪製「年份排序」視窗（依 2019-2026 正序橫排，每排 4 枚，完美防跑位包覆）
+        // 🗓️ 繪製年份排序視窗
         function renderYearView() {
             const container = document.getElementById('view-year');
             container.innerHTML = '';
 
-            // 按年份分組
             const yearGroups = {};
             csvCoinsData.forEach(coin => {
                 if (!yearGroups[coin.year]) yearGroups[coin.year] = [];
                 yearGroups[coin.year].push(coin);
             });
 
-            // 依年份正序（從小到大）排列
             const sortedYears = Object.keys(yearGroups).sort((a, b) => a - b);
 
             sortedYears.forEach(year => {
@@ -171,22 +165,25 @@
             });
         }
 
-        // 🪐 繪製「技術主題」視窗（依主題分類，精準抓取對應圖檔路徑）
+        // 🪐 繪製技術主題視窗（🔥 已動態計算數量並完全隱藏副標題）
         function renderSubjectView() {
             const container = document.getElementById('view-subject');
             container.innerHTML = '';
 
-            // 按主題分組
             const subjectGroups = {};
             csvCoinsData.forEach(coin => {
                 if (!subjectGroups[coin.subject]) {
-                    subjectGroups[coin.subject] = { category: coin.subject, manifesto: coin.manifesto, coins: [] };
+                    subjectGroups[coin.subject] = { category: coin.subject, coins: [] };
                 }
                 subjectGroups[coin.subject].coins.push(coin);
             });
 
             Object.values(subjectGroups).forEach(group => {
                 let coinsHTML = '';
+                
+                // 💡 計算當前主題下的硬幣總枚數
+                const totalCoinsCount = group.coins.length;
+
                 group.coins.forEach(coin => {
                     coinsHTML += `
                         <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
@@ -198,10 +195,13 @@
                     `;
                 });
 
+                // 💡 渲染主題：將英文副標題移除，並在主題後方渲染出高冷微灰、有科技感的總硬幣數量
                 container.innerHTML += `
                     <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-2 font-mono uppercase">【${group.category}】</h3>
-                        <p class="text-zinc-500 text-xs font-mono mb-8">// ${group.manifesto}</p>
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 flex items-baseline space-x-3 select-none">
+                            <span>【${group.category}】</span>
+                            <span class="text-sm md:text-base font-mono font-bold text-zinc-500 bg-zinc-900/40 border border-zinc-800/60 px-2.5 py-0.5 rounded">${totalCoinsCount}</span>
+                        </h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
                             ${coinsHTML}
                         </div>
@@ -210,7 +210,6 @@
             });
         }
 
-        // 🎯 視窗切換核心控制
         function switchView(viewType) {
             const viewYear = document.getElementById('view-year');
             const viewSubject = document.getElementById('view-subject');
@@ -230,7 +229,6 @@
             }
         }
 
-        // 🚀 網頁一打開，立刻發動 CSV 雙向同步讀取器
         document.addEventListener('DOMContentLoaded', loadAndRenderMatrix);
     </script>
 
