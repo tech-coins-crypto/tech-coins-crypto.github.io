@@ -1,0 +1,47 @@
+[
+  {
+    "category": "太空與天文",
+    "manifesto": "SPACE & ASTRONOMY MANIFESTO",
+    "coins": [
+      {"state": "德拉瓦州", "year": "2019", "img": "coin-2019-delaware.png"},
+      {"state": "馬里蘭州", "year": "2020", "img": "coin-2020-maryland.png"},
+      {"state": "阿拉巴馬州", "year": "2024", "img": "coin-2024-alabama.png"},
+      {"state": "佛羅里達州", "year": "2025", "img": "coin-2025-florida.png"}
+    ]
+  },
+  {
+    "category": "資訊與電子遊戲",
+    "manifesto": "COMPUTING & VIDEO GAMES REVOLUTION",
+    "coins": [
+      {"state": "麻薩諸塞州", "year": "2020", "img": "coin-2020-massachusetts.png"},
+      {"state": "新罕布夏州", "year": "2021", "img": "coin-2021-newhampshire.png"},
+      {"state": "德克薩斯州", "year": "2025", "img": "coin-2025-texas.png"},
+      {"state": "加利福尼亞州", "year": "2026", "img": "coin-2026-california.png"},
+      {"state": "威斯康辛州", "year": "2026", "img": "coin-2026-wisconsin.png"}
+    ]
+  },
+  {
+    "category": "生醫與生活",
+    "manifesto": "BIOMEDICINE & DAILY INNOVATIONS",
+    "coins": [
+      {"state": "賓夕法尼亞州", "year": "2019", "img": "coin-2019-pennsylvania.png"},
+      {"state": "紐澤西州", "year": "2019", "img": "coin-2019-newjersey.png"},
+      {"state": "喬治亞州", "year": "2019", "img": "coin-2019-georgia.png"},
+      {"state": "密西西比州", "year": "2023", "img": "coin-2023-mississippi.png"},
+      {"state": "伊利諾州", "year": "2024", "img": "coin-2024-illinois.png"},
+      {"state": "密蘇里州", "year": "2024", "img": "coin-2024-missouri.png"},
+      {"state": "愛荷華州", "year": "2026", "img": "coin-2026-iowa.png"},
+      {"state": "明尼蘇達州", "year": "2026", "img": "coin-2026-minnesota.png"}
+    ]
+  },
+  {
+    "category": "學術與運動",
+    "manifesto": "ACADEMIA, HUMANITIES & SPORTS INNOVATIONS",
+    "coins": [
+      {"state": "南卡羅萊納州", "year": "2020", "img": "coin-2020-southcarolina.png"},
+      {"state": "北卡羅萊納州", "year": "2021", "img": "coin-2021-northcarolina.png"},
+      {"state": "佛蒙特州", "year": "2022", "img": "coin-2022-vermont.png"},
+      {"state": "印地安納州", "year": "2023", "img": "coin-2023-indiana.png"}
+    ]
+  }
+]
