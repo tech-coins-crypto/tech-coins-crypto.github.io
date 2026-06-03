@@ -39,8 +39,8 @@
     </header>
     <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center gap-6 border-b border-zinc-900 pb-8 mb-12">
-            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded transition-all duration-300">年份</button>
-            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
+            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded transition-all duration-300">年份</button>
+            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
         </div>
         <div id="view-year" class="space-y-16">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">Loading Year Timeline Matrix...</div>
@@ -154,9 +154,9 @@
             const viewSubject = document.getElementById('view-subject');
             const btnYear = document.getElementById('btn-year');
             const btnSubject = document.getElementById('btn-subject');
-            // 核心修改：同步 switchView 內的 class，確保動態切換時完美維持 py-4 短框高度與文字長度
-            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded transition-all duration-300";
-            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-4 rounded hover:border-zinc-500 transition-all duration-300";
+            // 核心修改：同步 switchView 內的樣式字串為 py-2
+            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded transition-all duration-300";
+            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded hover:border-zinc-500 transition-all duration-300";
             if (viewType === 'year') {
                 viewYear.classList.remove('hidden'); viewSubject.classList.add('hidden');
                 btnYear.className = activeClass; btnSubject.className = inactiveClass;
