@@ -39,8 +39,8 @@
     </header>
     <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16">
         <div class="flex items-center gap-6 border-b border-zinc-900 pb-8 mb-12">
-            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded transition-all duration-300">年份</button>
-            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
+            <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300">年份</button>
+            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
         </div>
         <div id="view-year" class="space-y-16">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">Loading Year Timeline Matrix...</div>
@@ -52,7 +52,7 @@
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
-            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span></p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書 or 授權。）</span></p>
         </div>
     </footer>
     <script>
@@ -154,9 +154,9 @@
             const viewSubject = document.getElementById('view-subject');
             const btnYear = document.getElementById('btn-year');
             const btnSubject = document.getElementById('btn-subject');
-            // 核心修改：同步 switchView 內的樣式字串為 py-2
-            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded transition-all duration-300";
-            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-2 rounded hover:border-zinc-500 transition-all duration-300";
+            // 核心修改：同步 switchView 內的樣式字串為 py-1
+            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300";
+            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300";
             if (viewType === 'year') {
                 viewYear.classList.remove('hidden'); viewSubject.classList.add('hidden');
                 btnYear.className = activeClass; btnSubject.className = inactiveClass;
