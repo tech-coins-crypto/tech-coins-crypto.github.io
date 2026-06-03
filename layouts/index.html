@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>American Innovation $1 | Tech Coins Crypto</title>
-    <!-- Tailwind CSS 引擎 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 🛠️ 強制全站中英文字體、連結、標籤一律變成絕對純白 */
@@ -18,7 +17,6 @@
 </head>
 <body class="bg-black text-white antialiased font-sans">
 
-    <!-- 1. SpaceX 風格純白極簡導覽列 -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <div class="font-black text-lg tracking-[0.25em] text-white">
@@ -32,7 +30,6 @@
         </div>
     </nav>
 
-    <!-- 2. SpaceX 風格巨幕 (Hero Section) -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
@@ -55,7 +52,6 @@
 
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
-            <!-- 🛠️ 已精準修正：大硬幣圖片改抓新目錄下的去背 Introductory PNG 檔 -->
             <img src="/coins/coin-2018-Introductory.png" alt="2018 Innovation Coin" 
                  class="w-full h-full object-cover rounded-full brightness-[0.85] contrast-[1.1]"
                  onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -63,10 +59,8 @@
         </div>
     </header>
 
-    <!-- 3. 主內容區（US Mint 編年史矩陣） -->
     <main id="explore" class="max-w-7xl mx-auto px-6 py-16">
         
-        <!-- 矩陣大標題 -->
         <section class="mb-20">
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-12 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -86,7 +80,6 @@
                         <a href="{{ .RelPermalink }}" class="group flex flex-col items-center text-center">
                             
                             <div class="w-32 h-32 sm:w-40 sm:h-40 md:w-44 md:h-44 lg:w-48 lg:h-48 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-400 group-hover:scale-105 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.08)] relative">
-                                <!-- 🛠️ 已精準修正：列表中的兜底圖同步改抓新路徑，未配圖前都會自動展示新版 Introductory 去背圓盤 -->
                                 <img src="{{ if .Params.coin_image }}{{ .Params.coin_image }}{{ else }}/coins/coin-2018-Introductory.png{{ end }}" 
                                      alt="{{ .Title }}" 
                                      class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85] contrast-[1.05] group-hover:brightness-110 group-hover:contrast-115 transition-all duration-500">
@@ -114,7 +107,6 @@
             </div>
         </section>
 
-        <!-- 依年份系統化收藏 -->
         <section>
             <h2 class="text-xs font-bold tracking-[0.3em] text-white uppercase mb-8 flex items-center space-x-3">
                 <span class="w-1 h-3 bg-white"></span>
@@ -139,7 +131,6 @@
 
     </main>
 
-    <!-- 4. 融合免責加註的極簡純白字頁尾 -->
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">
