@@ -37,7 +37,7 @@
 
         <div class="flex justify-center py-6 select-none">
             <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
-                <img id="coin-target-img" src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Mission Coin">
+                <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Mission Coin">
             </div>
         </div>
 
@@ -63,12 +63,12 @@
             const targetState = urlParams.get('state') || '美國';
             const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
 
-            // 1. 基礎外觀渲染
+            // 1. 直覺渲染外觀與麵包屑
             document.getElementById('mission-crumbs').innerText = `MISSION // ${targetYear} // ${targetState}`;
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 終極安全路由：使用 .json 檔案格式，徹底杜絕雲端平台的網頁重定向干擾
+            // 2. 鋼鐵定律：直接把主頁傳過來的圖片檔名拔除 .png，改接 .json，完全不寫多餘判斷
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleDataUrl = `/txts/txt-${baseFileName}.json`;
 
@@ -78,21 +78,23 @@
             try {
                 const response = await fetch(articleDataUrl);
                 
-                // 強大防線：如果不是合法的 JSON 回傳（包含撈到 404 網頁），立刻切入後備狀態
+                // 防線：確保拿到的是合法資料，否則直接跳到錯誤加載頁面
                 const contentType = response.headers.get("content-type") || "";
                 if (!response.ok || !contentType.includes("application/json")) {
-                    throw new Error("Asset missing or invalid JSON content feed");
+                    throw new Error("Dossier missing");
                 }
 
                 const data = await response.json();
-                const lines = data.paragraphs || [];
                 
-                if (lines.length === 0) throw new Error("Empty paragraph datastream");
+                // 🚀 完全由 JSON 掌控一切：如果 JSON 檔內有設定專屬任務標題，就直接覆蓋！
+                if (data.mission_title_override) {
+                    document.getElementById('mission-title').innerText = data.mission_title_override;
+                }
 
-                // 清空原本的容器
+                // 智慧包裝繁體中文字
+                const lines = data.paragraphs || [];
                 articlePayload.innerHTML = "";
                 
-                // 自動幫您的純文字包上科技感網頁標籤
                 lines.forEach((lineText, index) => {
                     const pTag = document.createElement('p');
                     if (index === 0) {
@@ -104,14 +106,10 @@
                     articlePayload.appendChild(pTag);
                 });
                 
-                if (targetYear === "2018") {
-                    document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
-                }
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
                 
             } catch (err) {
-                // 後備防崩塌機制
-                document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
+                // 自動後備防崩塌
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
