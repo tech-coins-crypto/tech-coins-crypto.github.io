@@ -52,7 +52,7 @@
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
-            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span></p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書 or 授權。）</span></p>
         </div>
     </footer>
     <script>
@@ -95,34 +95,66 @@
             });
             const sortedYears = Object.keys(yearGroups).sort((a, b) => b - a);
             sortedYears.forEach(year => {
-                if (year === "2026") {
-                    yearGroups[year].sort((a, b) => {
-                        if (a.nickname === "賈伯斯幣") return -1;
-                        if (b.nickname === "賈伯斯幣") return 1;
-                        if (a.nickname === "超級電腦幣") return -1;
-                        if (b.nickname === "超級電腦幣") return 1;
-                        return 0;
+                let layoutHTML = '';
+
+                // 核心修改：針對 2018 年進行高精度客製化排版，使其獨立呈現完美的正面與反面
+                if (year === "2018") {
+                    // 取得 2018 原始資料對象以提取內頁導向 url 參數
+                    const coinRef = yearGroups[year][0] || { year: "2018", state: "美國" };
+                    layoutHTML = `
+                        <div class="flex flex-row justify-start items-start gap-x-14 sm:gap-x-18 md:gap-x-20">
+                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                    <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                </div>
+                                <div class="mt-4 space-y-1 flex flex-col items-center">
+                                    <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣背面</h4>
+                                    <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">美國</p>
+                                </div>
+                            </a>
+                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-l.png" class="group flex flex-col items-center text-center">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                    <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                </div>
+                                <div class="mt-4 space-y-1 flex flex-col items-center">
+                                    <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣正面</h4>
+                                    <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">自由女神</p>
+                                </div>
+                            </a>
+                        </div>
+                    `;
+                } else {
+                    // 其他常規年份維持標準的 4 欄位網格矩陣
+                    if (year === "2026") {
+                        yearGroups[year].sort((a, b) => {
+                            if (a.nickname === "賈伯斯幣") return -1;
+                            if (b.nickname === "賈伯斯幣") return 1;
+                            if (a.nickname === "超級電腦幣") return -1;
+                            if (b.nickname === "超級電腦幣") return 1;
+                            return 0;
+                        });
+                    } else {
+                        yearGroups[year].sort((a, b) => a.nickname.localeCompare(b.nickname, 'zh-Hans-CN'));
+                    }
+
+                    let coinsHTML = '';
+                    yearGroups[year].forEach(coin => {
+                        coinsHTML += `
+                            <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
+                                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                    <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                </div>
+                                <div class="mt-4 space-y-1 flex flex-col items-center">
+                                    <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
+                                    <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
+                                </div>
+                            </a>
+                        `;
                     });
-                } else if (year !== "2018") {
-                    yearGroups[year].sort((a, b) => a.nickname.localeCompare(b.nickname, 'zh-Hans-CN'));
+                    layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>`;
                 }
 
-                let coinsHTML = '';
-                yearGroups[year].forEach(coin => {
-                    coinsHTML += `
-                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                            </div>
-                            <div class="mt-4 space-y-1 flex flex-col items-center">
-                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
-                            </div>
-                        </a>
-                    `;
-                });
-
-                // 方案一完美整合：優雅的數位解鎖徽章外觀，避開鋸齒粗糙感
+                // 250週年標誌控制
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
                 if (year === "2026") {
                     titleContent = `
@@ -138,7 +170,7 @@
                 container.innerHTML += `
                     <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
                         ${titleContent}
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
+                        ${layoutHTML}
                     </div>
                 `;
             });
