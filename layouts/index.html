@@ -74,7 +74,7 @@
                         state: parts[3]?.trim(), 
                         img: parts[4]?.trim() 
                     };
-                }).filter(coin => coin.state && coin.year && coin.img && coin.year !== "2018"); // 清理防線：從源頭過濾2018資料
+                }).filter(coin => coin.state && coin.year && coin.img && coin.year !== "2018");
                 renderYearView();
                 renderSubjectView();
                 isDataLoaded = true;
@@ -95,6 +95,7 @@
             });
             const sortedYears = Object.keys(yearGroups).sort((a, b) => b - a);
             sortedYears.forEach(year => {
+                let coinsHTML = '';
                 if (year === "2026") {
                     yearGroups[year].sort((a, b) => {
                         if (a.nickname === "賈伯斯幣") return -1;
@@ -107,7 +108,6 @@
                     yearGroups[year].sort((a, b) => a.nickname.localeCompare(b.nickname, 'zh-Hans-CN'));
                 }
 
-                let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
                     coinsHTML += `
                         <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
@@ -122,14 +122,14 @@
                     `;
                 });
 
-                // 250週年大徽章盒完美保留
+                // 核心修改：加入 title="250自由鐘標記" 實現 Hover 提示，並以 mix-blend-screen 完美抹除原圖白色痕跡
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
                 if (year === "2026") {
                     titleContent = `
                         <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono flex items-center gap-5">
                             <span>${year}</span>
-                            <div class="h-14 w-14 md:h-16 md:w-16 flex items-center justify-center rounded-lg bg-zinc-900/50 border border-zinc-800 p-1.5 shadow-inner shadow-black select-none pointer-events-none">
-                                <img src="/coins/coin-250y-d.png" class="h-full w-full object-contain brightness-110 contrast-105" alt="US 250th Large Badge">
+                            <div title="250自由鐘標記" class="h-14 w-14 md:h-16 md:w-16 flex items-center justify-center rounded-lg bg-zinc-900/50 border border-zinc-800 p-1.5 shadow-inner shadow-black cursor-help select-none">
+                                <img src="/coins/coin-250y-d.png" class="h-full w-full object-contain mix-blend-screen brightness-110 contrast-105" alt="US 250th Large Badge">
                             </div>
                         </h3>
                     `;
@@ -143,6 +143,7 @@
                 `;
             });
         }
+        // renderSubjectView 與 switchView 保持完全對等不變
         function renderSubjectView() {
             const container = document.getElementById('view-subject');
             container.innerHTML = '';
@@ -155,19 +156,11 @@
             });
 
             const subjectOrderWeight = {
-                "數位資訊": 100, 
-                "重工製造": 90,  
-                "農業生態": 80,  
-                "航太天文": 70,  
-                "生醫健康": 60,  
-                "人文社會": 50,  
-                "生活風格": 40
+                "數位資訊": 100, "重工製造": 90, "農業生態": 80, "航太天文": 70, "生醫健康": 60, "人文社會": 50, "生活風格": 40
             };
 
             const sortedGroups = Object.values(subjectGroups).sort((a, b) => {
-                const weightA = subjectOrderWeight[a.category] || 0;
-                const weightB = subjectOrderWeight[b.category] || 0;
-                return weightB - weightA;
+                return (subjectOrderWeight[b.category] || 0) - (subjectOrderWeight[a.category] || 0);
             });
 
             sortedGroups.forEach(group => {
