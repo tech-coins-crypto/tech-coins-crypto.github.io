@@ -54,7 +54,7 @@
     <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
         <div class="flex items-center gap-6 border-b border-zinc-900 pb-4 mb-6">
             <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300">年份</button>
-            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300">技術</button>
+            <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
         </div>
 
         <div id="view-year" class="space-y-6">
@@ -132,7 +132,7 @@
                 yearGroups[coin.year].push(coin);
             });
 
-            // 強制把 2018 年首發幣置頂投放 (🔧 將間距 pb-12 壓縮為 pb-6，並移除不必要的頂部 padding)
+            // 強制把 2018 年首發幣置頂投放
             if (yearGroups["2018"]) {
                 const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國" };
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4">2018 美國創新系列首發幣</h3>`;
@@ -172,7 +172,6 @@
                 if (year === "2018") return;
 
                 let layoutHTML = '';
-                // 🔧 縮短年度標題下方的間距 mb-8 -> mb-4
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 font-mono">${year}</h3>`;
 
                 if (year === "2026") {
@@ -201,10 +200,8 @@
                         </a>
                     `;
                 });
-                // 🔧 縮短網格卡片的垂直間距 gap-y-12 -> gap-y-6
                 layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div>`;
 
-                // 🔧 將每個年份區塊的分隔留白 pb-12 -> pb-6，並移除 pt-4
                 container.innerHTML += `
                     <div class="border-b border-zinc-900 pb-6 last:border-0">
                         ${titleContent}
@@ -268,7 +265,6 @@
                     `;
                 });
                 
-                // 🔧 縮短網格與主題標題下的間距 mb-8 -> mb-4，gap-y-12 -> gap-y-6，pb-12 -> pb-6
                 container.innerHTML += `
                     <div class="border-b border-zinc-900 pb-6 last:border-0">
                         <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 flex items-center space-x-4 select-none uppercase">
@@ -281,6 +277,21 @@
             });
         }
 
+        function switchView(viewType) {
+            const viewYear = document.getElementById('view-year');
+            const viewSubject = document.getElementById('view-subject');
+            const btnYear = document.getElementById('btn-year');
+            const btnSubject = document.getElementById('btn-subject');
+            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300";
+            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300";
+            if (viewType === 'year') {
+                viewYear.classList.remove('hidden'); viewSubject.classList.add('hidden');
+                btnYear.className = activeClass; btnSubject.className = inactiveClass;
+            } else if (viewType === 'subject') {
+                viewYear.classList.add('hidden'); viewSubject.classList.remove('hidden');
+                btnSubject.className = activeClass; btnYear.className = inactiveClass;
+            }
+        }
         document.addEventListener('DOMContentLoaded', loadAndRenderMatrix);
     </script>
 </body>
