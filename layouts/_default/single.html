@@ -168,4 +168,27 @@
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 if (lines.length === 0) throw new Error("No content");
                 articlePayload.innerHTML = "";
-                lines.forEach((
+                lines.forEach((lineText, index) => {
+                    if (index === 0) { document.getElementById('mission-title').innerText = lineText; }
+                    else {
+                        const pTag = document.createElement('p');
+                        if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
+                        else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
+                        pTag.innerText = lineText; articlePayload.appendChild(pTag);
+                    }
+                });
+            } catch (err) {
+                const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
+                document.getElementById('mission-title').innerText = finalFallbackTitle;
+                
+                articlePayload.innerHTML = `
+                    <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
+                        目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
+                    </p>
+                `;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', parseUrlSignals);
+    </script>
+</body>
+</html>
