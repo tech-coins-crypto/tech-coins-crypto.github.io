@@ -36,10 +36,6 @@
             </div>
         </div>
 
-        <div id="mission-status-box" class="text-center font-mono py-4 border-y border-zinc-900/60 select-none">
-            <span class="text-sm md:text-base font-bold tracking-[0.2em] text-white">【 尋找專屬文獻 / SEARCHING TEXT DOSSIER 】</span>
-        </div>
-
         <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg min-h-[150px] py-4">
             </article>
 
@@ -58,15 +54,13 @@
             const targetState = urlParams.get('state') || '美國';
             const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
 
-            // 直覺渲染外觀與預設標題
+            // 直覺渲染硬幣外觀
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
-
             const articlePayload = document.getElementById('article-payload');
-            const statusBox = document.getElementById('mission-status-box');
 
             try {
                 const response = await fetch(articleTextUrl);
@@ -89,15 +83,15 @@
                 // 智慧投放核心
                 lines.forEach((lineText, index) => {
                     if (index === 0) {
-                        // 作法 A 核心魔術：直接將純文字檔的第一行，提取並覆蓋為最上方的網頁任務大標題！
+                        // 直接將純文字檔的第一行覆蓋為網頁最上方的任務大標題
                         document.getElementById('mission-title').innerText = lineText;
                     } else {
                         const pTag = document.createElement('p');
                         if (index === 1) {
-                            // 文件的第二行，會自動變成內文區塊中，帶有漂亮白色左邊條的副標題
+                            // 第二行自動變成內文區中帶有白色左邊條的副標題
                             pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-2";
                         } else {
-                            // 第三行以後，維持標準流暢的內文段落
+                            // 第三行以後，維持標準內文段落
                             pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
                         }
                         pTag.innerText = lineText; 
@@ -105,8 +99,17 @@
                     }
                 });
                 
-                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
-                
             } catch (err) {
-                // 自動防崩塌後備狀態
+                // 自動防崩塌後備加載狀態
                 document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
+                articlePayload.innerHTML = `
+                    <div class="space-y-4">
+                        <p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
+                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立純文字文獻（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                    </div>`;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', parseUrlSignals);
+    </script>
+</body>
+</html>
