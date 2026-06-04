@@ -63,12 +63,11 @@
             const targetState = urlParams.get('state') || '美國';
             const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
 
-            // 1. 直覺外觀與標題渲染
+            // 1. 直覺渲染基礎外觀與預設標題
             document.getElementById('mission-crumbs').innerText = `MISSION // ${targetYear} // ${targetState}`;
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 完美的圖片與純文字一對一對接定理 (完美對齊圖片檔名)
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
 
@@ -78,7 +77,7 @@
             try {
                 const response = await fetch(articleTextUrl);
                 
-                // 🛡️ 鋼鐵防線：只要不是正常的 200 OK，或者不小心抓到 HTML 錯誤頁面，一律切到防跑位加載畫面
+                // 🛡️ 鋼鐵防線：阻擋 404 網頁原始碼
                 const contentType = response.headers.get("content-type") || "";
                 if (!response.ok || contentType.includes("text/html")) {
                     throw new Error("Text dossier offline");
@@ -86,31 +85,33 @@
 
                 const rawText = await response.text();
                 
-                // 🚀 光速智慧斷行處理：將純文字依照換行符號切開，並去除乾淨空白行
+                // 光速智慧斷行處理
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 
                 if (lines.length === 0) throw new Error("No content");
 
                 articlePayload.innerHTML = "";
                 
-                // 機器人默默在後台幫人類的純文字穿上科技外衣
+                // 智慧投放核心
                 lines.forEach((lineText, index) => {
-                    const pTag = document.createElement('p');
                     if (index === 0) {
-                        // 第一行自動升格為重磅大標題！
-                        pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6";
+                        // 🎯 作法 A 核心魔術：直接將純文字檔的第一行，提取並覆蓋為最上方的網頁任務大標題！
+                        document.getElementById('mission-title').innerText = lineText;
                     } else {
-                        // 其餘行數自動歸類為優雅內文
-                        pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
+                        // 其餘的行數，有條不紊地包上內文標籤投放
+                        const pTag = document.createElement('p');
+                        if (index === 1) {
+                            // 文件的第二行，會自動變成內文區塊中，帶有漂亮白色左邊條的副標題！
+                            pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-2";
+                        } else {
+                            // 第三行以後，通通維持標準流暢的內文段落
+                            pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
+                        }
+                        pTag.innerText = lineText; 
+                        articlePayload.appendChild(pTag);
                     }
-                    pTag.innerText = lineText; 
-                    articlePayload.appendChild(pTag);
                 });
                 
-                // 特殊特權：如果是 2018 首發幣，覆蓋一個史詩任務標題
-                if (targetYear === "2018") {
-                    document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
-                }
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
                 
             } catch (err) {
