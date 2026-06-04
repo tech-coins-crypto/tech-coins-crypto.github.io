@@ -38,10 +38,12 @@
                     </div>
             </div>
             
-            <div class="md:col-span-5 flex flex-col items-center md:items-start md:justify-start sticky md:top-24 py-2 select-none">
-                <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
+            <div id="right-visual-deck" class="md:col-span-5 flex flex-col space-y-6 items-center select-none sticky md:top-24 py-2">
+                <div id="main-coin-frame" class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
                     <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">
                 </div>
+                <div id="gallery-append-deck" class="w-full flex flex-col space-y-4 pt-4">
+                    </div>
             </div>
         </div>
     </main>
@@ -72,7 +74,38 @@
             const targetYear = urlParams.get('year') || '2018';
             const targetState = urlParams.get('state') || '美國';
             const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
-            document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
+            
+            const mainCoinFrame = document.getElementById('main-coin-frame');
+            const galleryAppendDeck = document.getElementById('gallery-append-deck');
+            
+            // 核心調整邏輯：針對 2018 首發專利任務進行硬幣雙並排與插圖流投放
+            if (targetYear === '2018') {
+                // 1. 重構主硬幣容器，變更為雙幣並排（略為縮小，維持黃金光影比例）
+                mainCoinFrame.className = "flex flex-row justify-center items-center gap-4 w-full";
+                mainCoinFrame.innerHTML = `
+                    <div class="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-15px_0px_30px_rgba(0,0,0,1)]">
+                        <img src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018背面">
+                    </div>
+                    <div class="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-15px_0px_30px_rgba(0,0,0,1)]">
+                        <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018正面">
+                    </div>
+                `;
+                
+                // 2. 依序注入您指定的兩張優質歷史插圖
+                galleryAppendDeck.innerHTML = `
+                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
+                        <img src="/images/2018Comparison1790.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="2018與1790對比圖">
+                    </div>
+                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
+                        <img src="/images/1790patent.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="1790專利原件圖">
+                    </div>
+                `;
+            } else {
+                // 其他非 2018 年硬幣保持純淨單幣外框
+                document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
+                galleryAppendDeck.innerHTML = '';
+            }
+
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
@@ -133,7 +166,6 @@
                 const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
                 document.getElementById('mission-title').innerText = finalFallbackTitle;
                 
-                // 副標題更換為指定文字並套用 border-l-2 經典樣式，內文保持完全空白
                 articlePayload.innerHTML = `
                     <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
                         目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
