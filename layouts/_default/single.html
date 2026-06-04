@@ -78,7 +78,7 @@
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
             const articlePayload = document.getElementById('article-payload');
             
-            let currentCoinNickname = ""; // 用來暫存從 CSV 抓到的硬幣綽號
+            let currentCoinNickname = "";
 
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
@@ -96,7 +96,7 @@
                     const parts = csvLines[i].split(',');
                     const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
                     if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
-                        currentCoinNickname = parts[nicknameIdx]?.trim() || ""; // 成功抓取綽號
+                        currentCoinNickname = parts[nicknameIdx]?.trim() || "";
                         matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
                     }
                 }
@@ -130,11 +130,15 @@
                     }
                 });
             } catch (err) {
-                // 當沒寫文章觸發防錯面板時，標題改為：[年份] [州名] [綽號]
                 const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
                 document.getElementById('mission-title').innerText = finalFallbackTitle;
                 
-                articlePayload.innerHTML = `<div class="space-y-4"><p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 創新精緻幣。</p><p class="text-zinc-400 text-sm">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦!</p></div>`;
+                // 副標題更換為指定文字並套用 border-l-2 經典樣式，內文保持完全空白
+                articlePayload.innerHTML = `
+                    <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
+                        目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
+                    </p>
+                `;
             }
         }
         document.addEventListener('DOMContentLoaded', parseUrlSignals);
