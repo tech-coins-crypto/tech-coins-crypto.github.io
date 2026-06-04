@@ -31,18 +31,13 @@
             <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">任務解密中</h1>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
-            <!-- 左側文字介紹與標籤區塊 -->
             <div class="md:col-span-7 flex flex-col justify-between min-h-full">
                 <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg py-2">
-                    <!-- 動態文字注入點 -->
-                </article>
-                <!-- 綠色關鍵字已完美移動至文字底層框的底部，追加 mt-8 確保與介紹內文維持呼吸感 -->
+                    </article>
                 <div id="coin-keywords" class="flex flex-wrap justify-start gap-2 pt-6 mt-8 border-t border-zinc-900/40 w-full">
-                    <!-- 動態科技標籤注入點 -->
-                </div>
+                    </div>
             </div>
             
-            <!-- 右側純淨硬幣視覺區塊 -->
             <div class="md:col-span-5 flex flex-col items-center md:items-start md:justify-start sticky md:top-24 py-2 select-none">
                 <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
                     <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">
@@ -82,17 +77,26 @@
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
             const articlePayload = document.getElementById('article-payload');
+            
+            let currentCoinNickname = ""; // 用來暫存從 CSV 抓到的硬幣綽號
+
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
                 const csvLines = csvText.replace(/\r/g, '').split('\n').filter(l => l.trim() !== '');
                 const headers = csvLines.shift().split(',').map(h => h.trim());
-                const yearIdx = headers.indexOf('year'); const stateIdx = headers.indexOf('state'); const keywordsIdx = headers.indexOf('keywords');
+                
+                const nicknameIdx = headers.indexOf('nickname');
+                const yearIdx = headers.indexOf('year'); 
+                const stateIdx = headers.indexOf('state'); 
+                const keywordsIdx = headers.indexOf('keywords');
+                
                 let matchedKeywords = "";
                 for (let i = 0; i < csvLines.length; i++) {
                     const parts = csvLines[i].split(',');
                     const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
                     if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
+                        currentCoinNickname = parts[nicknameIdx]?.trim() || ""; // 成功抓取綽號
                         matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
                     }
                 }
@@ -107,6 +111,7 @@
                     });
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
+            
             try {
                 const response = await fetch(articleTextUrl);
                 const contentType = response.headers.get("content-type") || "";
@@ -125,7 +130,10 @@
                     }
                 });
             } catch (err) {
-                document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 創新精緻幣`;
+                // 當沒寫文章觸發防錯面板時，標題改為：[年份] [州名] [綽號]
+                const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
+                document.getElementById('mission-title').innerText = finalFallbackTitle;
+                
                 articlePayload.innerHTML = `<div class="space-y-4"><p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 創新精緻幣。</p><p class="text-zinc-400 text-sm">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦!</p></div>`;
             }
         }
