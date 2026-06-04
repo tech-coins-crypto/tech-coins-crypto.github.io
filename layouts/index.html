@@ -95,7 +95,6 @@
             });
             const sortedYears = Object.keys(yearGroups).sort((a, b) => b - a);
             sortedYears.forEach(year => {
-                // 核心修改 1：在「年份視角」中，如果是 2026 年，強制定向「賈伯斯幣」為左1，「超級電腦幣」為左2
                 if (year === "2026") {
                     yearGroups[year].sort((a, b) => {
                         if (a.nickname === "賈伯斯幣") return -1;
@@ -104,8 +103,7 @@
                         if (b.nickname === "超級電腦幣") return 1;
                         return 0;
                     });
-                } else {
-                    // 其他年份預設依原始 CSV 順序或保持整齊
+                } else if (year !== "2018") {
                     yearGroups[year].sort((a, b) => a.nickname.localeCompare(b.nickname, 'zh-Hans-CN'));
                 }
 
@@ -142,6 +140,7 @@
                 subjectGroups[coin.subject].coins.push(coin);
             });
 
+            // 核心微調：加入「創新起源」權重(30)，讓其自然精準墊底，並維持數位資訊制霸首位
             const subjectOrderWeight = {
                 "數位資訊": 100, 
                 "重工製造": 90,  
@@ -149,7 +148,8 @@
                 "航太天文": 70,  
                 "生醫健康": 60,  
                 "人文社會": 50,  
-                "生活風格": 40   
+                "生活風格": 40,
+                "創新起源": 30
             };
 
             const sortedGroups = Object.values(subjectGroups).sort((a, b) => {
@@ -159,7 +159,6 @@
             });
 
             sortedGroups.forEach(group => {
-                // 核心修改 2：在「主題視角」的數位資訊中，同步強制定向「賈伯斯幣」為左1，「超級電腦幣」為左2
                 if (group.category === "數位資訊") {
                     group.coins.sort((a, b) => {
                         if (a.nickname === "賈伯斯幣") return -1;
