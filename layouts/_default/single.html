@@ -78,45 +78,45 @@
             try {
                 const response = await fetch(articleTextUrl);
                 
-                if (response.ok) {
-                    const rawPlainText = await response.text();
-                    
-                    // 核心高階解法：將您的純中文字檔，依照「換行符號 (\n)」自動切開成一條一條的陣列
-                    // 同時過濾掉多餘的空白行
-                    const lines = rawPlainText.split('\n').map(line => line.trim()).filter(line => line !== "");
-                    
-                    // 清空原本的容器
-                    articlePayload.innerHTML = "";
-                    
-                    // 由程式碼自動幫您的純中文字「包上科技感網頁標籤」！
-                    lines.forEach((lineText, index) => {
-                        const pTag = document.createElement('p');
-                        
-                        // 讓第一行文字自動變成帶有科技感邊條的亮眼「大標題」，其餘行數自動呈現優雅的內文
-                        if (index === 0) {
-                            pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6";
-                        } else {
-                            pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
-                        }
-                        
-                        pTag.innerText = lineText; // 100% 阻絕任何 HTML 注入，保護純文字
-                        articlePayload.appendChild(pTag);
-                    });
-                    
-                    if (targetYear === "2018") {
-                        document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
-                    }
-                    statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
-                } else {
-                    throw new Error("TXT file not found");
+                // 🛡️ 鋼鐵防線：檢查伺服器回傳狀態，並且防範伺服器扔給我們 HTML 網頁代碼（抓到404網頁）
+                const contentType = response.headers.get("content-type") || "";
+                if (!response.ok || contentType.includes("text/html")) {
+                    throw new Error("Dossier text asset missing or returned 404 page");
                 }
+
+                const rawPlainText = await response.text();
+                
+                // 將純中文字檔依照換行符號切開
+                const lines = rawPlainText.split('\n').map(line => line.trim()).filter(line => line !== "");
+                
+                // 清空原本的容器
+                articlePayload.innerHTML = "";
+                
+                // 自動幫您的純中文字包上科技感網頁標籤
+                lines.forEach((lineText, index) => {
+                    const pTag = document.createElement('p');
+                    if (index === 0) {
+                        pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6";
+                    } else {
+                        pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
+                    }
+                    pTag.innerText = lineText; 
+                    articlePayload.appendChild(pTag);
+                });
+                
+                if (targetYear === "2018") {
+                    document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
+                }
+                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
+                
             } catch (err) {
-                // 鋼鐵防崩塌機制
+                // 完美後備防崩塌機制：只要沒抓到正確的純文字檔，一律顯示這個帥氣的加載畫面，絕不穿幫
+                document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
                         <p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
-                        <p class="text-zinc-400 text-sm">目前主控台尚未完成配套的獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
                     </div>`;
             }
         }
