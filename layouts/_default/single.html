@@ -84,20 +84,21 @@
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
-                const csvLines = csvText.replace(/\r/g, '').split('\n').filter(l => l.trim() !== '');
-                const headers = csvLines.shift().split(',').map(h => h.trim());
-                
-                const nicknameIdx = headers.indexOf('nickname');
-                const yearIdx = headers.indexOf('year'); 
-                const stateIdx = headers.indexOf('state'); 
-                const keywordsIdx = headers.indexOf('keywords');
-                
-                for (let i = 0; i < csvLines.length; i++) {
-                    const parts = csvLines[i].split(',');
-                    const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
-                    if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
-                        currentCoinNickname = parts[nicknameIdx]?.trim() || "";
-                        matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
+                const csvLines = csvResponse.ok ? csvText.replace(/\r/g, '').split('\n').filter(l => l.trim() !== '') : [];
+                if (csvLines.length > 0) {
+                    const headers = csvLines.shift().split(',').map(h => h.trim());
+                    const nicknameIdx = headers.indexOf('nickname');
+                    const yearIdx = headers.indexOf('year'); 
+                    const stateIdx = headers.indexOf('state'); 
+                    const keywordsIdx = headers.indexOf('keywords');
+                    
+                    for (let i = 0; i < csvLines.length; i++) {
+                        const parts = csvLines[i].split(',');
+                        const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
+                        if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
+                            currentCoinNickname = parts[nicknameIdx]?.trim() || "";
+                            matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
+                        }
                     }
                 }
                 const keywordsContainer = document.getElementById('coin-keywords'); keywordsContainer.innerHTML = '';
@@ -112,79 +113,13 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 核心視覺決策引擎：雙王牌頁面全面實施巨型交疊流
+            // 核心視覺決策引擎：雙王牌頁面點火 md:w-60 黃金中庸視覺
             if (targetYear === '2018') {
-                // 2018 首發專利幣：巨型化 w-64，交疊外邊距優化為 -space-x-8 (手機) / -space-x-16 (電腦)
-                mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-16 w-full px-2";
+                // 2018 首發專利幣：設定為 md:w-60 md:h-60，交疊間距精確調整為 md:-space-x-14
+                mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
-                    <div class="relative w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
                         <img src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018背面">
                     </div>
-                    <div class="relative w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018正面">
-                    </div>
-                `;
-                galleryAppendDeck.innerHTML = `
-                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
-                        <img src="/images/2018Comparison1790.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="2018與1790對比圖">
-                    </div>
-                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
-                        <img src="/images/1790patent.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="1790專利原件圖">
-                    </div>
-                `;
-            } else if (currentCoinNickname === "賈伯斯幣" || targetImg.includes("Jobs")) {
-                // 賈伯斯幣：巨型化 w-64，交疊動態完全同步辦理！
-                mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-16 w-full px-2";
-                mainCoinFrame.innerHTML = `
-                    <div class="relative w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/${targetImg}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="賈伯斯幣背面">
-                    </div>
-                    <div class="relative w-40 h-40 sm:w-52 sm:h-52 md:w-64 md:h-64 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-250y.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="250周年正面自由鐘">
-                    </div>
-                `;
-                galleryAppendDeck.innerHTML = '';
-            } else {
-                mainCoinFrame.className = "relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]";
-                mainCoinFrame.innerHTML = `<img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">`;
-                document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
-                galleryAppendDeck.innerHTML = '';
-            }
-
-            document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
-            const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
-            const articlePayload = document.getElementById('article-payload');
-            
-            try {
-                const response = await fetch(articleTextUrl);
-                const contentType = response.headers.get("content-type") || "";
-                if (!response.ok || contentType.includes("text/html")) throw new Error("Offline");
-                const rawText = await response.text();
-                const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
-                if (lines.length === 0) throw new Error("No content");
-                articlePayload.innerHTML = "";
-                lines.forEach((lineText, index) => {
-                    if (index === 0) { document.getElementById('mission-title').innerText = lineText; }
-                    else {
-                        const pTag = document.createElement('p');
-                        if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
-                        else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
-                        pTag.innerText = lineText; articlePayload.appendChild(pTag);
-                    }
-                });
-            } catch (err) {
-                const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
-                document.getElementById('mission-title').innerText = finalFallbackTitle;
-                
-                articlePayload.innerHTML = `
-                    <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
-                        目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
-                    </p>
-                `;
-            }
-        }
-        document.addEventListener('DOMContentLoaded', parseUrlSignals);
-    </script>
-</body>
-</html>
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
+                        <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-
