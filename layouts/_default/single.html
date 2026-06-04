@@ -45,12 +45,12 @@
             <span class="text-sm md:text-base font-bold tracking-[0.2em] text-white">【 尋找專屬文獻 / SEARCHING TEXT DOSSIER 】</span>
         </div>
 
-        <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg">
+        <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg min-h-[150px] py-4">
             </article>
 
     </main>
 
-    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono mt-auto">
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono mt-auto w-full">
         <div class="max-w-4xl mx-auto space-y-2">
             <p class="text-[10px] tracking-widest uppercase text-zinc-500">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
         </div>
@@ -68,9 +68,7 @@
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 智慧對對碰的核心魔術：
-            // 拔除圖片副檔名 (.png)，自動去抓 /txts/ 路徑下，帶有 txt- 前綴的專屬文字檔！
-            // 範例：coin-2018-Introductory.png -> 變成抓取 /txts/txt-2018-Introductory.txt
+            // 2. 精準路徑修正：發布後 static 會被隱藏，直接存取 /txts/ 才是正解
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
 
@@ -78,7 +76,6 @@
             const statusBox = document.getElementById('mission-status-box');
 
             try {
-                // 發射訊號抓取獨立文章
                 const response = await fetch(articleTextUrl);
                 
                 if (response.ok) {
@@ -93,12 +90,12 @@
                     throw new Error("Dossier txt file not found");
                 }
             } catch (err) {
-                // 後備防跑位機制：如果該硬幣還沒有寫專屬的 txt 檔，自動切換為冷冽的加載中狀態
+                // 完美後備防崩塌機制
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
                         <p>這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
-                        <p>目前主控台尚未偵測到配套的本地獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                        <p>目前主控台尚未完成配套的獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
                     </div>`;
             }
         }
