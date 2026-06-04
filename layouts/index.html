@@ -67,7 +67,6 @@
                 lines.shift(); 
                 csvCoinsData = lines.map(line => {
                     const parts = line.split(',');
-                    // 核心修正：移除 manifesto，重新對應 5 欄位索引 (0:綽號, 1:主題, 2:年份, 3:州名, 4:圖片檔名)
                     return { 
                         nickname: parts[0]?.trim(), 
                         subject: parts[1]?.trim(), 
@@ -145,11 +144,13 @@
                         </a>
                     `;
                 });
+                
+                // 核心修改：移除【】括號，並微調 text 大小類別，使「主題文字」與「數位徽章內字體」大小一致
                 container.innerHTML += `
                     <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 flex items-baseline space-x-3 select-none">
-                            <span>【${group.category}】</span>
-                            <span class="text-sm md:text-base font-mono font-bold text-zinc-500 bg-zinc-900/40 border border-zinc-800/60 px-2.5 py-0.5 rounded">${totalCoinsCount}</span>
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 flex items-center space-x-4 select-none uppercase">
+                            <span>${group.category}</span>
+                            <span class="text-xl md:text-2xl font-mono font-black text-white bg-zinc-900/40 border border-zinc-800/60 px-3 py-0.5 rounded flex items-center justify-center min-w-[2.5rem] text-center">${totalCoinsCount}</span>
                         </h3>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
                     </div>
