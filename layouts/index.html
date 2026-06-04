@@ -97,11 +97,11 @@
             sortedYears.forEach(year => {
                 let layoutHTML = '';
 
-                // 終極優化：2018年完全採用標準網格，排除任何 Flex 包覆造成的起點偏移缺陷
+                // 終極對齊優化：2018年直接採用 100% 相同架構的標準 4 欄網格，用隱形盒子填空
                 if (year === "2018") {
                     const coinRef = yearGroups[year][0] || { year: "2018", state: "美國" };
                     layoutHTML = `
-                        <div class="grid grid-cols-[max-content_max-content] md:grid-cols-[max-content_max-content_max-content_max-content] gap-y-12 gap-x-7 md:gap-x-10">
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
                             <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                     <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
@@ -120,6 +120,8 @@
                                     <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">自由女神</p>
                                 </div>
                             </a>
+                            <div class="hidden md:block select-none pointer-events-none opacity-0"></div>
+                            <div class="hidden md:block select-none pointer-events-none opacity-0"></div>
                         </div>
                     `;
                 } else {
