@@ -121,9 +121,23 @@
                         </a>
                     `;
                 });
+
+                // 核心修改：動態判斷是否為 2026 年。若是，則在標題右側注入精確縮放、去外圈的 250 週年建國特製紀念標誌
+                let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
+                if (year === "2026") {
+                    titleContent = `
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono flex items-center gap-3">
+                            <span>${year}</span>
+                            <div class="w-7 h-7 md:w-8 md:h-8 inline-block overflow-hidden rounded bg-transparent select-none pointer-events-none">
+                                <img src="/coins/coin-250y-d.png" class="w-full h-full object-cover scale-[1.7] brightness-[1.1] contrast-[1.05]" alt="US 250th Mint Mark">
+                            </div>
+                        </h3>
+                    `;
+                }
+
                 container.innerHTML += `
                     <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>
+                        ${titleContent}
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
                     </div>
                 `;
@@ -140,7 +154,6 @@
                 subjectGroups[coin.subject].coins.push(coin);
             });
 
-            // 核心微調：加入「創新起源」權重(30)，讓其自然精準墊底，並維持數位資訊制霸首位
             const subjectOrderWeight = {
                 "數位資訊": 100, 
                 "重工製造": 90,  
