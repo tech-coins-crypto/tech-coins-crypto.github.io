@@ -52,7 +52,7 @@
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
-            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局 or 美國政府無官方關聯、背書或授權。）</span></p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span></p>
         </div>
     </footer>
     <script>
@@ -97,29 +97,33 @@
             sortedYears.forEach(year => {
                 let layoutHTML = '';
 
-                // 核心修改 1：對齊格線。2018年採用與常規年份完全相同的 grid 機制，確保左枚精準對齊上方的第1欄
                 if (year === "2018") {
                     const coinRef = yearGroups[year][0] || { year: "2018", state: "美國" };
+                    // 核心修改：維持 4 欄網格結構（使左枚精準靠左對齊），但使用 col-span-2 將兩枚幣封鎖在同一個彈性容器中
                     layoutHTML = `
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-7 md:gap-x-10">
-                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
-                                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                    <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                                </div>
-                                <div class="mt-4 space-y-1 flex flex-col items-center">
-                                    <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣背面</h4>
-                                    <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">美國</p>
-                                </div>
-                            </a>
-                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-l.png" class="group flex flex-col items-center text-center">
-                                <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                    <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                                </div>
-                                <div class="mt-4 space-y-1 flex flex-col items-center">
-                                    <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣正面</h4>
-                                    <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">自由女神</p>
-                                </div>
-                            </a>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-y-12 gap-x-8">
+                            <div class="col-span-2 flex flex-row items-start justify-start gap-x-7 md:gap-x-10">
+                                <!-- 左枚：專利幣背面 (精確對齊最左邊第一欄) -->
+                                <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
+                                    <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                        <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                    </div>
+                                    <div class="mt-4 space-y-1 flex flex-col items-center">
+                                        <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣背面</h4>
+                                        <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">美國</p>
+                                    </div>
+                                </a>
+                                <!-- 右枚：專利幣正面 (擺脫網格束縛，嚴格維持手機 28px、電腦 40px 的 1/4 直徑極致間距) -->
+                                <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-l.png" class="group flex flex-col items-center text-center">
+                                    <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
+                                        <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
+                                    </div>
+                                    <div class="mt-4 space-y-1 flex flex-col items-center">
+                                        <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣正面</h4>
+                                        <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">自由女神</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     `;
                 } else {
@@ -152,7 +156,6 @@
                     layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>`;
                 }
 
-                // 核心修改 2：2026年右側的 250 建國紀念徽章盒尺寸「放大 1 倍」（從 w-8 h-8 升級至 w-14 h-14、md:w-16 md:h-16）
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
                 if (year === "2026") {
                     titleContent = `
