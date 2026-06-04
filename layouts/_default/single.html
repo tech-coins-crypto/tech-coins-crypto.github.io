@@ -68,29 +68,31 @@
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 智慧對對碰路徑：這次精準鎖定經過 Hugo 認證必能安全發布的 .html 結尾文字檔
+            // 2. 終極安全路由：使用 .json 檔案格式，徹底杜絕雲端平台的網頁重定向干擾
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleTextUrl = `/txts/txt-${baseFileName}.html`;
+            const articleDataUrl = `/txts/txt-${baseFileName}.json`;
 
             const articlePayload = document.getElementById('article-payload');
             const statusBox = document.getElementById('mission-status-box');
 
             try {
-                const response = await fetch(articleTextUrl);
+                const response = await fetch(articleDataUrl);
                 
-                if (!response.ok) {
-                    throw new Error("HTML article asset missing or returned 404");
+                // 強大防線：如果不是合法的 JSON 回傳（包含撈到 404 網頁），立刻切入後備狀態
+                const contentType = response.headers.get("content-type") || "";
+                if (!response.ok || !contentType.includes("application/json")) {
+                    throw new Error("Asset missing or invalid JSON content feed");
                 }
 
-                const rawPlainText = await response.text();
+                const data = await response.json();
+                const lines = data.paragraphs || [];
                 
-                // 將純中文字檔依照換行符號切開
-                const lines = rawPlainText.split('\n').map(line => line.trim()).filter(line => line !== "");
-                
+                if (lines.length === 0) throw new Error("Empty paragraph datastream");
+
                 // 清空原本的容器
                 articlePayload.innerHTML = "";
                 
-                // 自動幫您的純中文字包上科技感網頁標籤
+                // 自動幫您的純文字包上科技感網頁標籤
                 lines.forEach((lineText, index) => {
                     const pTag = document.createElement('p');
                     if (index === 0) {
@@ -114,7 +116,7 @@
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
                         <p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
-                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.html）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.json）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
                     </div>`;
             }
         }
