@@ -29,12 +29,16 @@
         </div>
     </nav>
 
-    <!-- 巨幕視覺展演區 -->
+    <!-- 巨幕視覺展演區 (已依照指定調整文字內容，移除錢幣勸敗網) -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         <div class="relative z-10 w-full max-w-4xl lg:pl-12 space-y-6 md:space-y-8 pb-6 md:pb-0">
-            <h1 class="text-2xl sm:text-4xl md:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">American Innovation $1</h1>
-            <p class="text-white text-base sm:text-xl md:text-3xl font-black tracking-tight leading-relaxed md:leading-snug">2018美國創新1美元紀念幣<br>喬治·華盛頓1790簽署第一份專利證書</p>
-            <p class="text-white text-base sm:text-xl md:text-2xl font-black tracking-tight leading-tight">錢幣勸敗網</p>
+            <!-- 1. 調整後的英文主標 -->
+            <h1 class="text-2xl sm:text-4xl md:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">American Innovation $1 Coins</h1>
+            
+            <!-- 2. 調整後的中文與說明副標 (行距與字體維持大器格局) -->
+            <p class="text-white text-base sm:text-xl md:text-3xl font-black tracking-tight leading-relaxed md:leading-snug">美國創新紀念幣系列<br>喬治·華盛頓在第一份專利證書上的簽名</p>
+            
+            <!-- 3. 按鈕位置與樣式完全不動，精準留駐 -->
             <div class="pt-2 md:pt-4">
                 <a href="#matrix-control" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">來去瞧瞧 →</a>
             </div>
@@ -61,7 +65,7 @@
         </div>
     </main>
 
-    <!-- 底部資訊欄 (已換上您指定的最新中文與對齊翻譯) -->
+    <!-- 底部資訊欄 -->
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 font-mono mt-auto w-full">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
             <!-- 底部左側：品牌標誌 -->
@@ -70,7 +74,7 @@
                 <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
             </div>
 
-            <!-- 底部右側：最新對齊版免責聲明 -->
+            <!-- 底部右側：緊湊版免責與版權聲明 -->
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
                 <div>
                     <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
@@ -87,7 +91,7 @@
         </div>
     </footer>
 
-    <!-- 核心腳本 -->
+    <!-- CSV 智慧分流與雙視角高效率核心腳本 -->
     <script>
         let csvCoinsData = []; 
         let isDataLoaded = false;
