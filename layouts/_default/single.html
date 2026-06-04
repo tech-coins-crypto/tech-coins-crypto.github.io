@@ -27,50 +27,28 @@
     <main class="flex-grow max-w-4xl mx-auto px-6 py-12 w-full space-y-12">
         
         <div class="flex justify-between items-center border-b border-zinc-900 pb-4 font-mono text-xs tracking-widest uppercase">
-            <div id="mission-crumbs" class="text-zinc-400">MISSION // 2018 // 美國</div>
-            <div class="text-zinc-400 bg-zinc-900/60 border border-zinc-800 px-3 py-1 rounded">NGC SPECIMEN</div>
+            <div id="mission-crumbs" class="text-zinc-400">MISSION // COIN SIGNAL SCANNING</div>
+            <div class="text-zinc-400 bg-zinc-950/40 border border-zinc-800 px-3 py-1 rounded">SPECIMEN PREVIEW</div>
         </div>
 
         <div class="space-y-2">
-            <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">美國 1 美元紀念任務</h1>
+            <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">任務解密中</h1>
         </div>
 
         <div class="flex justify-center py-6 select-none">
-            <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.02)]">
-                <img id="coin-target-img" src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.9] contrast-[1.05]" alt="Coin Preview">
+            <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
+                <img id="coin-target-img" src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Mission Coin">
             </div>
         </div>
 
         <div id="mission-status-box" class="text-center font-mono py-4 border-y border-zinc-900/60 select-none">
-            <span class="text-sm md:text-base font-bold tracking-[0.2em] text-white">【 任務解密中 / DECRYPTING DATA 】</span>
+            <span class="text-sm md:text-base font-bold tracking-[0.2em] text-white">【 尋找專屬文獻 / SEARCHING TEXT DOSSIER 】</span>
         </div>
 
-        <article id="article-payload" class="hidden space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg">
-            <div id="content-2018" class="hidden space-y-6">
-                <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans">
-                    大序章：美國創新制度的科技大霹靂
-                </p>
-                <p>
-                    這是 2018 年發行的美國（United States）美國創新一美元硬幣專屬解密艙。本枚硬幣作為整個「美國創新1美元紀念幣系列」的開山始祖，其歷史定位非同小可。
-                </p>
-                <p>
-                    硬幣背面精心鑄刻了美國建國總統**喬治·華盛頓（George Washington）**於 1790 年親筆簽署的第一份美國專利證書（First Patent Issued）。背景交織著密密麻麻的工業齒輪，象徵著智慧財產權的保護徹底齒合並推動了人類歷史的科技齒輪。
-                </p>
-                <p>
-                    目前主控台已完成本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯。這不僅是一枚錢幣，更是北美大陸點燃現代科技文明、保障個人發明特權的法律母體。
-                </p>
-            </div>
+        <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg">
+            </article>
 
-            <div id="content-fallback" class="hidden space-y-4">
-                <p>
-                    這是 <span class="fallback-year font-mono font-bold text-white"></span> 年發行的 <span class="fallback-state font-bold text-white"></span> 「<span class="fallback-nickname text-white"></span>」專屬解密艙。
-                </p>
-                <p>
-                    目前主控台正在對本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯，詳細解密將在隨後解鎖部署。
-                </p>
-            </div>
-        </article>
-        </main>
+    </main>
 
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono mt-auto">
         <div class="max-w-4xl mx-auto space-y-2">
@@ -79,40 +57,49 @@
     </footer>
 
     <script>
-        function parseUrlSignals() {
+        async function parseUrlSignals() {
             const urlParams = new URLSearchParams(window.location.search);
-            const year = urlParams.get('year') || '2018';
-            const state = urlParams.get('state') || '美國';
-            const imgFileName = urlParams.get('img') || 'coin-2018-Introductory.png';
+            const targetYear = urlParams.get('year') || '2018';
+            const targetState = urlParams.get('state') || '美國';
+            const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
 
-            // 1. 物理重構頂部麵包屑與動態圖片路徑
-            document.getElementById('mission-crumbs').innerText = `MISSION // ${year} // ${state}`;
-            document.getElementById('coin-target-img').src = `/coins/${imgFileName}`;
+            // 1. 基礎物理外觀渲染
+            document.getElementById('mission-crumbs').innerText = `MISSION // ${targetYear} // ${targetState}`;
+            document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
+            document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 智慧路由文章展示艙口
-            const articleBox = document.getElementById('article-payload');
+            // 2. 智慧對對碰的核心魔術：
+            // 拔除圖片副檔名 (.png)，自動去抓 /txts/ 路徑下，帶有 txt- 前綴的專屬文字檔！
+            // 範例：coin-2018-Introductory.png -> 變成抓取 /txts/txt-2018-Introductory.txt
+            const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
+            const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
+
+            const articlePayload = document.getElementById('article-payload');
             const statusBox = document.getElementById('mission-status-box');
-            
-            articleBox.classList.remove('hidden');
-            
-            if (year === "2018") {
-                // 解鎖 2018 專利幣核心硬核文章
-                document.getElementById('content-2018').classList.remove('hidden');
-                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務整備完畢 / DATA DECRYPTED 】</span>`;
-                document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
-            } else {
-                // 其他常規年份自動生成後備文章，並抓取主頁傳遞過來的綽號（若主頁未傳則留白）
-                document.getElementById('content-fallback').classList.remove('hidden');
-                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 任務整備中 / DATA LOADING 】</span>`;
+
+            try {
+                // 發射訊號抓取獨立文章
+                const response = await fetch(articleTextUrl);
                 
-                // 動態塞入變數
-                document.querySelector('.fallback-year').innerText = year;
-                document.querySelector('.fallback-state').innerText = state;
-                document.getElementById('mission-title').innerText = `${state} 1 美元紀念任務`;
-                
-                // 試圖從首頁 URL 參數或狀態中撈取綽號資訊
-                const nickname = urlParams.get('nickname') || '創新硬幣';
-                document.querySelector('.fallback-nickname').innerText = nickname;
+                if (response.ok) {
+                    const articleText = await response.text();
+                    articlePayload.innerHTML = articleText;
+                    
+                    if (targetYear === "2018") {
+                        document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
+                    }
+                    statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
+                } else {
+                    throw new Error("Dossier txt file not found");
+                }
+            } catch (err) {
+                // 後備防跑位機制：如果該硬幣還沒有寫專屬的 txt 檔，自動切換為冷冽的加載中狀態
+                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
+                articlePayload.innerHTML = `
+                    <div class="space-y-4">
+                        <p>這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
+                        <p>目前主控台尚未偵測到配套的本地獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                    </div>`;
             }
         }
         document.addEventListener('DOMContentLoaded', parseUrlSignals);
