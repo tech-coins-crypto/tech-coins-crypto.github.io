@@ -3,97 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="dynamic-title">{{ .Title }} | Tech Coins Crypto</title>
+    <title>Mission Control | Tech Coins Crypto</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* 🛠️ 強制全站中英文字體、連結、標籤一律變成絕對純白 */
-        body, h1, h2, h3, h4, h5, p, a, span, div, li {
-            color: #ffffff !important;
-        }
+        body, h1, h2, h3, h4, p, span, a, div { color: #ffffff !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-black text-white antialiased font-sans min-h-screen flex flex-col justify-between">
-
+<body class="bg-black text-white antialiased font-sans min-h-screen flex flex-col">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="font-black text-lg tracking-[0.25em] text-white hover:text-zinc-300 transition">
-                TECH COINS CRYPTO
-            </a>
-            <a href="/" class="text-xs font-bold tracking-widest text-white hover:underline transition">
-                ← BACK TO HOME
-            </a>
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="font-black text-lg tracking-[0.25em] text-white hover:opacity-80 transition">TECH COINS CRYPTO</a>
+            <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest text-white">
+                <a href="/" class="hover:underline transition py-1">美國創新</a>
+                <a href="#" class="hover:underline transition py-1">美國鷹揚(建置中)</a>
+                <a href="#" class="hover:underline transition py-1">買</a>
+            </div>
         </div>
     </nav>
 
-    <main class="max-w-4xl mx-auto px-6 py-16 flex-grow w-full">
-        <article class="border border-zinc-900 bg-zinc-950 p-8 md:p-12 shadow-[0_0_30px_rgba(255,255,255,0.01)]">
-            
-            <div class="flex justify-between items-center border-b border-zinc-900 pb-4 mb-6">
-                <span id="meta-info" class="text-xs font-mono tracking-widest uppercase text-zinc-400">
-                    MISSION // {{ if .Params.year }}{{ .Params.year }}{{ else }}SYSTEM{{ end }} // {{ if .Params.state }}{{ .Params.state }}{{ else }}MANIFEST{{ end }}
-                </span>
-                <span class="text-xs font-mono tracking-widest text-zinc-400 border border-zinc-800 bg-zinc-900/50 px-3 py-1">
-                    NGC SPECIMEN
-                </span>
+    <main class="flex-grow max-w-4xl mx-auto px-6 py-12 w-full space-y-12">
+        
+        <div class="flex justify-between items-center border-b border-zinc-900 pb-4 font-mono text-xs tracking-widest uppercase">
+            <div id="mission-crumbs" class="text-zinc-400">MISSION // 2018 // 美國</div>
+            <div class="text-zinc-400 bg-zinc-900/60 border border-zinc-800 px-3 py-1 rounded">NGC SPECIMEN</div>
+        </div>
+
+        <div class="space-y-2">
+            <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">美國 1 美元紀念任務</h1>
+        </div>
+
+        <div class="flex justify-center py-6 select-none">
+            <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[0_0_50px_rgba(255,255,255,0.02)]">
+                <img id="coin-target-img" src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.9] contrast-[1.05]" alt="Coin Preview">
+            </div>
+        </div>
+
+        <div id="mission-status-box" class="text-center font-mono py-4 border-y border-zinc-900/60 select-none">
+            <span class="text-sm md:text-base font-bold tracking-[0.2em] text-white">【 任務解密中 / DECRYPTING DATA 】</span>
+        </div>
+
+        <article id="article-payload" class="hidden space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg">
+            <div id="content-2018" class="hidden space-y-6">
+                <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans">
+                    大序章：美國創新制度的科技大霹靂
+                </p>
+                <p>
+                    這是 2018 年發行的美國（United States）美國創新一美元硬幣專屬解密艙。本枚硬幣作為整個「美國創新1美元紀念幣系列」的開山始祖，其歷史定位非同小可。
+                </p>
+                <p>
+                    硬幣背面精心鑄刻了美國建國總統**喬治·華盛頓（George Washington）**於 1790 年親筆簽署的第一份美國專利證書（First Patent Issued）。背景交織著密密麻麻的工業齒輪，象徵著智慧財產權的保護徹底齒合並推動了人類歷史的科技齒輪。
+                </p>
+                <p>
+                    目前主控台已完成本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯。這不僅是一枚錢幣，更是北美大陸點燃現代科技文明、保障個人發明特權的法律母體。
+                </p>
             </div>
 
-            <h1 id="page-title" class="text-2xl sm:text-4xl font-black tracking-tight leading-tight text-white uppercase mb-8">
-                {{ .Title }}
-            </h1>
-            
-            <div id="content-area" class="text-zinc-300 leading-relaxed space-y-6 text-sm md:text-base font-light tracking-wide prose prose-invert max-w-none">
-                {{ .Content }}
+            <div id="content-fallback" class="hidden space-y-4">
+                <p>
+                    這是 <span class="fallback-year font-mono font-bold text-white"></span> 年發行的 <span class="fallback-state font-bold text-white"></span> 「<span class="fallback-nickname text-white"></span>」專屬解密艙。
+                </p>
+                <p>
+                    目前主控台正在對本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯，詳細解密將在隨後解鎖部署。
+                </p>
             </div>
-            
         </article>
-    </main>
+        </main>
 
-    <footer class="border-t border-zinc-900 bg-black py-12 px-6">
-        <div class="max-w-4xl mx-auto text-center space-y-4">
-            <p class="text-[10px] tracking-widest uppercase text-zinc-500">
-                © 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.
-            </p>
-            <p class="text-[9px] font-mono leading-relaxed text-zinc-600 max-w-2xl mx-auto uppercase">
-                Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br>
-                <span class="block mt-1 text-zinc-600">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span>
-            </p>
+    <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono mt-auto">
+        <div class="max-w-4xl mx-auto space-y-2">
+            <p class="text-[10px] tracking-widest uppercase text-zinc-500">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
         </div>
     </footer>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const params = new URLSearchParams(window.location.search);
-            const year = params.get('year');
-            const state = params.get('state');
-            const img = params.get('img');
-            
-            if (year && state) {
-                // 1. 自動修正瀏覽器標題、麵包屑與動態任務名稱
-                document.title = `${state} (${year}) | Tech Coins Crypto`;
-                document.getElementById('meta-info').innerText = `MISSION // ${year} // ${state}`;
-                document.getElementById('page-title').innerText = `${state} 1美元紀念任務`;
-                
-                // 2. 在太空艙中央優雅懸浮展示去背硬幣與動態狀態
-                document.getElementById('content-area').innerHTML = `
-                    <div class="flex flex-col items-center space-y-8 py-6">
-                        <div class="w-56 h-56 sm:w-64 sm:h-64 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden shadow-[inset_0_0_40px_rgba(0,0,0,0.8),0_0_40px_rgba(255,255,255,0.03)]">
-                            <img src="/coins/${img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.9] contrast-[1.05]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                        </div>
-                        <div class="text-center space-y-4 max-w-lg pt-4">
-                            <p class="text-white font-bold tracking-widest text-lg">【 任務整備中 / DATA LOADING 】</p>
-                            <p class="text-zinc-500 text-xs leading-relaxed uppercase tracking-wider">
-                                這是 ${year} 年發行的 ${state} 美國創新一美元硬幣專屬解密艙。<br>
-                                目前主控台正在對本枚硬幣的歷史文獻、精密微處理器鋼印或核心勸敗故事進行整備編譯，詳細報告將在隨後解密部署。
-                            </p>
-                        </div>
-                    </div>
-                `;
-            }
-        });
-    </script>
+        function parseUrlSignals() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const year = urlParams.get('year') || '2018';
+            const state = urlParams.get('state') || '美國';
+            const imgFileName = urlParams.get('img') || 'coin-2018-Introductory.png';
 
+            // 1. 物理重構頂部麵包屑與動態圖片路徑
+            document.getElementById('mission-crumbs').innerText = `MISSION // ${year} // ${state}`;
+            document.getElementById('coin-target-img').src = `/coins/${imgFileName}`;
+
+            // 2. 智慧路由文章展示艙口
+            const articleBox = document.getElementById('article-payload');
+            const statusBox = document.getElementById('mission-status-box');
+            
+            articleBox.classList.remove('hidden');
+            
+            if (year === "2018") {
+                // 解鎖 2018 專利幣核心硬核文章
+                document.getElementById('content-2018').classList.remove('hidden');
+                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務整備完畢 / DATA DECRYPTED 】</span>`;
+                document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
+            } else {
+                // 其他常規年份自動生成後備文章，並抓取主頁傳遞過來的綽號（若主頁未傳則留白）
+                document.getElementById('content-fallback').classList.remove('hidden');
+                statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 任務整備中 / DATA LOADING 】</span>`;
+                
+                // 動態塞入變數
+                document.querySelector('.fallback-year').innerText = year;
+                document.querySelector('.fallback-state').innerText = state;
+                document.getElementById('mission-title').innerText = `${state} 1 美元紀念任務`;
+                
+                // 試圖從首頁 URL 參數或狀態中撈取綽號資訊
+                const nickname = urlParams.get('nickname') || '創新硬幣';
+                document.querySelector('.fallback-nickname').innerText = nickname;
+            }
+        }
+        document.addEventListener('DOMContentLoaded', parseUrlSignals);
+    </script>
 </body>
 </html>
