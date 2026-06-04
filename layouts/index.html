@@ -52,7 +52,7 @@
     <footer class="border-t border-zinc-900 bg-black py-12 px-6 text-center font-mono">
         <div class="max-w-4xl mx-auto space-y-4">
             <p class="text-[10px] tracking-widest uppercase">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
-            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書 or 授權。）</span></p>
+            <p class="text-[9px] leading-relaxed tracking-normal normal-case opacity-60">Coin designs and coin images: United States Mint. This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.<br><span class="block mt-1">（硬幣設計與圖片來源：美國鑄幣局。本網站為錢幣愛好者策展項目，與美國鑄幣局或美國政府無官方關聯、背書或授權。）</span></p>
         </div>
     </footer>
     <script>
@@ -67,7 +67,14 @@
                 lines.shift(); 
                 csvCoinsData = lines.map(line => {
                     const parts = line.split(',');
-                    return { nickname: parts[0]?.trim(), subject: parts[1]?.trim(), manifesto: parts[2]?.trim(), year: parts[3]?.trim(), state: parts[4]?.trim(), img: parts[5]?.trim() };
+                    // 核心修正：移除 manifesto，重新對應 5 欄位索引 (0:綽號, 1:主題, 2:年份, 3:州名, 4:圖片檔名)
+                    return { 
+                        nickname: parts[0]?.trim(), 
+                        subject: parts[1]?.trim(), 
+                        year: parts[2]?.trim(), 
+                        state: parts[3]?.trim(), 
+                        img: parts[4]?.trim() 
+                    };
                 }).filter(coin => coin.state && coin.year && coin.img);
                 renderYearView();
                 renderSubjectView();
@@ -154,7 +161,6 @@
             const viewSubject = document.getElementById('view-subject');
             const btnYear = document.getElementById('btn-year');
             const btnSubject = document.getElementById('btn-subject');
-            // 核心修改：同步 switchView 內的樣式字串為 py-1
             const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300";
             const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300";
             if (viewType === 'year') {
