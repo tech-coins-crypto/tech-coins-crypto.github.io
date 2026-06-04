@@ -122,14 +122,14 @@
                     `;
                 });
 
-                // 核心修改：動態判斷是否為 2026 年。若是，則在標題右側注入精確縮放、去外圈的 250 週年建國特製紀念標誌
+                // 方案一完美整合：優雅的數位解鎖徽章外觀，避開鋸齒粗糙感
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
                 if (year === "2026") {
                     titleContent = `
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono flex items-center gap-3">
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono flex items-center gap-4">
                             <span>${year}</span>
-                            <div class="w-7 h-7 md:w-8 md:h-8 inline-block overflow-hidden rounded bg-transparent select-none pointer-events-none">
-                                <img src="/coins/coin-250y-d.png" class="w-full h-full object-cover scale-[1.7] brightness-[1.1] contrast-[1.05]" alt="US 250th Mint Mark">
+                            <div class="h-8 w-8 flex items-center justify-center rounded-md bg-zinc-900/60 border border-zinc-800/80 p-1 shadow-inner shadow-black select-none pointer-events-none">
+                                <img src="/coins/coin-250y-d.png" class="h-full w-full object-contain brightness-110 contrast-105" alt="US 250th">
                             </div>
                         </h3>
                     `;
