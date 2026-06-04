@@ -13,10 +13,8 @@
     </style>
 </head>
 <body class="bg-black text-white antialiased font-sans flex flex-col min-h-screen">
-    <!-- 頂部導航欄 -->
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- 左上角 Logo -->
             <a href="/" class="font-black text-xl tracking-wide text-white hover:opacity-80 transition flex items-center space-x-2">
                 <span class="text-white">幣圈宅</span>
                 <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2">錢幣勸敗網</span>
@@ -29,26 +27,20 @@
         </div>
     </nav>
 
-    <!-- 巨幕視覺展演區 -->
     <header class="relative min-h-[85vh] md:min-h-[90vh] flex items-end md:items-center overflow-hidden border-b border-zinc-900 bg-black px-6 md:px-12 py-12 md:py-16">
         <div class="relative z-10 w-full max-w-4xl space-y-4 md:space-y-6 pb-6 md:pb-0">
-            <!-- 英文主標 -->
             <h1 class="text-2xl sm:text-4xl md:text-3xl lg:text-4xl font-black tracking-tight leading-none text-white uppercase whitespace-nowrap">American Innovation Coins</h1>
             
-            <!-- 中文核心標題 -->
             <p class="text-white text-base sm:text-xl md:text-3xl font-black tracking-tight leading-relaxed md:leading-snug">
                 美國創新精緻幣系列<br>致敬所有創新者
             </p>
 
-            <!-- 精準控制空一行的安全艙口 -->
             <div class="h-2 md:h-4"></div>
 
-            <!-- 空一行底下的歷史文獻標題 -->
             <p class="text-white text-base sm:text-xl md:text-3xl font-black tracking-tight leading-relaxed md:leading-snug">
                 喬治·華盛頓簽署第一份專利證書
             </p>
             
-            <!-- 按鈕控制艙 -->
             <div class="pt-4">
                 <a href="#matrix-control" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">來去瞧瞧 →</a>
             </div>
@@ -59,32 +51,28 @@
         </div>
     </header>
 
-    <!-- 主儀表板控制核心區 -->
-    <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-16 w-full flex-grow">
-        <div class="flex items-center gap-6 border-b border-zinc-900 pb-8 mb-12">
+    <main id="matrix-control" class="max-w-7xl mx-auto px-6 py-8 w-full flex-grow">
+        <div class="flex items-center gap-6 border-b border-zinc-900 pb-4 mb-6">
             <button id="btn-year" onclick="switchView('year')" class="border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300">年份</button>
             <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300">技術</button>
         </div>
 
-        <div id="view-year" class="space-y-16">
+        <div id="view-year" class="space-y-6">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">[LOADING LOGISTICS] // Year Timeline Matrix...</div>
         </div>
 
-        <div id="view-subject" class="hidden space-y-16">
+        <div id="view-subject" class="hidden space-y-6">
             <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">[LOADING LOGISTICS] // Subject Categories Matrix...</div>
         </div>
     </main>
 
-    <!-- 底部資訊欄 -->
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 font-mono mt-auto w-full">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
-            <!-- 底部左側：品牌標誌 -->
             <div class="space-y-0.5">
                 <p class="font-black text-lg text-white tracking-wider">幣圈宅</p>
                 <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
             </div>
 
-            <!-- 底部右側：緊湊版免責與版權聲明 -->
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
                 <div>
                     <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
@@ -101,7 +89,6 @@
         </div>
     </footer>
 
-    <!-- CSV 智慧分流與雙視角高效率核心腳本 -->
     <script>
         let csvCoinsData = []; 
         let isDataLoaded = false;
@@ -139,56 +126,54 @@
             const container = document.getElementById('view-year');
             container.innerHTML = '';
             
-            // 建立年份分組群
             const yearGroups = {};
             csvCoinsData.forEach(coin => {
                 if (!yearGroups[coin.year]) yearGroups[coin.year] = [];
                 yearGroups[coin.year].push(coin);
             });
 
-            // 🚀 【核心修改：強制把 2018 年首發幣置頂投放】
+            // 強制把 2018 年首發幣置頂投放 (🔧 將間距 pb-12 壓縮為 pb-6，並移除不必要的頂部 padding)
             if (yearGroups["2018"]) {
                 const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國" };
-                const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8">2018 美國創新系列首發幣</h3>`;
+                const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4">2018 美國創新系列首發幣</h3>`;
                 const layoutHTML2018 = `
-                    <div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-12">
+                    <div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">
                         <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣背面</h4>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">華盛頓簽署</p>
+                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">華盛頓簽署</p>
                             </div>
                         </a>
                         <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣正面</h4>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">自由女神</p>
+                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">自由女神</p>
                             </div>
                         </a>
                     </div>
                 `;
                 container.innerHTML += `
-                    <div class="pt-4 border-b border-zinc-900 pb-12">
+                    <div class="border-b border-zinc-900 pb-6">
                         ${titleContent2018}
                         ${layoutHTML2018}
                     </div>
                 `;
             }
 
-            // 依年份由大到小排序（2026, 2025...）
             const sortedYears = Object.keys(yearGroups).sort((a, b) => b - a);
             
             sortedYears.forEach(year => {
-                // 🛡️ 鋼鐵防線：因為 2018 已經在最頂端渲染過，此處跑迴圈時直接跳過，防止重複出現
                 if (year === "2018") return;
 
                 let layoutHTML = '';
-                let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
+                // 🔧 縮短年度標題下方的間距 mb-8 -> mb-4
+                let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 font-mono">${year}</h3>`;
 
                 if (year === "2026") {
                     yearGroups[year].sort((a, b) => {
@@ -209,17 +194,19 @@
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
+                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${coin.state}</p>
                             </div>
                         </a>
                     `;
                 });
-                layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>`;
+                // 🔧 縮短網格卡片的垂直間距 gap-y-12 -> gap-y-6
+                layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div>`;
 
+                // 🔧 將每個年份區塊的分隔留白 pb-12 -> pb-6，並移除 pt-4
                 container.innerHTML += `
-                    <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
+                    <div class="border-b border-zinc-900 pb-6 last:border-0">
                         ${titleContent}
                         ${layoutHTML}
                     </div>
@@ -272,41 +259,28 @@
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
-                            <div class="mt-4 space-y-1 flex flex-col items-center">
+                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
                                 <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.state}</p>
-                                <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition font-mono">${coin.year}</p>
+                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${coin.state}</p>
+                                <p class="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-400 transition">${coin.year}</p>
                             </div>
                         </a>
                     `;
                 });
+                
+                // 🔧 縮短網格與主題標題下的間距 mb-8 -> mb-4，gap-y-12 -> gap-y-6，pb-12 -> pb-6
                 container.innerHTML += `
-                    <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 flex items-center space-x-4 select-none uppercase">
+                    <div class="border-b border-zinc-900 pb-6 last:border-0">
+                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 flex items-center space-x-4 select-none uppercase">
                             <span>${group.category}</span>
                             <span class="text-xl md:text-2xl font-mono font-black text-white bg-zinc-900/40 border border-zinc-800/60 px-3 py-0.5 rounded flex items-center justify-center min-w-[2.5rem] text-center">${totalCoinsCount}</span>
                         </h3>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">${coinsHTML}</div>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div>
                     </div>
                 `;
             });
         }
 
-        function switchView(viewType) {
-            const viewYear = document.getElementById('view-year');
-            const viewSubject = document.getElementById('view-subject');
-            const btnYear = document.getElementById('btn-year');
-            const btnSubject = document.getElementById('btn-subject');
-            const activeClass = "border border-white bg-white !text-black text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded transition-all duration-300";
-            const inactiveClass = "border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300";
-            if (viewType === 'year') {
-                viewYear.classList.remove('hidden'); viewSubject.classList.add('hidden');
-                btnYear.className = activeClass; btnSubject.className = inactiveClass;
-            } else if (viewType === 'subject') {
-                viewYear.classList.add('hidden'); viewSubject.classList.remove('hidden');
-                btnSubject.className = activeClass; btnYear.className = inactiveClass;
-            }
-        }
         document.addEventListener('DOMContentLoaded', loadAndRenderMatrix);
     </script>
 </body>
