@@ -74,7 +74,7 @@
                         state: parts[3]?.trim(), 
                         img: parts[4]?.trim() 
                     };
-                }).filter(coin => coin.state && coin.year && coin.img); // 核心修改 1：允許 2018 年份資料通過引擎解析
+                }).filter(coin => coin.state && coin.year && coin.img);
                 renderYearView();
                 renderSubjectView();
                 isDataLoaded = true;
@@ -96,10 +96,14 @@
             const sortedYears = Object.keys(yearGroups).sort((a, b) => b - a);
             sortedYears.forEach(year => {
                 let layoutHTML = '';
+                let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>`;
 
-                // 核心修改 2：2018年徹底獨立一個全新的專屬網格排版，完全不跟 2019 年前的四欄網格共用機制
+                // 核心修改 1：針對 2018 進行獨立網格排版，微調間隔，並將正反兩面連結通通指向左幣頁面
                 if (year === "2018") {
                     const coinRef = yearGroups[year][0] || { year: "2018", state: "美國" };
+                    // 更新標題為：2018 美國創新系列首發幣
+                    titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8">${year} 美國創新系列首發幣</h3>`;
+                    
                     layoutHTML = `
                         <div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-12">
                             <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
@@ -111,7 +115,7 @@
                                     <p class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">華盛頓簽署</p>
                                 </div>
                             </a>
-                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-l.png" class="group flex flex-col items-center text-center">
+                            <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                     <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                                 </div>
@@ -154,7 +158,7 @@
 
                 container.innerHTML += `
                     <div class="pt-4 border-b border-zinc-900 pb-12 last:border-0">
-                        <h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-8 font-mono">${year}</h3>
+                        ${titleContent}
                         ${layoutHTML}
                     </div>
                 `;
@@ -171,7 +175,6 @@
                 subjectGroups[coin.subject].coins.push(coin);
             });
 
-            // 核心修改 3：在主題視角也加入「創新起源」分類，讓 2018 專利幣有靈魂歸宿並優雅墊底
             const subjectOrderWeight = {
                 "數位資訊": 100, "重工製造": 90, "農業生態": 80, "航太天文": 70, "生醫健康": 60, "人文社會": 50, "生活風格": 40, "創新起源": 30
             };
@@ -196,8 +199,14 @@
                 let coinsHTML = '';
                 const totalCoinsCount = group.coins.length;
                 group.coins.forEach(coin => {
+                    // 核心修改 3：在技術主題視角中，如果遇到 2018 年的任何正反衍生資料，網址參數也同步統一歸一導向左幣頁面
+                    let currentImg = coin.img;
+                    if (coin.year === "2018") {
+                        currentImg = "coin-2018-Introductory.png";
+                    }
+
                     coinsHTML += `
-                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
+                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}" class="group flex flex-col items-center text-center">
                             <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
                                 <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
                             </div>
