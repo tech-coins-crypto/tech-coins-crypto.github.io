@@ -63,58 +63,64 @@
             const targetState = urlParams.get('state') || '美國';
             const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
 
-            // 1. 直覺渲染外觀與麵包屑
+            // 1. 直覺外觀與標題渲染
             document.getElementById('mission-crumbs').innerText = `MISSION // ${targetYear} // ${targetState}`;
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 鋼鐵定律：直接把主頁傳過來的圖片檔名拔除 .png，改接 .json，完全不寫多餘判斷
+            // 2. 完美的圖片與純文字一對一對接定理 (完美對齊圖片檔名)
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleDataUrl = `/txts/txt-${baseFileName}.json`;
+            const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
 
             const articlePayload = document.getElementById('article-payload');
             const statusBox = document.getElementById('mission-status-box');
 
             try {
-                const response = await fetch(articleDataUrl);
+                const response = await fetch(articleTextUrl);
                 
-                // 防線：確保拿到的是合法資料，否則直接跳到錯誤加載頁面
+                // 🛡️ 鋼鐵防線：只要不是正常的 200 OK，或者不小心抓到 HTML 錯誤頁面，一律切到防跑位加載畫面
                 const contentType = response.headers.get("content-type") || "";
-                if (!response.ok || !contentType.includes("application/json")) {
-                    throw new Error("Dossier missing");
+                if (!response.ok || contentType.includes("text/html")) {
+                    throw new Error("Text dossier offline");
                 }
 
-                const data = await response.json();
+                const rawText = await response.text();
                 
-                // 🚀 完全由 JSON 掌控一切：如果 JSON 檔內有設定專屬任務標題，就直接覆蓋！
-                if (data.mission_title_override) {
-                    document.getElementById('mission-title').innerText = data.mission_title_override;
-                }
+                // 🚀 光速智慧斷行處理：將純文字依照換行符號切開，並去除乾淨空白行
+                const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
+                
+                if (lines.length === 0) throw new Error("No content");
 
-                // 智慧包裝繁體中文字
-                const lines = data.paragraphs || [];
                 articlePayload.innerHTML = "";
                 
+                // 機器人默默在後台幫人類的純文字穿上科技外衣
                 lines.forEach((lineText, index) => {
                     const pTag = document.createElement('p');
                     if (index === 0) {
+                        // 第一行自動升格為重磅大標題！
                         pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6";
                     } else {
+                        // 其餘行數自動歸類為優雅內文
                         pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
                     }
                     pTag.innerText = lineText; 
                     articlePayload.appendChild(pTag);
                 });
                 
+                // 特殊特權：如果是 2018 首發幣，覆蓋一個史詩任務標題
+                if (targetYear === "2018") {
+                    document.getElementById('mission-title').innerText = "美國 1 美元紀念任務：第一號專利大序章";
+                }
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
                 
             } catch (err) {
-                // 自動後備防崩塌
+                // 自動防崩塌後備狀態
+                document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
                         <p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
-                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.json）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立純文字文獻（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
                     </div>`;
             }
         }
