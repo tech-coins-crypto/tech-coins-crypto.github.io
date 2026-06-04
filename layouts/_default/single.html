@@ -68,9 +68,9 @@
             document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
 
-            // 2. 智慧對對碰路徑
+            // 2. 智慧對對碰路徑：這次精準鎖定經過 Hugo 認證必能安全發布的 .html 結尾文字檔
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
+            const articleTextUrl = `/txts/txt-${baseFileName}.html`;
 
             const articlePayload = document.getElementById('article-payload');
             const statusBox = document.getElementById('mission-status-box');
@@ -78,10 +78,8 @@
             try {
                 const response = await fetch(articleTextUrl);
                 
-                // 🛡️ 鋼鐵防線：檢查伺服器回傳狀態，並且防範伺服器扔給我們 HTML 網頁代碼（抓到404網頁）
-                const contentType = response.headers.get("content-type") || "";
-                if (!response.ok || contentType.includes("text/html")) {
-                    throw new Error("Dossier text asset missing or returned 404 page");
+                if (!response.ok) {
+                    throw new Error("HTML article asset missing or returned 404");
                 }
 
                 const rawPlainText = await response.text();
@@ -110,13 +108,13 @@
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-emerald-400">【 任務解密完畢 / DOSSIER DECRYPTED 】</span>`;
                 
             } catch (err) {
-                // 完美後備防崩塌機制：只要沒抓到正確的純文字檔，一律顯示這個帥氣的加載畫面，絕不穿幫
+                // 後備防崩塌機制
                 document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
                 statusBox.innerHTML = `<span class="text-sm md:text-base font-bold tracking-[0.2em] text-zinc-500">【 文獻整備中 / DATA SUPPLY LOADING 】</span>`;
                 articlePayload.innerHTML = `
                     <div class="space-y-4">
                         <p class="text-zinc-300">這是 ${targetYear} 年發行的 ${targetState} 紀念任務專屬解密艙。</p>
-                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.txt）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
+                        <p class="text-zinc-400 text-sm">目前主控台尚未在雲端成功同步配套的獨立文獻存檔（/txts/txt-${baseFileName}.html）。核心故事與勸敗密鑰正在整備編譯中，詳細數據將在檔案同步後自動解鎖部署。</p>
                     </div>`;
             }
         }
