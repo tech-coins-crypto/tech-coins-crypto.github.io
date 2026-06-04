@@ -113,9 +113,8 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 核心視覺決策引擎：雙王牌頁面點火 md:w-60 黃金中庸視覺
+            // 核心視覺決策引擎
             if (targetYear === '2018') {
-                // 2018 首發專利幣：設定為 md:w-60 md:h-60，交疊間距精確調整為 md:-space-x-14
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
@@ -134,7 +133,6 @@
                     </div>
                 `;
             } else if (currentCoinNickname === "賈伯斯幣" || targetImg.includes("Jobs")) {
-                // 賈伯斯幣：尺寸與間距完美同步改寫
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
@@ -144,7 +142,12 @@
                         <img src="/coins/coin-250y.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="250周年正面自由鐘">
                     </div>
                 `;
-                galleryAppendDeck.innerHTML = '';
+                // 核心優化：為賈伯斯頁面的 galleryAppendDeck 動態注入指定的新圖 coin-250y-d.png
+                galleryAppendDeck.innerHTML = `
+                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
+                        <img src="/coins/coin-250y-d.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="250周年細節插圖">
+                    </div>
+                `;
             } else {
                 mainCoinFrame.className = "relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]";
                 mainCoinFrame.innerHTML = `<img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">`;
@@ -165,27 +168,4 @@
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 if (lines.length === 0) throw new Error("No content");
                 articlePayload.innerHTML = "";
-                lines.forEach((lineText, index) => {
-                    if (index === 0) { document.getElementById('mission-title').innerText = lineText; }
-                    else {
-                        const pTag = document.createElement('p');
-                        if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
-                        else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
-                        pTag.innerText = lineText; articlePayload.appendChild(pTag);
-                    }
-                });
-            } catch (err) {
-                const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
-                document.getElementById('mission-title').innerText = finalFallbackTitle;
-                
-                articlePayload.innerHTML = `
-                    <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
-                        目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
-                    </p>
-                `;
-            }
-        }
-        document.addEventListener('DOMContentLoaded', parseUrlSignals);
-    </script>
-</body>
-</html>
+                lines.forEach((
