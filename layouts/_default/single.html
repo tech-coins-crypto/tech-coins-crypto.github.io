@@ -56,7 +56,7 @@
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
                 <div>
                     <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
-                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授权。</p>
+                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
                 </div>
                 <div>
                     <p class="text-zinc-400 font-medium">Coin designs and images: United States Mint.</p>
@@ -81,7 +81,7 @@
             let currentCoinNickname = "";
             let matchedKeywords = "";
 
-            // 1. 異步讀取 CSV 基礎資產
+            // 1. 異步解析 CSV 基本數據
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
@@ -114,7 +114,7 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 2. 核心視覺決策引擎 (處理主硬幣區)
+            // 2. 雙王牌特權主圖交疊模組 (2018專利幣 與 2026賈伯斯幣 保留)
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -141,42 +141,26 @@
                 document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             }
 
-            // 3. 【全新開發】智慧插圖探針模組 (圖片自動偵測與加載)
-            galleryAppendDeck.innerHTML = ''; 
+            // 3. 【全新對稱協議探針】完全對齊：image[序號]-[年分]-[州名].png (不用轉小寫州名)
+            galleryAppendDeck.innerHTML = '';
             
-            // 定義要檢查的圖片來源地與命名規則 (相容原本手動指定的、或是上傳到 images 的新圖)
-            let potentialImages = [];
-            
-            // 解析當前硬幣的州名拼音 (如將英文字元轉為小寫做安全比對)
-            const cleanStateStr = targetState.toLowerCase().replace(/\s+/g, '');
-            
-            if (targetYear === '2018') {
-                potentialImages = ['/images/2018Comparison1790.png', '/images/1790patent.png'];
-            } else if (currentCoinNickname === "賈伯斯幣") {
-                potentialImages = ['/coins/coin-250y-d.png'];
-            } else {
-                // 自動生成未來的標準探針路徑 (自動探測最多3張，依序為 image1, image2, image3)
-                potentialImages = [
-                    `/images/image1-${targetYear}-${cleanStateStr}.png`,
-                    `/images/image2-${targetYear}-${cleanStateStr}.png`,
-                    `/images/image3-${targetYear}-${cleanStateStr}.png`
-                ];
+            // 智慧輪詢：自動探測序列
+            for (let i = 1; i <= 4; i++) {
+                // 不進行 toLowerCase() 轉換，百分之百直接拼接 URL 中的原生 targetState 識別碼
+                const standardImgUrl = `/images/image${i}-${targetYear}-${targetState}.png`;
+                
+                try {
+                    const probeResponse = await fetch(standardImgUrl, { method: 'HEAD' });
+                    if (probeResponse.ok) {
+                        const imgDiv = document.createElement('div');
+                        imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
+                        imgDiv.innerHTML = `<img src="${standardImgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="插圖">`;
+                        galleryAppendDeck.appendChild(imgDiv);
+                    }
+                } catch (probeErr) {
+                    // 靜默跳過
+                }
             }
-
-            // 非同步探針嗅探器：只有當圖片在伺服器上真實存在（ok）時，才渲染 DOM
-            potentialImages.forEach(imgUrl => {
-                const imgTester = new Image();
-                imgTester.src = imgUrl;
-                imgTester.onload = function() {
-                    const imgDiv = document.createElement('div');
-                    imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
-                    imgDiv.innerHTML = `<img src="${imgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="插圖">`;
-                    galleryAppendDeck.appendChild(imgDiv);
-                };
-                imgTester.onerror = function() {
-                    // 圖片不存在則靜默跳過，絕不產生破圖破壞版面
-                };
-            });
 
             // 4. 文字與自定義文本處理
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
