@@ -141,24 +141,56 @@
                 document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
             }
 
-            // 3. 【全新對稱協議探針】完全對齊：image[序號]-[年分]-[州名].png (不用轉小寫州名)
+            // 3. 【全新核心智能切字探針】徹底免除中英文、大小寫衝突！
             galleryAppendDeck.innerHTML = '';
             
-            // 智慧輪詢：自動探測序列
-            for (let i = 1; i <= 4; i++) {
-                // 不進行 toLowerCase() 轉換，百分之百直接拼接 URL 中的原生 targetState 識別碼
-                const standardImgUrl = `/images/image${i}-${targetYear}-${targetState}.png`;
-                
-                try {
-                    const probeResponse = await fetch(standardImgUrl, { method: 'HEAD' });
-                    if (probeResponse.ok) {
-                        const imgDiv = document.createElement('div');
-                        imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
-                        imgDiv.innerHTML = `<img src="${standardImgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="插圖">`;
-                        galleryAppendDeck.appendChild(imgDiv);
-                    }
-                } catch (probeErr) {
-                    // 靜默跳過
+            // 抓取主硬幣圖檔名，拔掉前面的 "coin-" 識別碼 (例如: coin-2026-wisconsin.png -> 2026-wisconsin)
+            const cleanSuffix = targetImg.replace(/^coin-/, '').replace(/\.[^/.]+$/, "");
+            
+            if (targetYear === '2018') {
+                // 2018 專屬交疊插圖歷史資產流協議路徑
+                const specialImages = ['/images/image1-2018-美國.png', '/images/image2-2018-美國.png'];
+                for (const imgUrl of specialImages) {
+                    try {
+                        let probe = await fetch(imgUrl, { method: 'HEAD' });
+                        if (probe.ok) {
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
+                            imgDiv.innerHTML = `<img src="${imgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="">`;
+                            galleryAppendDeck.appendChild(imgDiv);
+                        }
+                    } catch (e) {}
+                }
+            } else if (currentCoinNickname === "賈伯斯幣") {
+                // 賈伯斯專屬歷史資產流協議路徑
+                const imgUrl = '/coins/coin-250y-d.png';
+                const imgDiv = document.createElement('div');
+                imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
+                imgDiv.innerHTML = `<img src="${imgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="">`;
+                galleryAppendDeck.appendChild(imgDiv);
+            } else {
+                // 全體常規頁面依循黃金切字協議探測：image[序號]-[年分]-[州名].png 且完美對對稱小寫格式！
+                for (let i = 1; i <= 4; i++) {
+                    const standardImgUrl = `/images/image${i}-${cleanSuffix}.png`;
+                    const upperImgUrl = `/images/image${i}-${cleanSuffix}.PNG`; // 支援大寫副檔名防錯
+                    
+                    let finalValidUrl = null;
+                    try {
+                        let probe = await fetch(standardImgUrl, { method: 'HEAD' });
+                        if (probe.ok) {
+                            finalValidUrl = standardImgUrl;
+                        } else {
+                            probe = await fetch(upperImgUrl, { method: 'HEAD' });
+                            if (probe.ok) finalValidUrl = upperImgUrl;
+                        }
+                        
+                        if (finalValidUrl) {
+                            const imgDiv = document.createElement('div');
+                            imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
+                            imgDiv.innerHTML = `<img src="${finalValidUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="">`;
+                            galleryAppendDeck.appendChild(imgDiv);
+                        }
+                    } catch (probeErr) {}
                 }
             }
 
