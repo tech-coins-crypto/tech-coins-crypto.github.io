@@ -114,22 +114,24 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 2. 雙王牌特權主圖交疊模組
+            // 2. 雙王牌特權主圖交疊模組 (主圖路徑強制轉小寫)
+            const lowerImgName = targetImg.toLowerCase();
+            
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-Introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018背面">
+                        <img src="/coins/coin-2018-introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018背面">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
                         <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018正面">
                     </div>
                 `;
-            } else if (currentCoinNickname === "賈伯斯幣" || targetImg.includes("Jobs")) {
+            } else if (currentCoinNickname === "賈伯斯幣" || lowerImgName.includes("jobs") || lowerImgName.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/${targetImg}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="賈伯斯幣背面">
+                        <img src="/coins/${lowerImgName}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="賈伯斯幣背面">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
                         <img src="/coins/coin-250y.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="250周年正面自由鐘">
@@ -138,37 +140,32 @@
             } else {
                 mainCoinFrame.className = "relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]";
                 mainCoinFrame.innerHTML = `<img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">`;
-                document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
+                document.getElementById('coin-target-img').src = `/coins/${lowerImgName}`;
             }
 
-            // 3. 【一體化標準探針】全站所有介紹頁統一遵循：image[序號]-[年份]-[州名].png
+            // 3. 【強制全小寫協議探針】一律摧毀大寫字母，對齊：image[序號]-[年分]-[州名].png
             galleryAppendDeck.innerHTML = '';
             
+            // 將年份與州名徹底碾壓成小寫，並去除空格
+            const finalLowerYear = targetYear.toLowerCase().trim();
+            const finalLowerState = targetState.toLowerCase().replace(/\s+/g, '').trim();
+            
             for (let i = 1; i <= 4; i++) {
-                // 不論是王牌還是常規，全部統一使用網址列的原生 targetYear 與 targetState 進行大氣的拼接
-                const standardImgUrl = `/images/image${i}-${targetYear}-${targetState}.png`;
-                const upperImgUrl = `/images/image${i}-${targetYear}-${targetState}.PNG`; // 容錯大寫
+                // 拼接出來的路徑永遠只有小寫英文字元，萬無一失
+                const standardImgUrl = `/images/image${i}-${finalLowerYear}-${finalLowerState}.png`;
                 
-                let finalValidUrl = null;
                 try {
-                    let probe = await fetch(standardImgUrl, { method: 'HEAD' });
-                    if (probe.ok) {
-                        finalValidUrl = standardImgUrl;
-                    } else {
-                        probe = await fetch(upperImgUrl, { method: 'HEAD' });
-                        if (probe.ok) finalValidUrl = upperImgUrl;
-                    }
-                    
-                    if (finalValidUrl) {
+                    const probeResponse = await fetch(standardImgUrl, { method: 'HEAD' });
+                    if (probeResponse.ok) {
                         const imgDiv = document.createElement('div');
                         imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
-                        imgDiv.innerHTML = `<img src="${finalValidUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="">`;
+                        imgDiv.innerHTML = `<img src="${standardImgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="">`;
                         galleryAppendDeck.appendChild(imgDiv);
                     }
                 } catch (probeErr) {}
             }
 
-            // 4. 文字與自定義文本處理
+            // 4. 文字與自定義文本處理 (同樣實施全小寫防護)
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
