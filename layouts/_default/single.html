@@ -56,7 +56,7 @@
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
                 <div>
                     <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
-                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
+                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授权。</p>
                 </div>
                 <div>
                     <p class="text-zinc-400 font-medium">Coin designs and images: United States Mint.</p>
@@ -81,6 +81,7 @@
             let currentCoinNickname = "";
             let matchedKeywords = "";
 
+            // 1. 異步讀取 CSV 基礎資產
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
@@ -113,7 +114,7 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 核心視覺決策引擎
+            // 2. 核心視覺決策引擎 (處理主硬幣區)
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -122,14 +123,6 @@
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
                         <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="2018正面">
-                    </div>
-                `;
-                galleryAppendDeck.innerHTML = `
-                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
-                        <img src="/images/2018Comparison1790.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="2018與1790對比圖">
-                    </div>
-                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
-                        <img src="/images/1790patent.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="1790專利原件圖">
                     </div>
                 `;
             } else if (currentCoinNickname === "賈伯斯幣" || targetImg.includes("Jobs")) {
@@ -142,19 +135,50 @@
                         <img src="/coins/coin-250y.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="250周年正面自由鐘">
                     </div>
                 `;
-                // 核心優化：為賈伯斯頁面的 galleryAppendDeck 動態注入指定的新圖 coin-250y-d.png
-                galleryAppendDeck.innerHTML = `
-                    <div class="w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg">
-                        <img src="/coins/coin-250y-d.png" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="250周年細節插圖">
-                    </div>
-                `;
             } else {
                 mainCoinFrame.className = "relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]";
                 mainCoinFrame.innerHTML = `<img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">`;
                 document.getElementById('coin-target-img').src = `/coins/${targetImg}`;
-                galleryAppendDeck.innerHTML = '';
             }
 
+            // 3. 【全新開發】智慧插圖探針模組 (圖片自動偵測與加載)
+            galleryAppendDeck.innerHTML = ''; 
+            
+            // 定義要檢查的圖片來源地與命名規則 (相容原本手動指定的、或是上傳到 images 的新圖)
+            let potentialImages = [];
+            
+            // 解析當前硬幣的州名拼音 (如將英文字元轉為小寫做安全比對)
+            const cleanStateStr = targetState.toLowerCase().replace(/\s+/g, '');
+            
+            if (targetYear === '2018') {
+                potentialImages = ['/images/2018Comparison1790.png', '/images/1790patent.png'];
+            } else if (currentCoinNickname === "賈伯斯幣") {
+                potentialImages = ['/coins/coin-250y-d.png'];
+            } else {
+                // 自動生成未來的標準探針路徑 (自動探測最多3張，依序為 image1, image2, image3)
+                potentialImages = [
+                    `/images/image1-${targetYear}-${cleanStateStr}.png`,
+                    `/images/image2-${targetYear}-${cleanStateStr}.png`,
+                    `/images/image3-${targetYear}-${cleanStateStr}.png`
+                ];
+            }
+
+            // 非同步探針嗅探器：只有當圖片在伺服器上真實存在（ok）時，才渲染 DOM
+            potentialImages.forEach(imgUrl => {
+                const imgTester = new Image();
+                imgTester.src = imgUrl;
+                imgTester.onload = function() {
+                    const imgDiv = document.createElement('div');
+                    imgDiv.className = "w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800";
+                    imgDiv.innerHTML = `<img src="${imgUrl}" class="w-full h-auto object-cover rounded brightness-[0.9]" alt="插圖">`;
+                    galleryAppendDeck.appendChild(imgDiv);
+                };
+                imgTester.onerror = function() {
+                    // 圖片不存在則靜默跳過，絕不產生破圖破壞版面
+                };
+            });
+
+            // 4. 文字與自定義文本處理
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
