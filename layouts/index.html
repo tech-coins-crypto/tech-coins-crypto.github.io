@@ -10,6 +10,15 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        
+        /* 💡 核心效能視覺優化：高質感流暢淡入動畫 */
+        @keyframes homeCoinFadeIn {
+            from { opacity: 0; transform: scale(0.96); filter: brightness(0.6); }
+            to { opacity: 1; transform: scale(1); filter: brightness(0.85); }
+        }
+        .home-img-fade {
+            animation: homeCoinFadeIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+        }
     </style>
 </head>
 <body class="bg-black text-white antialiased font-sans flex flex-col min-h-screen">
@@ -45,9 +54,9 @@
                 <a href="#matrix-control" class="inline-block border border-white text-white text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-white hover:!text-black transition-all duration-300">來去瞧瞧 →</a>
             </div>
         </div>
-        <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0">
+        <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0 bg-zinc-950/30">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
-            <img src="/coins/coin-2018-Introductory.png" alt="2018 Innovation Coin" class="w-full h-full object-cover rounded-full brightness-[0.85] contrast-[1.1]">
+            <img src="/coins/coin-2018-Introductory.png" alt="2018 Innovation Coin" class="w-full h-full object-cover rounded-full opacity-0 brightness-[0.85] contrast-[1.1]" onload="this.classList.add('home-img-fade');">
         </div>
     </header>
 
@@ -122,6 +131,26 @@
             }
         }
 
+        // 💡 提取封裝的核心硬幣節點 HTML 模組（精準注入 Lazy loading 與 骨架占位、淡入效果）
+        function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitle, extraBadge = '') {
+            return `
+                <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
+                    <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none" style="aspect-ratio: 1 / 1;">
+                        <img src="${imgUrl.toLowerCase()}" 
+                             loading="lazy" 
+                             class="w-[85%] h-[85%] object-cover rounded-full opacity-0 transition-all duration-300 group-hover:brightness-[0.95]" 
+                             onload="this.classList.add('home-img-fade');"
+                             onerror="this.src='/coins/coin-2018-introductory.png';">
+                    </div>
+                    <div class="mt-2 space-y-0.5 flex flex-col items-center">
+                        <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition line-clamp-1">${title}</h4>
+                        <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${subtitle}</p>
+                        ${extraBadge}
+                    </div>
+                </a>
+            `;
+        }
+
         function renderYearView() {
             const container = document.getElementById('view-year');
             container.innerHTML = '';
@@ -132,36 +161,21 @@
                 yearGroups[coin.year].push(coin);
             });
 
-            // 強制把 2018 年首發幣置頂投放
+            // 2018 年首發幣置頂投放
             if (yearGroups["2018"]) {
                 const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國" };
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4">2018 美國創新系列首發幣</h3>`;
-                const layoutHTML2018 = `
-                    <div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">
-                        <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                <img src="/coins/coin-2018-Introductory.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                            </div>
-                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
-                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣背面</h4>
-                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">華盛頓簽署</p>
-                            </div>
-                        </a>
-                        <a href="/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-Introductory.png" class="group flex flex-col items-center text-center">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                <img src="/coins/coin-2018-l.png" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                            </div>
-                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
-                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">專利幣正面</h4>
-                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">自由女神</p>
-                            </div>
-                        </a>
-                    </div>
-                `;
+                
+                const cardBack = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.png`, '/coins/coin-2018-introductory.png', '專利幣背面', '華盛頓簽署');
+                const cardFront = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.png`, '/coins/coin-2018-l.png', '專利幣正面', '自由女神');
+                
                 container.innerHTML += `
                     <div class="border-b border-zinc-900 pb-6">
                         ${titleContent2018}
-                        ${layoutHTML2018}
+                        <div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">
+                            ${cardBack}
+                            ${cardFront}
+                        </div>
                     </div>
                 `;
             }
@@ -171,7 +185,6 @@
             sortedYears.forEach(year => {
                 if (year === "2018") return;
 
-                let layoutHTML = '';
                 let titleContent = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 font-mono">${year}</h3>`;
 
                 if (year === "2026") {
@@ -188,24 +201,13 @@
 
                 let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
-                    coinsHTML += `
-                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}" class="group flex flex-col items-center text-center">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                            </div>
-                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
-                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${coin.state}</p>
-                            </div>
-                        </a>
-                    `;
+                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state);
                 });
-                layoutHTML = `<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div>`;
-
+                
                 container.innerHTML += `
                     <div class="border-b border-zinc-900 pb-6 last:border-0">
                         ${titleContent}
-                        ${layoutHTML}
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div>
                     </div>
                 `;
             });
@@ -248,21 +250,10 @@
                 group.coins.forEach(coin => {
                     let currentImg = coin.img;
                     if (coin.year === "2018") {
-                        currentImg = "coin-2018-Introductory.png";
+                        currentImg = "coin-2018-introductory.png";
                     }
-
-                    coinsHTML += `
-                        <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}" class="group flex flex-col items-center text-center">
-                            <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105">
-                                <img src="/coins/${coin.img}" class="w-[90%] h-[90%] object-cover rounded-full brightness-[0.85]" onerror="this.src='/coins/coin-2018-Introductory.png';">
-                            </div>
-                            <div class="mt-2 space-y-0.5 flex flex-col items-center">
-                                <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition">${coin.nickname}</h4>
-                                <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${coin.state}</p>
-                                <p class="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-400 transition">${coin.year}</p>
-                            </div>
-                        </a>
-                    `;
+                    const yearBadge = `<p class="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-400 transition">${coin.year}</p>`;
+                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}`, `/coins/${coin.img}`, coin.nickname, coin.state, yearBadge);
                 });
                 
                 container.innerHTML += `
