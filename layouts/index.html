@@ -56,7 +56,7 @@
         </div>
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0 bg-zinc-950/30">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
-            <img src="/coins/coin-2018-Introductory.png" alt="2018 Innovation Coin" class="w-full h-full object-cover rounded-full opacity-0 brightness-[0.85] contrast-[1.1]" onload="this.classList.add('home-img-fade');">
+            <img src="/coins/coin-2018-introductory.png" alt="2018 Innovation Coin" class="w-full h-full object-cover rounded-full opacity-0 brightness-[0.85] contrast-[1.1]" onload="this.classList.add('home-img-fade');">
         </div>
     </header>
 
@@ -131,7 +131,7 @@
             }
         }
 
-        // 💡 提取封裝的核心硬幣節點 HTML 模組（精準注入 Lazy loading 與 骨架占位、淡入效果）
+        // 💡 核心：全域自動化硬幣卡片渲染器 (轉化為 Lazy loading 與全小寫防禦)
         function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitle, extraBadge = '') {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
@@ -161,7 +161,7 @@
                 yearGroups[coin.year].push(coin);
             });
 
-            // 2018 年首發幣置頂投放
+            // 2018 年首發幣置頂投放 (已完全修正為全小寫連結與路徑)
             if (yearGroups["2018"]) {
                 const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國" };
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4">2018 美國創新系列首發幣</h3>`;
