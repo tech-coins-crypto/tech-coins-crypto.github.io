@@ -40,7 +40,7 @@
             
             <div id="right-visual-deck" class="md:col-span-5 flex flex-col space-y-6 items-center select-none sticky md:top-24 py-2">
                 <div id="main-coin-frame" class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
-                    <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="Coin Reverse">
+                    <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
                 </div>
                 <div id="gallery-append-deck" class="w-full flex flex-col space-y-4 pt-4">
                     </div>
@@ -56,7 +56,7 @@
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
                 <div>
                     <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
-                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
+                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授权。</p>
                 </div>
                 <div>
                     <p class="text-zinc-400 font-medium">Coin designs and images: United States Mint.</p>
@@ -73,7 +73,7 @@
             const urlParams = new URLSearchParams(window.location.search);
             const targetYear = urlParams.get('year') || '2018';
             const targetState = urlParams.get('state') || '美國';
-            const targetImg = urlParams.get('img') || 'coin-2018-Introductory.png';
+            const targetImg = urlParams.get('img') || 'coin-2018-introductory.png';
             
             const mainCoinFrame = document.getElementById('main-coin-frame');
             const galleryAppendDeck = document.getElementById('gallery-append-deck');
@@ -114,7 +114,7 @@
                 }
             } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
 
-            // 2. 雙王牌特權主圖交疊模組 (強制小寫化路徑比對)
+            // 2. 雙王牌特權主圖交疊模組 (路徑統一小寫化)
             const lowerImgCheck = targetImg.toLowerCase();
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
@@ -142,26 +142,21 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
-            // 3. 【實實投射自適應移除防線】全小寫命名協議公式：image[序號]-[年份]-[州名].png
+            // 3. 【終極解套：直接從主圖英文名稱逆向剝離切字】
             galleryAppendDeck.innerHTML = '';
             
-            // 鐵腕鋼骨：強制將年份與州名徹底碾壓成全小寫
-            const finalLowerYear = targetYear.toLowerCase().trim();
-            const finalLowerState = targetState.toLowerCase().replace(/\s+/g, '').trim();
+            // 範例：從 "coin-2026-wisconsin.png" 切出 "2026-wisconsin"
+            // 範例：從 "coin-2018-introductory.png" 切出 "2018-introductory"
+            const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
             
-            // 智慧投射：預先建立 1 到 4 號實體節點
             for (let i = 1; i <= 4; i++) {
-                const lowerImgUrl = `/images/image${i}-${finalLowerYear}-${finalLowerState}.png`;
+                // 直接拼接出完美的純英文小寫實體路徑：/images/image1-2026-wisconsin.png
+                const fallbackSmallImgUrl = `/images/image${i}-${cleanFileBlueprint}.png`;
                 
-                // 建立一個外層包裝框，預設不加任何底色或框線，避免未載入前的空線條
                 const imgContainer = document.createElement('div');
                 imgContainer.id = `append-img-box-${i}`;
-                
-                // 內嵌 img 標籤，點火監聽事件：
-                // onload -> 成功加載，立刻為外框披上精緻的職人暗銀框線與背景
-                // onerror -> 檔案不存在，一瞬間把自己從網頁樹中徹底銷毀，完全留白！
                 imgContainer.innerHTML = `
-                    <img src="${lowerImgUrl}" 
+                    <img src="${fallbackSmallImgUrl}" 
                          class="w-full h-auto object-cover rounded brightness-[0.9] hidden" 
                          onload="this.classList.remove('hidden'); document.getElementById('append-img-box-${i}').className='w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800';" 
                          onerror="document.getElementById('append-img-box-${i}').remove();">
