@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幣圈宅 TECH COINS CRYPTO | 美國創新 1 美元紀念幣收藏誌</title>
+    
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tech-coins-crypto-github-io.pages.dev/">
+    <meta property="og:title" content="幣圈宅 TECH COINS CRYPTO | 美國創新 1 美元紀念幣收藏誌">
+    <meta property="og:description" content="致敬所有創新者！喬治·華盛頓簽署美國第一號專利證書，美國創新精緻幣系列完整收藏全紀錄。">
+    <meta property="og:image" content="https://tech-coins-crypto-github-io.pages.dev/coins/coin-2018-introductory.webp">
+    <meta property="og:image:width" content="600">
+    <meta property="og:image:height" content="600">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         body, h1, h2, h3, h4, h5, p, a, span, div { color: #ffffff !important; }
@@ -53,10 +62,10 @@
             <button id="btn-subject" onclick="switchView('subject')" class="border border-zinc-800 text-zinc-400 text-base md:text-lg font-bold tracking-widest uppercase px-8 py-1 rounded hover:border-zinc-500 transition-all duration-300">主題</button>
         </div>
         <div id="view-year" class="space-y-6">
-            <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">[LOADING LOGISTICS] // Year Timeline Matrix...</div>
+            <div class="text-zinc-500 text-sm font-sans py-12 text-center tracking-widest">找到屬於自己的精緻幣 // 歷史年譜矩陣載入中...</div>
         </div>
         <div id="view-subject" class="hidden space-y-6">
-            <div class="text-zinc-600 text-xs font-mono py-12 text-center uppercase tracking-widest">[LOADING LOGISTICS] // Subject Categories Matrix...</div>
+            <div class="text-zinc-500 text-sm font-sans py-12 text-center tracking-widest">找到屬於自己的精緻幣 // 主題分類矩陣載入中...</div>
         </div>
     </main>
 
@@ -110,7 +119,6 @@
             }
         }
 
-        // 💡 移除優化特效，回歸最乾淨的原生加載卡片 HTML 模組
         function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitle, extraBadge = '') {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
