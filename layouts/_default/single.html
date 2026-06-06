@@ -115,7 +115,7 @@
                     </div>
                 `;
             } 
-            // 🎯 修正處：將右邊硬幣的反面圖檔名精準修正為 coin-2026-ca-reverse.webp 或是 coin-250y.webp (此處我改回標準規格)
+            // 🎯 終極對齊：右幣直接鎖定 100% 存在、去背的 /coins/coin-250y.webp 自由鐘正面圖
             else if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -123,7 +123,7 @@
                         <img src="/coins/${lowerImgCheck}" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2026-ca-reverse.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
+                        <img src="/coins/coin-250y.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                 `;
             } else {
