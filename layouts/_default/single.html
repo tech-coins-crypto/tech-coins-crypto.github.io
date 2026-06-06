@@ -28,7 +28,7 @@
     </nav>
     <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-8">
         <div class="border-b border-zinc-900 pb-6">
-            <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">任務解密中</h1>
+            <h1 id="mission-title" class="text-3xl md:text-4xl font-black tracking-tight text-white">載入中...</h1>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
             <div class="md:col-span-7 flex flex-col justify-between min-h-full">
@@ -79,10 +79,16 @@
                         const parts = csvLines[i].split(',');
                         const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
                         if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
-                            currentCoinNickname = parts[nicknameIdx]?.trim() || ""; matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
+                            // 修正：2018 首發幣特殊處理其綽號
+                            if (targetYear === '2018') { currentCoinNickname = "專利幣"; } 
+                            else { currentCoinNickname = parts[nicknameIdx]?.trim() || ""; }
+                            matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
                         }
                     }
                 }
+                // 💡防呆：如果資料庫查完還是沒撈到綽號，給予預設值
+                if (!currentCoinNickname && targetYear === '2018') currentCoinNickname = "專利幣";
+                
                 const keywordsContainer = document.getElementById('coin-keywords'); keywordsContainer.innerHTML = '';
                 if (matchedKeywords) {
                     const tags = matchedKeywords.split(' ').filter(t => t.trim() !== '');
@@ -94,9 +100,12 @@
                 }
             } catch (csvErr) { console.error(csvErr); }
 
+            // 👑 核心優化：直接將標題定案為「[年] [州] [綽號]」格式
+            document.getElementById('mission-title').innerText = `${targetYear} ${targetState} ${currentCoinNickname}`;
+
             const lowerImgCheck = targetImg.toLowerCase();
             
-            // 💡 核心修改點：透過 z-20 (左) 與 z-10 (右)，強制讓左枚硬幣完美疊在右枚硬幣上方
+            // 重疊雙幣控制（左 z-20 在上，右 z-10 在下）
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -123,10 +132,9 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
-            // 內頁插圖原生探針
+            // 內頁原生插圖探針
             galleryAppendDeck.innerHTML = '';
             const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
-            
             for (let i = 1; i <= 4; i++) {
                 const fallbackSmallImgUrl = `/images/image${i}-${cleanFileBlueprint}.webp`;
                 const imgContainer = document.createElement('div');
@@ -140,7 +148,7 @@
                 galleryAppendDeck.appendChild(imgContainer);
             }
 
-            document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
+            // 讀取內文文本（忽略第一行，避免與新標題重複）
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`; const articlePayload = document.getElementById('article-payload');
             try {
@@ -149,9 +157,12 @@
                 const rawText = await response.text();
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 articlePayload.innerHTML = "";
+                
+                // 從第二行（index 1）開始輸出為副標題，第三行（index 2）開始為內文
                 lines.forEach((lineText, index) => {
-                    if (index === 0) { document.getElementById('mission-title').innerText = lineText; }
-                    else {
+                    if (index === 0) { 
+                        // 第一行原本是舊標題，已由上面的格式取代，此處跳過不印
+                    } else {
                         const pTag = document.createElement('p');
                         if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
                         else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
