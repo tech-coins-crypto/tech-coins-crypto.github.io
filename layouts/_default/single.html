@@ -12,7 +12,7 @@
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
     </style>
 </head>
-<body class="bg-black text-white antialiased font-sans min-h-screen flex flex-col">
+<body class="bg-black text-white antialiased font-sans flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
             <a href="/" class="font-black text-xl tracking-wide text-white hover:opacity-80 transition flex items-center space-x-2">
@@ -20,7 +20,7 @@
                 <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2">找到屬於自己的精緻幣</span>
             </a>
             <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest text-white">
-                <a href="/" class="hover:underline transition py-1">美國創新</a>
+                <a href="#" class="hover:underline transition py-1">美國創新</a>
                 <a href="#" class="hover:underline transition py-1">美國鷹揚(建置中)</a>
                 <a href="#" class="hover:underline transition py-1">買</a>
             </div>
@@ -32,18 +32,15 @@
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
             <div class="md:col-span-7 flex flex-col justify-between min-h-full">
-                <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg py-2">
-                    </article>
-                <div id="coin-keywords" class="flex flex-wrap justify-start gap-2 pt-6 mt-8 border-t border-zinc-900/40 w-full">
-                    </div>
+                <article id="article-payload" class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg py-2"></article>
+                <div id="coin-keywords" class="flex flex-wrap justify-start gap-2 pt-6 mt-8 border-t border-zinc-900/40 w-full"></div>
             </div>
             
             <div id="right-visual-deck" class="md:col-span-5 flex flex-col space-y-6 items-center select-none sticky md:top-24 py-2">
                 <div id="main-coin-frame" class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
                     <img id="coin-target-img" src="" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
                 </div>
-                <div id="gallery-append-deck" class="w-full flex flex-col space-y-4 pt-4">
-                    </div>
+                <div id="gallery-append-deck" class="w-full flex flex-col space-y-4 pt-4"></div>
             </div>
         </div>
     </main>
@@ -54,17 +51,8 @@
                 <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
             </div>
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
-                <div>
-                    <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
-                    <p class="text-zinc-500">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授权。</p>
-                </div>
-                <div>
-                    <p class="text-zinc-400 font-medium">Coin designs and images: United States Mint.</p>
-                    <p class="text-zinc-500">This website is a fan-curated numismatic project and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.</p>
-                </div>
-                <div class="pt-1 text-[10px] font-mono uppercase tracking-widest text-zinc-600 leading-none">
-                    © 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.
-                </div>
+                <p class="text-zinc-400 font-medium">硬幣設計與圖片來源：美國鑄幣局。</p>
+                <p class="pt-1 text-[10px] font-mono uppercase tracking-widest text-zinc-600 leading-none">© 2026 Tech Coins Crypto.</p>
             </div>
         </div>
     </footer>
@@ -73,32 +61,25 @@
             const urlParams = new URLSearchParams(window.location.search);
             const targetYear = urlParams.get('year') || '2018';
             const targetState = urlParams.get('state') || '美國';
-            const targetImg = urlParams.get('img') || 'coin-2018-introductory.png';
+            const targetImg = urlParams.get('img') || 'coin-2018-introductory.webp';
             
             const mainCoinFrame = document.getElementById('main-coin-frame');
             const galleryAppendDeck = document.getElementById('gallery-append-deck');
             
-            let currentCoinNickname = "";
-            let matchedKeywords = "";
-
-            // 1. 異步解析 CSV 基本數據
+            let currentCoinNickname = ""; let matchedKeywords = "";
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
                 const csvLines = csvResponse.ok ? csvText.replace(/\r/g, '').split('\n').filter(l => l.trim() !== '') : [];
                 if (csvLines.length > 0) {
                     const headers = csvLines.shift().split(',').map(h => h.trim());
-                    const nicknameIdx = headers.indexOf('nickname');
-                    const yearIdx = headers.indexOf('year'); 
-                    const stateIdx = headers.indexOf('state'); 
-                    const keywordsIdx = headers.indexOf('keywords');
-                    
+                    const nicknameIdx = headers.indexOf('nickname'); const yearIdx = headers.indexOf('year'); 
+                    const stateIdx = headers.indexOf('state'); const keywordsIdx = headers.indexOf('keywords');
                     for (let i = 0; i < csvLines.length; i++) {
                         const parts = csvLines[i].split(',');
                         const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
                         if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
-                            currentCoinNickname = parts[nicknameIdx]?.trim() || "";
-                            matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
+                            currentCoinNickname = parts[nicknameIdx]?.trim() || ""; matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
                         }
                     }
                 }
@@ -108,32 +89,30 @@
                     tags.forEach(tag => {
                         const span = document.createElement('span');
                         span.className = "px-2.5 py-0.5 text-xs font-medium tracking-wide rounded border border-emerald-500/40 !text-emerald-400 bg-emerald-950/20 select-none";
-                        span.innerText = tag; span.style.setProperty('color', '#34d399', 'important');
-                        keywordsContainer.appendChild(span);
+                        span.innerText = tag; span.style.setProperty('color', '#34d399', 'important'); keywordsContainer.appendChild(span);
                     });
                 }
-            } catch (csvErr) { console.error("Keywords Engine Error:", csvErr); }
+            } catch (csvErr) { console.error(csvErr); }
 
-            // 2. 雙王牌特權主圖交疊模組 (路徑統一小寫化)
             const lowerImgCheck = targetImg.toLowerCase();
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-introductory.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
+                        <img src="/coins/coin-2018-introductory.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-l.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
+                        <img src="/coins/coin-2018-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                 `;
             } else if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/${lowerImgCheck}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
+                        <img src="/coins/${lowerImgCheck}" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-250y.png" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="">
+                        <img src="/coins/coin-250y.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                 `;
             } else {
@@ -142,41 +121,31 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
-            // 3. 【終極解套：直接從主圖英文名稱逆向剝離切字】
+            // 💡 內頁插圖原生探針：拔除外框占位與動態隱藏，回歸純淨無感加載
             galleryAppendDeck.innerHTML = '';
-            
-            // 範例：從 "coin-2026-wisconsin.png" 切出 "2026-wisconsin"
-            // 範例：從 "coin-2018-introductory.png" 切出 "2018-introductory"
             const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
             
             for (let i = 1; i <= 4; i++) {
-                // 直接拼接出完美的純英文小寫實體路徑：/images/image1-2026-wisconsin.png
-                const fallbackSmallImgUrl = `/images/image${i}-${cleanFileBlueprint}.png`;
-                
+                const fallbackSmallImgUrl = `/images/image${i}-${cleanFileBlueprint}.webp`;
                 const imgContainer = document.createElement('div');
                 imgContainer.id = `append-img-box-${i}`;
                 imgContainer.innerHTML = `
                     <img src="${fallbackSmallImgUrl}" 
-                         class="w-full h-auto object-cover rounded brightness-[0.9] hidden" 
-                         onload="this.classList.remove('hidden'); document.getElementById('append-img-box-${i}').className='w-full border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800';" 
+                         class="w-full h-auto object-cover rounded border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800" 
+                         loading="lazy"
                          onerror="document.getElementById('append-img-box-${i}').remove();">
                 `;
                 galleryAppendDeck.appendChild(imgContainer);
             }
 
-            // 4. 文字與自定義文本處理
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} 1 美元紀念任務`;
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleTextUrl = `/txts/txt-${baseFileName}.txt`;
-            const articlePayload = document.getElementById('article-payload');
-            
+            const articleTextUrl = `/txts/txt-${baseFileName}.txt`; const articlePayload = document.getElementById('article-payload');
             try {
-                const response = await fetch(articleTextUrl);
-                const contentType = response.headers.get("content-type") || "";
+                const response = await fetch(articleTextUrl); const contentType = response.headers.get("content-type") || "";
                 if (!response.ok || contentType.includes("text/html")) throw new Error("Offline");
                 const rawText = await response.text();
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
-                if (lines.length === 0) throw new Error("No content");
                 articlePayload.innerHTML = "";
                 lines.forEach((lineText, index) => {
                     if (index === 0) { document.getElementById('mission-title').innerText = lineText; }
@@ -188,14 +157,7 @@
                     }
                 });
             } catch (err) {
-                const finalFallbackTitle = currentCoinNickname ? `${targetYear} ${targetState} ${currentCoinNickname}` : `${targetYear} ${targetState}`;
-                document.getElementById('mission-title').innerText = finalFallbackTitle;
-                
-                articlePayload.innerHTML = `
-                    <p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">
-                        目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！
-                    </p>
-                `;
+                articlePayload.innerHTML = `<p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>`;
             }
         }
         document.addEventListener('DOMContentLoaded', parseUrlSignals);
