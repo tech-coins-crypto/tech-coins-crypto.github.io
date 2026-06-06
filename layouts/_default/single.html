@@ -68,7 +68,9 @@
             const mainCoinFrame = document.getElementById('main-coin-frame');
             const galleryAppendDeck = document.getElementById('gallery-append-deck');
             
+            let fallbackTitle = `${targetYear} ${targetState}`;
             let currentCoinNickname = ""; let matchedKeywords = "";
+            
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
                 const csvText = await csvResponse.text();
@@ -88,6 +90,7 @@
                     }
                 }
                 if (!currentCoinNickname && targetYear === '2018') currentCoinNickname = "專利幣";
+                fallbackTitle = `${targetYear} ${targetState} ${currentCoinNickname}`;
                 
                 const keywordsContainer = document.getElementById('coin-keywords'); keywordsContainer.innerHTML = '';
                 if (matchedKeywords) {
@@ -100,10 +103,9 @@
                 }
             } catch (csvErr) { console.error(csvErr); }
 
-            document.getElementById('mission-title').innerText = `${targetYear} ${targetState} ${currentCoinNickname}`;
-
             const lowerImgCheck = targetImg.toLowerCase();
             
+            // 雙幣硬幣框渲染邏輯
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -114,9 +116,7 @@
                         <img src="/coins/coin-2018-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                 `;
-            } 
-            // 🎯 終極對齊：右幣直接鎖定 100% 存在、去背的 /coins/coin-250y.webp 自由鐘正面圖
-            else if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
+            } else if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
@@ -132,6 +132,7 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
+            // 底部附圖渲染邏輯
             galleryAppendDeck.innerHTML = '';
             const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
             for (let i = 1; i <= 4; i++) {
@@ -147,26 +148,42 @@
                 galleryAppendDeck.appendChild(imgContainer);
             }
 
+            // 🎯 核心回歸邏輯：讀取文章內容並正確設定標題
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            const articleTextUrl = `/txts/txt-${baseFileName}.txt`; const articlePayload = document.getElementById('article-payload');
+            const articleTextUrl = `/txts/txt-${baseFileName}.txt`; 
+            const articlePayload = document.getElementById('article-payload');
+            
             try {
-                const response = await fetch(articleTextUrl); const contentType = response.headers.get("content-type") || "";
+                const response = await fetch(articleTextUrl); 
+                const contentType = response.headers.get("content-type") || "";
                 if (!response.ok || contentType.includes("text/html")) throw new Error("Offline");
+                
                 const rawText = await response.text();
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 articlePayload.innerHTML = "";
                 
-                lines.forEach((lineText, index) => {
-                    if (index === 0) { 
-                        // 跳過舊標題
-                    } else {
-                        const pTag = document.createElement('p');
-                        if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
-                        else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
-                        pTag.innerText = lineText; articlePayload.appendChild(pTag);
-                    }
-                });
+                if (lines.length > 0) {
+                    // 🎯 1. 既然有文章，大標題直接採用 .txt 檔的第一行文字
+                    document.getElementById('mission-title').innerText = lines[0];
+                    
+                    lines.forEach((lineText, index) => {
+                        if (index === 0) { 
+                            // 第一行已當作大標題，這裡不重複渲染在文章區
+                        } else {
+                            const pTag = document.createElement('p');
+                            // 第二行作為粗體前導言
+                            if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
+                            else pTag.className = "text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg mb-4";
+                            pTag.innerText = lineText; 
+                            articlePayload.appendChild(pTag);
+                        }
+                    });
+                } else {
+                    throw new Error("EmptyFile");
+                }
             } catch (err) {
+                // 🎯 2. 備援機制：如果抓不到 .txt 或檔案空空如也，大標題才採用 CSV 撈出來的 [年][州別][綽號]
+                document.getElementById('mission-title').innerText = fallbackTitle;
                 articlePayload.innerHTML = `<p class="font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>`;
             }
         }
