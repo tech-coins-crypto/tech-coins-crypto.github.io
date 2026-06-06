@@ -44,10 +44,11 @@
             </div>
         </div>
     </main>
+    
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 font-mono mt-auto w-full">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
             <div class="space-y-0.5">
-                <p class="font-black text-lg text-white tracking-wider">幣圈宅</p>
+                <a href="/" class="block font-black text-lg text-white tracking-wider hover:opacity-80 transition">幣圈宅</a>
                 <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
             </div>
             <div class="md:col-span-2 text-[11px] text-zinc-500 font-sans leading-tight space-y-2">
@@ -56,6 +57,7 @@
             </div>
         </div>
     </footer>
+
     <script>
         async function parseUrlSignals() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -79,14 +81,12 @@
                         const parts = csvLines[i].split(',');
                         const cYear = parts[yearIdx]?.trim(); const cState = parts[stateIdx]?.trim();
                         if ((cYear === targetYear && cState === targetState) || (targetYear === '2018' && cYear === '2018')) {
-                            // 修正：2018 首發幣特殊處理其綽號
                             if (targetYear === '2018') { currentCoinNickname = "專利幣"; } 
                             else { currentCoinNickname = parts[nicknameIdx]?.trim() || ""; }
                             matchedKeywords = parts[keywordsIdx]?.trim() || ""; break;
                         }
                     }
                 }
-                // 💡防呆：如果資料庫查完還是沒撈到綽號，給予預設值
                 if (!currentCoinNickname && targetYear === '2018') currentCoinNickname = "專利幣";
                 
                 const keywordsContainer = document.getElementById('coin-keywords'); keywordsContainer.innerHTML = '';
@@ -100,12 +100,10 @@
                 }
             } catch (csvErr) { console.error(csvErr); }
 
-            // 👑 核心優化：直接將標題定案為「[年] [州] [綽號]」格式
             document.getElementById('mission-title').innerText = `${targetYear} ${targetState} ${currentCoinNickname}`;
 
             const lowerImgCheck = targetImg.toLowerCase();
             
-            // 重疊雙幣控制（左 z-20 在上，右 z-10 在下）
             if (targetYear === '2018') {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -123,7 +121,7 @@
                         <img src="/coins/${lowerImgCheck}" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-250y.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
+                        <img src="/coins/coin-2026-ca-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
                     </div>
                 `;
             } else {
@@ -132,7 +130,6 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
-            // 內頁原生插圖探針
             galleryAppendDeck.innerHTML = '';
             const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
             for (let i = 1; i <= 4; i++) {
@@ -148,7 +145,6 @@
                 galleryAppendDeck.appendChild(imgContainer);
             }
 
-            // 讀取內文文本（忽略第一行，避免與新標題重複）
             const baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`; const articlePayload = document.getElementById('article-payload');
             try {
@@ -158,10 +154,9 @@
                 const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
                 articlePayload.innerHTML = "";
                 
-                // 從第二行（index 1）開始輸出為副標題，第三行（index 2）開始為內文
                 lines.forEach((lineText, index) => {
                     if (index === 0) { 
-                        // 第一行原本是舊標題，已由上面的格式取代，此處跳過不印
+                        // 跳過舊標題
                     } else {
                         const pTag = document.createElement('p');
                         if (index === 1) pTag.className = "font-bold text-white text-xl border-l-2 border-white pl-3 font-sans mb-6 mt-0";
