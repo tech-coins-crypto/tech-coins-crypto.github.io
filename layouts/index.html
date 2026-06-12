@@ -89,21 +89,37 @@
         let csvCoinsData = []; 
         let isDataLoaded = false;
 
+        // 工具函數：強制將英文州名轉為字首大寫、其餘小寫
+        function formatStateEn(str) {
+            if (!str) return '';
+            return str.trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        }
+
         async function loadAndRenderMatrix() {
             if (isDataLoaded) return;
             try {
                 const response = await fetch('/data/subjects.csv');
                 const csvText = await response.text();
                 const lines = csvText.replace(/\r/g, '').split('\n').filter(line => line.trim() !== '');
-                lines.shift(); 
+                
+                // 讀取 CSV 標題列，自動對應欄位索引（防範未來順序調換）
+                const headers = lines.shift().split(',').map(h => h.trim().toLowerCase());
+                const nicknameIdx = headers.indexOf('nickname');
+                const subjectIdx = headers.indexOf('subject');
+                const yearIdx = headers.indexOf('year');
+                const stateIdx = headers.indexOf('state'); // 中文州名
+                const stateEnIdx = headers.indexOf('state_en') !== -1 ? headers.indexOf('state_en') : headers.indexOf('subject'); // 若無 state_en 欄位，自動映射至主標題/主題英文欄位
+                const imgIdx = headers.indexOf('img');
+
                 csvCoinsData = lines.map(line => {
                     const parts = line.split(',');
                     return { 
-                        nickname: parts[0]?.trim(), 
-                        subject: parts[1]?.trim(), 
-                        year: parts[2]?.trim(), 
-                        state: parts[3]?.trim(), 
-                        img: parts[4]?.trim() 
+                        nickname: parts[nicknameIdx]?.trim(), 
+                        subject: parts[subjectIdx]?.trim(), 
+                        year: parts[yearIdx]?.trim(), 
+                        state: parts[stateIdx]?.trim(), 
+                        state_en: formatStateEn(parts[stateEnIdx]), // 格式化為字首大寫
+                        img: parts[imgIdx]?.trim() 
                     };
                 }).filter(coin => coin.state && coin.year && coin.img);
                 
@@ -117,7 +133,8 @@
             }
         }
 
-        function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitle, extraBadge = '') {
+        // 修改後的卡片產生器：支援傳入英文州名，並與中文等大並列
+        function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitleCh, subtitleEn, extraBadge = '') {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
                     <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
@@ -128,7 +145,10 @@
                     </div>
                     <div class="mt-2 space-y-0.5 flex flex-col items-center">
                         <h4 class="font-bold text-sm md:text-base text-white group-hover:text-zinc-300 transition line-clamp-1">${title}</h4>
-                        <p class="text-xs text-zinc-400 group-hover:text-zinc-300 transition">${subtitle}</p>
+                        <div class="text-xs text-zinc-400 group-hover:text-zinc-300 transition flex flex-col items-center leading-tight">
+                            <span>${subtitleCh}</span>
+                            <span class="font-mono tracking-wide mt-0.5">${subtitleEn}</span>
+                        </div>
                         ${extraBadge}
                     </div>
                 </a>
@@ -145,10 +165,10 @@
             });
 
             if (yearGroups["2018"]) {
-                const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國" };
+                const coinRef = yearGroups["2018"][0] || { year: "2018", state: "美國", state_en: "United States" };
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4">2018 美國創新系列首發幣</h3>`;
-                const cardBack = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', '華盛頓簽署');
-                const cardFront = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', '自由女神');
+                const cardBack = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', '華盛頓簽署', 'Introductory');
+                const cardFront = generateCoinCardHTML(`/coins/detail/?year=${coinRef.year}&state=${coinRef.state}&img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', '自由女神', 'Statue Of Liberty');
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6">${titleContent2018}<div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">${cardBack}${cardFront}</div></div>`;
             }
 
@@ -166,7 +186,7 @@
 
                 let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
-                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state);
+                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
                 });
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6 last:border-0">${titleContent}<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div></div>`;
             });
@@ -194,8 +214,8 @@
                 let coinsHTML = ''; const totalCoinsCount = group.coins.length;
                 group.coins.forEach(coin => {
                     let currentImg = coin.img; if (coin.year === "2018") currentImg = "coin-2018-introductory.webp";
-                    const yearBadge = `<p class="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-400 transition">${coin.year}</p>`;
-                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}`, `/coins/${coin.img}`, coin.nickname, coin.state, yearBadge);
+                    const yearBadge = `<p class="text-[10px] text-zinc-500 font-mono group-hover:text-zinc-400 transition mt-1">${coin.year}</p>`;
+                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en, yearBadge);
                 });
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6 last:border-0"><h3 class="text-xl md:text-2xl font-black tracking-widest text-white mb-4 flex items-center space-x-4 select-none uppercase"><span>${group.category}</span><span class="text-xl md:text-2xl font-mono font-black text-white bg-zinc-900/40 border border-zinc-800/60 px-3 py-0.5 rounded flex items-center justify-center min-w-[2.5rem] text-center">${totalCoinsCount}</span></h3><div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div></div>`;
             });
