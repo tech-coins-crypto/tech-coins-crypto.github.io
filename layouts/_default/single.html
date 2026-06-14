@@ -83,7 +83,6 @@
             return str.trim().toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
         }
 
-        // 核心解構函數：從圖片純英數名稱中自動抓出英文州名
         function extractStateEnFromImg(imgName, year) {
             if (!imgName) return '';
             let cleanName = imgName.split('/').pop().toLowerCase();
@@ -97,7 +96,6 @@
 
         async function parseUrlSignals() {
             const urlParams = new URLSearchParams(window.location.search);
-            // 內頁網址淨化核心：只去接純英數的 img 參數，年份和中文州名改由 CSV 動態反查
             const targetImg = urlParams.get('img') || 'coin-2018-introductory.webp';
             const lowerImgCheck = targetImg.toLowerCase();
 
@@ -107,16 +105,44 @@
             let currentCoinNickname = ""; 
             let matchedKeywords = "";
 
-            // 從檔名中搶先反拆年份
+            // 1. 【2018 首發幣特高優先防線】只要抓到 2018，完全封鎖並跳過 CSV 模糊比對
+            if (lowerImgCheck.includes('2018')) {
+                targetYear = '2018';
+                targetState = ''; // 2018 不顯示州名
+                targetStateEn = 'United States';
+                currentCoinNickname = '首發專利幣';
+                
+                // 標題高度還原：中英文等大大氣並列
+                let fallbackTitle = `2018 美國創新首發專利幣<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">United States</span>`;
+                
+                // 強制指定大寫 I 的實體文字檔路徑，一擊必殺！
+                await renderArticleContent('coin-2018-Introductory.webp', fallbackTitle);
+                
+                // 觸發雙幣卡片聯展
+                const mainCoinFrame = document.getElementById('main-coin-frame');
+                mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
+                mainCoinFrame.innerHTML = `
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
+                        <img src="/coins/coin-2018-introductory.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
+                    </div>
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
+                        <img src="/coins/coin-2018-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
+                    </div>
+                `;
+                
+                // 渲染細節附圖
+                renderAppendGallery(lowerImgCheck);
+                return; // 直接攔截結束，不再往下執行 CSV 運算
+            }
+
+            // 2. 【常規硬幣 2019-2026 處理防線】
             const yearMatch = lowerImgCheck.match(/coin-(\d{4})-/);
             if (yearMatch && yearMatch[1]) {
                 targetYear = yearMatch[1];
             }
             targetStateEn = extractStateEnFromImg(lowerImgCheck, targetYear);
-            if (targetYear === '2018') targetStateEn = 'United States';
 
             const mainCoinFrame = document.getElementById('main-coin-frame');
-            const galleryAppendDeck = document.getElementById('gallery-append-deck');
             
             try {
                 const csvResponse = await fetch('/data/subjects.csv');
@@ -131,25 +157,20 @@
                     const imgIdx = headers.indexOf('img');
                     const keywordsIdx = headers.indexOf('keywords');
 
-                    // 核心反查雷達：用純英文的圖片檔名，去 CSV 裡面對撞、把中文州名反向抓出來！
                     for (let i = 0; i < csvLines.length; i++) {
                         const parts = csvLines[i].split(',');
                         const csvImg = parts[imgIdx]?.trim().toLowerCase();
                         
-                        if (csvImg === lowerImgCheck || (targetYear === '2018' && csvImg.includes('2018'))) {
+                        if (csvImg === lowerImgCheck) {
                             targetYear = parts[yearIdx]?.trim() || targetYear;
                             targetState = parts[stateIdx]?.trim() || targetState;
-                            if (targetYear === '2018') { currentCoinNickname = "專利幣"; } 
-                            else { currentCoinNickname = parts[nicknameIdx]?.trim() || ""; }
+                            currentCoinNickname = parts[nicknameIdx]?.trim() || "";
                             matchedKeywords = parts[keywordsIdx]?.trim() || ""; 
                             break;
                         }
                     }
                 }
                 
-                if (!currentCoinNickname && targetYear === '2018') currentCoinNickname = "專利幣";
-                
-                // 建立乾淨的內頁中英文大氣雙行標題
                 let fallbackTitle = `${targetYear} ${targetState} ${currentCoinNickname}<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">${targetStateEn}</span>`;
                 
                 const keywordsContainer = document.getElementById('coin-keywords'); 
@@ -165,23 +186,12 @@
                     });
                 }
                 
-                // 發射文字 Fetch 引擎
                 await renderArticleContent(targetImg, fallbackTitle);
 
             } catch (csvErr) { console.error(csvErr); }
 
-            // 雙幣聯展控制中心
-            if (targetYear === '2018') {
-                mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
-                mainCoinFrame.innerHTML = `
-                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-introductory.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
-                    </div>
-                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
-                        <img src="/coins/coin-2018-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="">
-                    </div>
-                `;
-            } else if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
+            // 雙幣卡片特效流
+            if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
                     <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20 transition-all duration-300 hover:scale-105 hover:z-30 hover:border-zinc-600">
@@ -197,7 +207,12 @@
                 document.getElementById('coin-target-img').src = `/coins/${lowerImgCheck}`;
             }
 
-            // 附隨實體多圖迴圈
+            renderAppendGallery(lowerImgCheck);
+        }
+
+        // 獨立圖片橫廊渲染引擎
+        function renderAppendGallery(lowerImgCheck) {
+            const galleryAppendDeck = document.getElementById('gallery-append-deck');
             galleryAppendDeck.innerHTML = '';
             const cleanFileBlueprint = lowerImgCheck.replace(/^coin-/, '').replace(/\.[^/.]+$/, "").trim();
             for (let i = 1; i <= 4; i++) {
@@ -217,7 +232,7 @@
         async function renderArticleContent(targetImg, fallbackTitle) {
             let baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
             
-            // 大小寫相容性裝甲：如果網址是小寫 introductory，在此精準還原為大寫 Introductory 避免伺服器 404
+            // 強制大小寫對位：如果是 2018 introductory 檔案，確保 I 永遠大寫對齊 static 上的實體檔
             if (baseFileName.toLowerCase() === 'coin-2018-introductory') {
                 baseFileName = 'coin-2018-Introductory';
             }
