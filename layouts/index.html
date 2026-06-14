@@ -39,10 +39,14 @@
 </head>
 <body class="bg-black text-zinc-200 antialiased flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="font-bold text-xl tracking-wide hover:opacity-80 transition flex items-center space-x-2">
-                <span class="font-medium">幣圈宅</span>
-                <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2">找到屬於自己的精緻幣</span>
+        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
+            <!-- 實裝靜態編譯路徑完美對位的全新 PNG Logo 標誌區塊 -->
+            <a href="/" class="hover:opacity-80 transition flex items-center space-x-3 select-none">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="w-10 h-10 object-cover rounded-full">
+                <div class="flex items-center space-x-2">
+                    <span class="font-bold text-xl tracking-wide text-zinc-200">幣圈宅</span>
+                    <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2 hidden sm:inline">找到屬於自己的精緻幣</span>
+                </div>
             </a>
             <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest">
                 <a href="#" class="hover:underline transition py-1">美國創新(正在蓋)</a>
@@ -87,9 +91,12 @@
 
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 mt-auto w-full">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
-            <div class="space-y-0.5 pb-4 md:pb-0">
-                <p class="font-medium text-lg tracking-wider">幣圈宅</p>
-                <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+            <div class="space-y-0.5 pb-4 md:pb-0 flex items-center space-x-3">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="w-8 h-8 object-cover rounded-full opacity-60">
+                <div>
+                    <p class="font-medium text-lg tracking-wider">幣圈宅</p>
+                    <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+                </div>
             </div>
             <div class="md:col-span-2 text-[11px] leading-relaxed tracking-wide text-zinc-400 font-medium">
                 <p class="text-zinc-400 mb-1.5">硬幣設計與圖片來源：美國鑄幣局。</p>
@@ -161,7 +168,6 @@
             }
         }
 
-        // 淨化後的常規卡片產生器：href 中完全剃除中文字參數，只保留純英數 img 傳遞
         function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitleCh, subtitleEn, extraBadge = '') {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
@@ -183,7 +189,6 @@
             `;
         }
 
-        // 淨化後的 2018 卡片產生器
         function generateIntroductoryCardHTML(hrefUrl, imgUrl, title, subtitleEn) {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
@@ -214,7 +219,6 @@
 
             if (yearGroups["2018"]) {
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-medium tracking-widest text-zinc-200 mb-4">2018 美國創新系列首發幣</h3>`;
-                // 網址參數徹底乾淨英語化
                 const cardBack = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', 'Introductory');
                 const cardFront = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', 'Statue Of Liberty');
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6">${titleContent2018}<div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">${cardBack}${cardFront}</div></div>`;
@@ -234,7 +238,6 @@
 
                 let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
-                    // 網址純淨化改革：只送純英數 img 參數
                     coinsHTML += generateCoinCardHTML(`/coins/detail/?img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
                 });
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6 last:border-0">${titleContent}<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div></div>`;
