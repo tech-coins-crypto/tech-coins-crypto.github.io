@@ -93,7 +93,7 @@
             </div>
             <div class="md:col-span-2 text-[11px] leading-relaxed tracking-wide text-zinc-400 font-medium">
                 <p class="text-zinc-400 mb-1.5">硬幣設計與圖片來源：美國鑄幣局。</p>
-                <p class="text-zinc-500 mb-1.5 leading-relaxed">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授权。</p>
+                <p class="text-zinc-500 mb-1.5 leading-relaxed">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
                 <p class="text-zinc-400 mb-1.5">Coin designs and images: United States Mint.</p>
                 <p class="text-zinc-500 mb-1.5 leading-relaxed">This website is made for coin enthusiasts and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.</p>
                 <p class="text-[10px] uppercase tracking-widest text-zinc-600 leading-none pt-0.5">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
@@ -161,7 +161,7 @@
             }
         }
 
-        // 年份視圖專用硬幣卡片元件：維持原樣（含英文州名）
+        // 淨化後的常規卡片產生器：href 中完全剃除中文字參數，只保留純英數 img 傳遞
         function generateCoinCardHTML(hrefUrl, imgUrl, title, subtitleCh, subtitleEn, extraBadge = '') {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
@@ -183,7 +183,7 @@
             `;
         }
 
-        // 年份視圖專用 2018 首發幣卡片元件
+        // 淨化後的 2018 卡片產生器
         function generateIntroductoryCardHTML(hrefUrl, imgUrl, title, subtitleEn) {
             return `
                 <a href="${hrefUrl}" class="group flex flex-col items-center text-center">
@@ -214,8 +214,9 @@
 
             if (yearGroups["2018"]) {
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-medium tracking-widest text-zinc-200 mb-4">2018 美國創新系列首發幣</h3>`;
-                const cardBack = generateIntroductoryCardHTML(`/coins/detail/?year=2018&state=美國&img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', 'Introductory');
-                const cardFront = generateIntroductoryCardHTML(`/coins/detail/?year=2018&state=美國&img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', 'Statue Of Liberty');
+                // 網址參數徹底乾淨英語化
+                const cardBack = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', 'Introductory');
+                const cardFront = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', 'Statue Of Liberty');
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6">${titleContent2018}<div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">${cardBack}${cardFront}</div></div>`;
             }
 
@@ -233,13 +234,13 @@
 
                 let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
-                    coinsHTML += generateCoinCardHTML(`/coins/detail/?year=${coin.year}&state=${coin.state}&img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
+                    // 網址純淨化改革：只送純英數 img 參數
+                    coinsHTML += generateCoinCardHTML(`/coins/detail/?img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
                 });
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6 last:border-0">${titleContent}<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div></div>`;
             });
         }
 
-        // 主題視圖極簡核心函數：精準去噪，每枚幣下方「只呈現：綽號、中文州名、年份」
         function renderSubjectView() {
             const container = document.getElementById('view-subject');
             container.innerHTML = ''; const subjectGroups = {};
@@ -265,9 +266,8 @@
                     
                     if (coin.year === "2018") {
                         currentImg = "coin-2018-introductory.webp";
-                        // 2018 首發幣於主題視圖下的極簡去噪渲染
                         coinsHTML += `
-                            <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}" class="group flex flex-col items-center text-center">
+                            <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
                                     <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/coins/coin-2018-introductory.webp';">
                                 </div>
@@ -281,9 +281,8 @@
                             </a>
                         `;
                     } else {
-                        // 標準硬幣於主題視圖下的極簡去噪渲染（只留綽號、中文州名、年份）
                         coinsHTML += `
-                            <a href="/coins/detail/?year=${coin.year}&state=${coin.state}&img=${currentImg}" class="group flex flex-col items-center text-center">
+                            <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
                                     <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/coins/coin-2018-introductory.webp';">
                                 </div>
