@@ -39,18 +39,19 @@
 </head>
 <body class="bg-black text-zinc-200 antialiased flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            <a href="/" class="hover:opacity-80 transition flex items-center space-x-3 select-none">
-                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-10 w-auto object-contain rounded-full">
-                <div class="flex items-center space-x-2">
-                    <span class="font-bold text-xl tracking-wide text-zinc-200">幣圈宅</span>
-                    <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2 hidden sm:inline">找到屬於自己的精緻幣</span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
+            <!-- 左上角商標區塊：等比例縮放全新 PNG Logo -->
+            <a href="/" class="hover:opacity-80 transition flex items-center space-x-2 sm:space-x-3 select-none">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-8 sm:h-10 w-auto object-contain rounded-full">
+                <div class="flex items-center space-x-1.5 sm:space-x-2">
+                    <span class="font-bold text-lg sm:text-xl tracking-wide text-zinc-200">幣圈宅</span>
+                    <span class="text-zinc-500 font-medium text-xs sm:text-sm border-l border-zinc-800 pl-2 hidden sm:inline">找到屬於自己的精緻幣</span>
                 </div>
             </a>
-            <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest">
-                <a href="#" class="hover:underline transition py-1">美國創新(正在蓋)</a>
-                <a href="#" class="hover:underline transition py-1">美國鷹揚(還沒蓋)</a>
-                <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b-2 border-zinc-400">買</a>
+            <!-- 右上角選單：全面解除大螢幕限制，手機版直接並排無阻礙點擊 -->
+            <div class="flex space-x-3 sm:space-x-6 text-[10px] md:text-xs font-bold tracking-widest items-center">
+                <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b border-zinc-700 hover:border-zinc-400 whitespace-nowrap">美國創新[查看庫存]</a>
+                <span class="text-zinc-600 py-1 select-none cursor-not-allowed whitespace-nowrap">美國鷹揚[規劃中]</span>
             </div>
         </div>
     </nav>
@@ -70,6 +71,7 @@
             </div>
         </div>
         
+        <!-- 右側主視覺硬幣防空區：加入自動修正機制 -->
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0 bg-zinc-950/30">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
             <img src="/coins/coin-2018-introductory.webp" 
