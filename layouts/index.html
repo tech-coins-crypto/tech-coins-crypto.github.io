@@ -40,9 +40,8 @@
 <body class="bg-black text-zinc-200 antialiased flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-            <!-- 實裝靜態編譯路徑完美對位的全新 PNG Logo 標誌區塊 -->
             <a href="/" class="hover:opacity-80 transition flex items-center space-x-3 select-none">
-                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="w-10 h-10 object-cover rounded-full">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-10 w-auto object-contain rounded-full">
                 <div class="flex items-center space-x-2">
                     <span class="font-bold text-xl tracking-wide text-zinc-200">幣圈宅</span>
                     <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2 hidden sm:inline">找到屬於自己的精緻幣</span>
@@ -51,7 +50,7 @@
             <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest">
                 <a href="#" class="hover:underline transition py-1">美國創新(正在蓋)</a>
                 <a href="#" class="hover:underline transition py-1">美國鷹揚(還沒蓋)</a>
-                <a href="#" class="hover:underline transition py-1">買</a>
+                <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b-2 border-zinc-400">買</a>
             </div>
         </div>
     </nav>
@@ -70,9 +69,13 @@
                 <a href="#matrix-control" class="inline-block border border-zinc-200 text-zinc-200 text-1xl font-bold tracking-widest uppercase px-8 py-4 rounded hover:bg-zinc-200 hover:!text-black transition-all duration-300">來去瞧瞧 →</a>
             </div>
         </div>
+        
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-50 md:opacity-70 z-0 bg-zinc-950/30">
             <div class="absolute inset-0 rounded-full shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)] z-10"></div>
-            <img src="/coins/coin-2018-introductory.webp" alt="2018 Innovation Coin" class="w-full h-full object-cover rounded-full brightness-[0.85] contrast-[1.1]">
+            <img src="/coins/coin-2018-introductory.webp" 
+                 alt="2018 Innovation Coin" 
+                 class="w-full h-full object-cover rounded-full brightness-[0.85] contrast-[1.1]"
+                 onerror="this.src='/images/logo.png';">
         </div>
     </header>
 
@@ -92,7 +95,7 @@
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 mt-auto w-full">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
             <div class="space-y-0.5 pb-4 md:pb-0 flex items-center space-x-3">
-                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="w-8 h-8 object-cover rounded-full opacity-60">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-8 w-auto object-contain rounded-full opacity-60">
                 <div>
                     <p class="font-medium text-lg tracking-wider">幣圈宅</p>
                     <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
@@ -175,7 +178,7 @@
                         <img src="${imgUrl.toLowerCase()}" 
                              loading="lazy" 
                              class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" 
-                             onerror="this.src='/coins/coin-2018-introductory.webp';">
+                             onerror="this.src='/images/logo.png';">
                     </div>
                     <div class="mt-2 space-y-1 flex flex-col items-center w-full tracking-wide">
                         <h4 class="font-medium text-sm md:text-base text-zinc-200 group-hover:text-zinc-400 transition line-clamp-1">${title}</h4>
@@ -196,7 +199,7 @@
                         <img src="${imgUrl.toLowerCase()}" 
                              loading="lazy" 
                              class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" 
-                             onerror="this.src='/coins/coin-2018-introductory.webp';">
+                             onerror="this.src='/images/logo.png';">
                     </div>
                     <div class="mt-2 space-y-1 flex flex-col items-center w-full tracking-wide">
                         <h4 class="font-medium text-sm md:text-base text-zinc-200 group-hover:text-zinc-400 transition line-clamp-1">${title}</h4>
@@ -272,7 +275,7 @@
                         coinsHTML += `
                             <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
-                                    <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/coins/coin-2018-introductory.webp';">
+                                    <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/images/logo.png';">
                                 </div>
                                 <div class="mt-2 space-y-1 flex flex-col items-center w-full tracking-wide">
                                     <h4 class="font-medium text-sm md:text-base text-zinc-200 group-hover:text-zinc-400 transition line-clamp-1">${coin.nickname}</h4>
@@ -287,7 +290,7 @@
                         coinsHTML += `
                             <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
-                                    <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/coins/coin-2018-introductory.webp';">
+                                    <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/images/logo.png';">
                                 </div>
                                 <div class="mt-2 space-y-1 flex flex-col items-center w-full tracking-wide">
                                     <h4 class="font-medium text-sm md:text-base text-zinc-200 group-hover:text-zinc-400 transition line-clamp-1">${coin.nickname}</h4>
