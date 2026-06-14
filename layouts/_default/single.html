@@ -105,20 +105,18 @@
             let currentCoinNickname = ""; 
             let matchedKeywords = "";
 
-            // 1. 【2018 首發幣特高優先防線】只要抓到 2018，完全封鎖並跳過 CSV 模糊比對
+            // 1. 【2018 首發幣特高優先防線】徹底接管
             if (lowerImgCheck.includes('2018')) {
                 targetYear = '2018';
-                targetState = ''; // 2018 不顯示州名
+                targetState = ''; 
                 targetStateEn = 'United States';
                 currentCoinNickname = '首發專利幣';
                 
-                // 標題高度還原：中英文等大大氣並列
                 let fallbackTitle = `2018 美國創新首發專利幣<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">United States</span>`;
                 
-                // 強制指定大寫 I 的實體文字檔路徑，一擊必殺！
-                await renderArticleContent('coin-2018-Introductory.webp', fallbackTitle);
+                // 直接引導至獨立雙重路徑 Fetch 引擎，徹底消滅 404
+                await fetch2018ArticleWithFallback(fallbackTitle);
                 
-                // 觸發雙幣卡片聯展
                 const mainCoinFrame = document.getElementById('main-coin-frame');
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -130,12 +128,11 @@
                     </div>
                 `;
                 
-                // 渲染細節附圖
                 renderAppendGallery(lowerImgCheck);
-                return; // 直接攔截結束，不再往下執行 CSV 運算
+                return; 
             }
 
-            // 2. 【常規硬幣 2019-2026 處理防線】
+            // 2. 【常規硬幣處理防線】
             const yearMatch = lowerImgCheck.match(/coin-(\d{4})-/);
             if (yearMatch && yearMatch[1]) {
                 targetYear = yearMatch[1];
@@ -190,7 +187,6 @@
 
             } catch (csvErr) { console.error(csvErr); }
 
-            // 雙幣卡片特效流
             if (currentCoinNickname === "賈伯斯幣" || lowerImgCheck.includes("jobs") || lowerImgCheck.includes("california")) {
                 mainCoinFrame.className = "flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2";
                 mainCoinFrame.innerHTML = `
@@ -210,7 +206,44 @@
             renderAppendGallery(lowerImgCheck);
         }
 
-        // 獨立圖片橫廊渲染引擎
+        // 2018 專用雙軌防禦 Fetch 引擎：第一軌大寫 Introductory，失敗自動切換第二軌小寫 introductory
+        async function fetch2018ArticleWithFallback(fallbackTitle) {
+            const articlePayload = document.getElementById('article-payload');
+            const pathsToTry = [
+                '/txts/txt-coin-2018-Introductory.txt', // 優先大寫軌道
+                '/txts/txt-coin-2018-introductory.txt'  // 備用全小寫軌道
+            ];
+
+            for (let url of pathsToTry) {
+                try {
+                    const response = await fetch(url);
+                    const contentType = response.headers.get("content-type") || "";
+                    if (response.ok && !contentType.includes("text/html")) {
+                        const rawText = await response.text();
+                        const lines = rawText.split('\n').map(line => line.trim()).filter(line => line !== "");
+                        
+                        if (lines.length > 0) {
+                            document.getElementById('mission-title').innerHTML = lines[0];
+                            articlePayload.innerHTML = "";
+                            lines.forEach((lineText, index) => {
+                                if (index !== 0) {
+                                    const pTag = document.createElement('p');
+                                    if (index === 1) pTag.className = "font-medium text-zinc-200 text-xl border-l-2 border-zinc-200 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide";
+                                    else pTag.className = "text-zinc-300 leading-loose tracking-wide text-base md:text-lg mb-4 font-medium";
+                                    pTag.innerText = lineText; 
+                                    articlePayload.appendChild(pTag);
+                                }
+                            });
+                            return; // 成功抓到內文，直接全面退場
+                        }
+                    }
+                } catch (e) { console.log("Path try failed:", url); }
+            }
+            // 雙軌皆墨時的終極兜底
+            document.getElementById('mission-title').innerHTML = fallbackTitle;
+            articlePayload.innerHTML = `<p class="font-medium text-zinc-400 text-xl border-l-2 border-zinc-700 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>`;
+        }
+
         function renderAppendGallery(lowerImgCheck) {
             const galleryAppendDeck = document.getElementById('gallery-append-deck');
             galleryAppendDeck.innerHTML = '';
@@ -231,12 +264,6 @@
 
         async function renderArticleContent(targetImg, fallbackTitle) {
             let baseFileName = targetImg.substring(0, targetImg.lastIndexOf('.')) || targetImg;
-            
-            // 強制大小寫對位：如果是 2018 introductory 檔案，確保 I 永遠大寫對齊 static 上的實體檔
-            if (baseFileName.toLowerCase() === 'coin-2018-introductory') {
-                baseFileName = 'coin-2018-Introductory';
-            }
-            
             const articleTextUrl = `/txts/txt-${baseFileName}.txt`; 
             const articlePayload = document.getElementById('article-payload');
             
