@@ -35,25 +35,26 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
-        
-        /* 擴充 Tailwind 缺少的 h-15 完美比例防線 */
+
+        /* 擴充自訂特規標誌尺寸防線（確保等比例正圓） */
+        .logo-size-mobile { height: 44px !important; width: 44px !important; }
         @media (min-width: 640px) {
-            .sm\:h-15 { height: 3.75rem !important; }
+            .logo-size-desktop { height: 56px !important; width: 56px !important; }
         }
     </style>
 </head>
 <body class="bg-black text-zinc-200 antialiased flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center">
-            <!-- 左上角商標區塊：全面放大 1.5 倍，細節一目了然、抗變形對齊 -->
-            <a href="/" class="hover:opacity-80 transition flex items-center space-x-3 sm:space-x-4 select-none">
-                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-12 sm:h-15 w-auto object-contain rounded-full">
-                <div class="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center relative h-16">
+            <a href="/" class="hover:opacity-90 transition flex items-center select-none relative h-full">
+                <div class="relative flex items-center justify-center">
+                    <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="logo-size-mobile logo-size-desktop object-contain rounded-full bg-black shadow-[0_4px_20px_rgba(0,0,0,0.9)] border border-zinc-900/50">
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 ml-3.5">
                     <span class="font-bold text-xl sm:text-2xl tracking-wide text-zinc-200 leading-none">幣圈宅</span>
                     <span class="text-zinc-500 font-medium text-xs sm:text-sm sm:border-l sm:border-zinc-800 sm:pl-2 hidden sm:inline leading-none">找到屬於自己的精緻幣</span>
                 </div>
             </a>
-            <!-- 右上角選單：手機版直接並排無阻礙點擊 -->
             <div class="flex space-x-3 sm:space-x-6 text-[10px] md:text-xs font-bold tracking-widest items-center">
                 <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b border-zinc-700 hover:border-zinc-400 whitespace-nowrap">美國創新[查看庫存]</a>
                 <span class="text-zinc-600 py-1 select-none cursor-not-allowed whitespace-nowrap">美國鷹揚[規劃中]</span>
@@ -76,7 +77,6 @@
             </div>
         </div>
         
-        <!-- 右側主視覺硬幣：已執行光澤調亮手術 -->
         <div class="absolute top-[30%] md:top-1/2 left-1/2 md:left-auto right-auto md:right-8 lg:right-20 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] md:w-[460px] md:h-[460px] lg:w-[560px] lg:h-[560px] rounded-full overflow-hidden select-none pointer-events-none opacity-60 md:opacity-80 z-0 bg-zinc-950/20">
             <div class="absolute inset-0 rounded-full shadow-[inset_-25px_0px_50px_rgba(0,0,0,0.9),inset_25px_0px_60px_rgba(255,255,255,0.08)] z-10"></div>
             <img src="/coins/coin-2018-introductory.webp" 
