@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>幣圈宅 TECH COINS CRYPTO | Mission Control</title>
+    
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 1. 遠端注入 SpaceX 官網完全同款、百分之百真實的開源 D-DIN 字體家族 */
@@ -26,22 +31,33 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+
+        /* 擴充自訂特規標誌尺寸防線（確保等比例正圓） */
+        .logo-size-mobile { height: 44px !important; width: 44px !important; }
+        @media (min-width: 640px) {
+            .logo-size-desktop { height: 56px !important; width: 56px !important; }
+        }
     </style>
 </head>
 <body class="bg-black text-zinc-200 antialiased font-sans flex flex-col min-h-screen">
     <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="font-bold text-xl tracking-wide hover:opacity-80 transition flex items-center space-x-2">
-                <span class="font-medium">幣圈宅</span>
-                <span class="text-zinc-500 font-medium text-sm border-l border-zinc-800 pl-2">找到屬於自己的精緻幣</span>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center relative h-16">
+            <a href="/" class="hover:opacity-90 transition flex items-center select-none relative h-full">
+                <div class="relative flex items-center justify-center">
+                    <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="logo-size-mobile logo-size-desktop object-contain rounded-full bg-black shadow-[0_4px_20px_rgba(0,0,0,0.9)] border border-zinc-900/50">
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 ml-3.5">
+                    <span class="font-bold text-xl sm:text-2xl tracking-wide text-zinc-200 line-clamp-1 leading-none">幣圈宅</span>
+                    <span class="text-zinc-500 font-medium text-xs sm:text-sm sm:border-l sm:border-zinc-800 sm:pl-2 hidden sm:inline leading-none">找到屬於自己的精緻幣</span>
+                </div>
             </a>
-            <div class="hidden md:flex space-x-8 text-xs font-bold tracking-widest">
-                <a href="#" class="hover:underline transition py-1">美國創新</a>
-                <a href="#" class="hover:underline transition py-1">美國鷹揚(建置中)</a>
-                <a href="#" class="hover:underline transition py-1">買</a>
+            <div class="flex space-x-3 sm:space-x-6 text-[10px] md:text-xs font-bold tracking-widest items-center">
+                <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b border-zinc-700 hover:border-zinc-400 whitespace-nowrap">美國創新[查看庫存]</a>
+                <span class="text-zinc-600 py-1 select-none cursor-not-allowed whitespace-nowrap">美國鷹揚[規劃中]</span>
             </div>
         </div>
     </nav>
+    
     <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-8">
         <div class="border-b border-zinc-900 pb-6">
             <h1 id="mission-title" class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-200 leading-tight uppercase">載入中...</h1>
@@ -63,9 +79,12 @@
     
     <footer class="border-t border-zinc-900 bg-black py-10 px-6 mt-auto w-full">
         <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
-            <div class="space-y-0.5 pb-4 md:pb-0">
-                <a href="#" onclick="history.back(); return false;" class="block font-medium text-lg tracking-wider hover:opacity-80 transition cursor-pointer">幣圈宅</a>
-                <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+            <div class="space-y-0.5 pb-4 md:pb-0 flex items-center space-x-3">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-10 w-auto object-contain rounded-full opacity-60">
+                <div>
+                    <a href="#" onclick="history.back(); return false;" class="block font-medium text-lg tracking-wider hover:opacity-80 transition cursor-pointer">幣圈宅</a>
+                    <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+                </div>
             </div>
             <div class="md:col-span-2 text-[11px] leading-relaxed tracking-wide text-zinc-400 font-medium">
                 <p class="text-zinc-400 mb-1.5">硬幣設計與圖片來源：美國鑄幣局。</p>
@@ -114,7 +133,6 @@
                 
                 let fallbackTitle = `2018 美國創新首發專利幣<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">United States</span>`;
                 
-                // 直接引導至獨立雙重路徑 Fetch 引擎，徹底消滅 404
                 await fetch2018ArticleWithFallback(fallbackTitle);
                 
                 const mainCoinFrame = document.getElementById('main-coin-frame');
@@ -206,12 +224,11 @@
             renderAppendGallery(lowerImgCheck);
         }
 
-        // 2018 專用雙軌防禦 Fetch 引擎：第一軌大寫 Introductory，失敗自動切換第二軌小寫 introductory
         async function fetch2018ArticleWithFallback(fallbackTitle) {
             const articlePayload = document.getElementById('article-payload');
             const pathsToTry = [
-                '/txts/txt-coin-2018-Introductory.txt', // 優先大寫軌道
-                '/txts/txt-coin-2018-introductory.txt'  // 備用全小寫軌道
+                '/txts/txt-coin-2018-Introductory.txt', 
+                '/txts/txt-coin-2018-introductory.txt'  
             ];
 
             for (let url of pathsToTry) {
@@ -234,12 +251,11 @@
                                     articlePayload.appendChild(pTag);
                                 }
                             });
-                            return; // 成功抓到內文，直接全面退場
+                            return; 
                         }
                     }
                 } catch (e) { console.log("Path try failed:", url); }
             }
-            // 雙軌皆墨時的終極兜底
             document.getElementById('mission-title').innerHTML = fallbackTitle;
             articlePayload.innerHTML = `<p class="font-medium text-zinc-400 text-xl border-l-2 border-zinc-700 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>`;
         }
