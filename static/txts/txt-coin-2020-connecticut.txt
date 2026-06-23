@@ -6,5 +6,5 @@
 -
 解決圖形運算痛點
 應用於阿波羅計畫
-創立科技帝國-Gerber Scientific公司後續開發自動化繪圖機Digital Drafting Machines
-及電腦輔助製造CAD/CAM系統
+-
+Gerber Scientific公司後續開發自動化繪圖機Digital Drafting Machines及電腦輔助製造CAD/CAM系統
