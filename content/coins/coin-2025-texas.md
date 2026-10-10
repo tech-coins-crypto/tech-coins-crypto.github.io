@@ -6,5 +6,5 @@ state_en: "Texas"
 nickname: "太空人幣"
 img: "coin-2025-texas.webp"
 basename: "coin-2025-texas"
-keywords: "太空漫步"
+keywords: "太空漫步 NASA 休士頓 阿提米絲計畫"
 ---
