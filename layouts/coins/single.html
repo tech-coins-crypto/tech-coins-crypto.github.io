@@ -133,6 +133,15 @@
                     <img src="/coins/{{ .Params.img }}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="{{ .Params.nickname }}">
                 </div>
                 {{- end -}}
+                {{- $blueprint := strings.TrimPrefix "coin-" $basename -}}
+                <div class="w-full flex flex-col space-y-4 pt-4">
+                    {{- range $i := seq 1 4 -}}
+                        {{- $gfile := printf "static/images/image%d-%s.webp" $i $blueprint -}}
+                        {{- if fileExists $gfile -}}
+                    <img src="/images/image{{ $i }}-{{ $blueprint }}.webp" class="w-full h-auto object-cover rounded border border-zinc-900/60 bg-zinc-950/20 p-2 rounded-lg transition-all duration-300 hover:border-zinc-800" loading="lazy" alt="">
+                        {{- end -}}
+                    {{- end -}}
+                </div>
             </div>
         </div>
     </main>
