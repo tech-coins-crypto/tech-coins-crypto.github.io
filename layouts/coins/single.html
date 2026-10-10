@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{- $basename := .Params.basename -}}
+    {{- $txtPath := printf "static/txts/txt-%s.txt" $basename -}}
+    {{- $hasArticle := fileExists $txtPath -}}
+    {{- $fallbackTitle := printf "%s %s %s" .Params.year .Params.state .Params.nickname -}}
+    {{- $h1 := $fallbackTitle -}}
+    {{- $paras := slice -}}
+    {{- if $hasArticle -}}
+      {{- $raw := readFile $txtPath -}}
+      {{- $clean := slice -}}
+      {{- range split $raw "\n" -}}
+        {{- $t := trim . " \r\t" -}}
+        {{- if ne $t "" -}}{{ $clean = $clean | append $t }}{{ end -}}
+      {{- end -}}
+      {{- if gt (len $clean) 0 -}}
+        {{- $h1 = index $clean 0 -}}
+        {{- $paras = after 1 $clean -}}
+      {{- end -}}
+    {{- end -}}
+    {{- $desc := printf "%s美國創新幣%s%s中文介紹" .Params.year .Params.state .Params.nickname -}}
+    {{- if gt (len $paras) 0 -}}{{ $desc = index $paras 0 }}{{ end -}}
+    {{- $pageUrl := printf "%scoins/%s/" .Site.BaseURL $basename -}}
+    {{- $imgUrl := printf "%scoins/%s" .Site.BaseURL .Params.img -}}
+    <title>{{ $h1 }} | 幣圈宅 TECH COINS CRYPTO</title>
+    <meta name="description" content="{{ $desc | truncate 150 }}">
+    <link rel="canonical" href="{{ $pageUrl }}">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ $h1 }}">
+    <meta property="og:description" content="{{ $desc | truncate 150 }}">
+    <meta property="og:image" content="{{ $imgUrl }}">
+    <meta property="og:url" content="{{ $pageUrl }}">
+    <meta property="og:site_name" content="幣圈宅 TECH COINS CRYPTO">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="apple-touch-icon" href="/images/logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/d-din');
+        body, h1, h2, h3, h4, p, span, a, div {
+            font-family: 'D-DIN', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            color: #e4e4e7 !important;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        h1, [class*="tracking-widest"], #coin-keywords span { text-transform: uppercase; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #222; border-radius: 3px; }
+        .logo-size-mobile { height: 44px !important; width: 44px !important; }
+        @media (min-width: 640px) { .logo-size-desktop { height: 56px !important; width: 56px !important; } }
+    </style>
+</head>
+<body class="bg-black text-zinc-200 antialiased font-sans flex flex-col min-h-screen">
+    <nav class="border-b border-zinc-900 bg-black/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex justify-between items-center relative h-16">
+            <a href="/" class="hover:opacity-90 transition flex items-center select-none relative h-full">
+                <div class="relative flex items-center justify-center">
+                    <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="logo-size-mobile logo-size-desktop object-contain rounded-full bg-black shadow-[0_4px_20px_rgba(0,0,0,0.9)] border border-zinc-900/50">
+                </div>
+                <div class="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-2 ml-3.5">
+                    <span class="font-bold text-xl sm:text-2xl tracking-wide text-zinc-200 line-clamp-1 leading-none">幣圈宅</span>
+                    <span class="text-zinc-500 font-medium text-xs sm:text-sm sm:border-l sm:border-zinc-800 sm:pl-2 hidden sm:inline leading-none">找到屬於自己的精緻幣</span>
+                </div>
+            </a>
+            <div class="flex space-x-3 sm:space-x-6 text-[10px] md:text-xs font-bold tracking-widest items-center">
+                <a href="https://www.ruten.com.tw/store/wmpkimo/" target="_blank" rel="noopener noreferrer" class="hover:text-white transition py-1 text-zinc-200 border-b border-zinc-700 hover:border-zinc-400 whitespace-nowrap">美國創新[查看庫存]</a>
+                <span class="text-zinc-600 py-1 select-none cursor-not-allowed whitespace-nowrap">美國鷹揚[規劃中]</span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-8">
+        <div class="border-b border-zinc-900 pb-6">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-200 leading-tight uppercase">{{ $h1 }}<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">{{ .Params.state_en }}</span></h1>
+            <p class="text-sm text-zinc-500 mt-3 tracking-widest">{{ .Params.year }} &middot; {{ .Params.state }} &middot; {{ .Params.nickname }}</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+            <div class="md:col-span-7 flex flex-col justify-between min-h-full">
+                <article class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg py-2 font-medium">
+                    {{- if $hasArticle -}}
+                        {{- range $i, $p := $paras -}}
+                            {{- if eq $i 0 -}}
+                    <p class="font-medium text-zinc-200 text-xl border-l-2 border-zinc-200 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">{{ $p }}</p>
+                            {{- else -}}
+                    <p class="text-zinc-300 leading-loose tracking-wide text-base md:text-lg mb-4 font-medium">{{ $p }}</p>
+                            {{- end -}}
+                        {{- end -}}
+                    {{- else -}}
+                    <p class="font-medium text-zinc-400 text-xl border-l-2 border-zinc-700 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>
+                    {{- end -}}
+                </article>
+                {{- $kw := .Params.keywords -}}
+                {{- if $kw -}}
+                <div id="coin-keywords" class="flex flex-wrap justify-start gap-2 pt-6 mt-8 border-t border-zinc-900/40 w-full">
+                    {{- range $kw -}}
+                        {{- $t := trim . " " -}}
+                        {{- if ne $t "" -}}
+                    <span class="px-2.5 py-0.5 text-xs font-medium tracking-wide rounded border border-emerald-500/40 !text-emerald-400 bg-emerald-950/20 select-none font-bold" style="color:#34d399 !important;">{{ $t }}</span>
+                        {{- end -}}
+                    {{- end -}}
+                </div>
+                {{- end -}}
+            </div>
+
+            <div class="md:col-span-5 flex flex-col space-y-6 items-center select-none sticky md:top-24 py-2">
+                {{- if eq $basename "coin-2018-introductory" -}}
+                <div class="flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2">
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20">
+                        <img src="/coins/coin-2018-introductory.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="{{ .Params.nickname }}背面">
+                    </div>
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10">
+                        <img src="/coins/coin-2018-l.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="{{ .Params.nickname }}正面">
+                    </div>
+                </div>
+                {{- else if eq $basename "coin-2026-california" -}}
+                <div class="flex flex-row justify-center items-center -space-x-8 md:-space-x-14 w-full px-2">
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-20">
+                        <img src="/coins/{{ .Params.img }}" class="w-[85%] h-[85%] object-cover rounded-full" alt="{{ .Params.nickname }}">
+                    </div>
+                    <div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-60 md:h-60 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] z-10">
+                        <img src="/coins/coin-250y.webp" class="w-[85%] h-[85%] object-cover rounded-full" alt="250週年">
+                    </div>
+                </div>
+                {{- else -}}
+                <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-30px_0px_60px_rgba(0,0,0,1),inset_30px_0px_80px_rgba(255,255,255,0.05)]">
+                    <img src="/coins/{{ .Params.img }}" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] contrast-[1.1]" alt="{{ .Params.nickname }}">
+                </div>
+                {{- end -}}
+            </div>
+        </div>
+    </main>
+
+    <footer class="border-t border-zinc-900 bg-black py-10 px-6 mt-auto w-full">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
+            <div class="space-y-0.5 pb-4 md:pb-0 flex items-center space-x-3">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-10 w-auto object-contain rounded-full opacity-60">
+                <div>
+                    <a href="/" class="block font-medium text-lg tracking-wider hover:opacity-80 transition cursor-pointer">幣圈宅</a>
+                    <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+                </div>
+            </div>
+            <div class="md:col-span-2 text-[11px] leading-relaxed tracking-wide text-zinc-400 font-medium">
+                <p class="text-zinc-400 mb-1.5">硬幣設計與圖片來源：美國鑄幣局。</p>
+                <p class="text-zinc-500 mb-1.5 leading-relaxed">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
+                <p class="text-zinc-400 mb-1.5">Coin designs and images: United States Mint.</p>
+                <p class="text-zinc-500 mb-1.5 leading-relaxed">This website is made for coin enthusiasts and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.</p>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-600 leading-none pt-0.5">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

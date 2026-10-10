@@ -233,8 +233,8 @@
 
             if (yearGroups["2018"]) {
                 const titleContent2018 = `<h3 class="text-xl md:text-2xl font-medium tracking-widest text-zinc-200 mb-4">2018 美國創新系列首發幣</h3>`;
-                const cardBack = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-introductory.webp', '專利幣背面', 'Introductory');
-                const cardFront = generateIntroductoryCardHTML(`/coins/detail/?img=coin-2018-introductory.webp`, '/coins/coin-2018-l.webp', '專利幣正面', 'Statue Of Liberty');
+                const cardBack = generateIntroductoryCardHTML(`/coins/coin-2018-introductory/`, '/coins/coin-2018-introductory.webp', '專利幣背面', 'Introductory');
+                const cardFront = generateIntroductoryCardHTML(`/coins/coin-2018-introductory/`, '/coins/coin-2018-l.webp', '專利幣正面', 'Statue Of Liberty');
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6">${titleContent2018}<div class="flex flex-row flex-wrap justify-start items-start gap-x-4 md:gap-x-6 gap-y-6">${cardBack}${cardFront}</div></div>`;
             }
 
@@ -252,7 +252,7 @@
 
                 let coinsHTML = '';
                 yearGroups[year].forEach(coin => {
-                    coinsHTML += generateCoinCardHTML(`/coins/detail/?img=${coin.img}`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
+                    coinsHTML += generateCoinCardHTML(`/coins/${coin.img.replace(/\.webp$/, '')}/`, `/coins/${coin.img}`, coin.nickname, coin.state, coin.state_en);
                 });
                 container.innerHTML += `<div class="border-b border-zinc-900 pb-6 last:border-0">${titleContent}<div class="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-6">${coinsHTML}</div></div>`;
             });
@@ -284,7 +284,7 @@
                     if (coin.year === "2018") {
                         currentImg = "coin-2018-introductory.webp";
                         coinsHTML += `
-                            <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
+                            <a href="/coins/${currentImg.replace(/\.webp$/,'')}/" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
                                     <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/images/logo.png';">
                                 </div>
@@ -299,7 +299,7 @@
                         `;
                     } else {
                         coinsHTML += `
-                            <a href="/coins/detail/?img=${currentImg}" class="group flex flex-col items-center text-center">
+                            <a href="/coins/${currentImg.replace(/\.webp$/,'')}/" class="group flex flex-col items-center text-center">
                                 <div class="w-28 h-28 sm:w-36 sm:h-36 md:w-40 md:h-40 rounded-full border border-zinc-900 bg-zinc-950/60 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover:border-zinc-500 group-hover:scale-105 shadow-[inset_0px_0px_20px_rgba(0,0,0,0.6)] select-none">
                                     <img src="/coins/${currentImg}" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85] transition-all duration-300 group-hover:brightness-[0.95]" onerror="this.src='/images/logo.png';">
                                 </div>
