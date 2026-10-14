@@ -43,16 +43,32 @@
             </div>
         </div>
     </nav>
-
     <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
         <h1 class="text-3xl md:text-4xl font-bold tracking-widest text-center mb-4">美國鷹揚銀幣</h1>
         <p class="text-zinc-500 text-center mb-12">American Silver Eagle</p>
-
-        <div id="eagle-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- 照片由 JS 載入 -->
-        </div>
-
+        <div id="eagle-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
         <div class="text-center mt-12 text-zinc-600 text-sm">
             <p>目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>
-        </d
-...[truncated 1435 chars]
+        </div>
+    </main>
+    <footer class="border-t border-zinc-900 py-8 text-center text-zinc-600 text-xs">
+        <p>幣圈宅 TECH COINS CRYPTO</p>
+    </footer>
+    <script>
+        fetch('/data/eagle-coins.json').then(r => r.json()).then(coins => {
+            const grid = document.getElementById('eagle-grid');
+            if (!coins.length) {
+                grid.innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
+                return;
+            }
+            grid.innerHTML = coins.map(c =>
+                '<div class="flex flex-col items-center text-center">' +
+                '<img src="/images/eagle/' + c.img + '" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85]">' +
+                '<p class="mt-2 text-sm">' + c.title + '</p></div>'
+            ).join('');
+        }).catch(() => {
+            document.getElementById('eagle-grid').innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
+        });
+    </script>
+</body>
+</html>
