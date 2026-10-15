@@ -64,7 +64,7 @@
             grid.innerHTML = coins.map(c => {
                 var coinBox = function(src, z) {
                     return '<div class="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] ' + z + '">' +
-                        '<img src="/images/liberty/' + src + '" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full">' +
+                        '<img src="/images/liberty/' + src + '" loading="lazy" class="w-[85%] aspect-square object-cover rounded-full">' +
                         '</div>';
                 };
                 var imgs = '<div class="flex flex-row justify-center items-center -space-x-8 md:-space-x-12 w-full px-2">' +
