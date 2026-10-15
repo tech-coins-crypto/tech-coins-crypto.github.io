@@ -61,11 +61,14 @@
                 grid.innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
                 return;
             }
-            grid.innerHTML = coins.map(c =>
-                '<div class="flex flex-col items-center text-center">' +
-                '<img src="/images/eagle/' + c.img + '" loading="lazy" class="w-[85%] h-[85%] object-cover rounded-full brightness-[0.85]">' +
-                '<p class="mt-2 text-sm">' + c.title + '</p></div>'
-            ).join('');
+            grid.innerHTML = coins.map(c => {
+                var imgs = '<div class="relative flex justify-center items-center" style="min-height:180px">' +
+                    '<img src="/images/eagle/' + c.img + '" loading="lazy" class="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full brightness-[0.85] relative z-10">' +
+                    (c.img_rev ? '<img src="/images/eagle/' + c.img_rev + '" loading="lazy" class="w-40 h-40 md:w-48 md:h-48 object-cover rounded-full brightness-[0.85] -ml-12 relative z-0 opacity-90">' : '') +
+                    '</div>';
+                return '<div class="flex flex-col items-center text-center">' + imgs +
+                    '<p class="mt-2 text-sm">' + c.title + '</p></div>';
+            }).join('');
         }).catch(() => {
             document.getElementById('eagle-grid').innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
         });
