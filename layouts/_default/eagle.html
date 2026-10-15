@@ -51,8 +51,23 @@
             <!-- 由 JS 載入每枚幣的左右佈局 -->
         </div>
     </main>
-    <footer class="border-t border-zinc-900 py-8 text-center text-zinc-600 text-xs">
-        <p>幣圈宅 TECH COINS CRYPTO</p>
+    <footer class="border-t border-zinc-900 bg-black py-10 px-6 mt-auto w-full">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 items-center text-left">
+            <div class="space-y-0.5 pb-4 md:pb-0 flex items-center space-x-3">
+                <img src="/images/logo.png" alt="Tech Coins Crypto Logo" class="h-10 w-auto object-contain rounded-full opacity-60">
+                <div>
+                    <a href="/" class="block font-medium text-lg tracking-wider hover:opacity-80 transition cursor-pointer">幣圈宅</a>
+                    <p class="text-[10px] text-zinc-500 tracking-widest font-bold">TECH COINS CRYPTO</p>
+                </div>
+            </div>
+            <div class="md:col-span-2 text-[11px] leading-relaxed tracking-wide text-zinc-400 font-medium">
+                <p class="text-zinc-400 mb-1.5">硬幣設計與圖片來源：美國鑄幣局。</p>
+                <p class="text-zinc-500 mb-1.5 leading-relaxed">本網站為錢幣愛好者製作，與美國鑄幣局及美國政府無關聯、背書或授權。</p>
+                <p class="text-zinc-400 mb-1.5">Coin designs and images: United States Mint.</p>
+                <p class="text-zinc-500 mb-1.5 leading-relaxed">This website is made for coin enthusiasts and is not affiliated with, endorsed, or authorized by the United States Mint or the U.S. government.</p>
+                <p class="text-[10px] uppercase tracking-widest text-zinc-600 leading-none pt-0.5">© 2026 Tech Coins Crypto. Hosted on Cloudflare planetary edge servers.</p>
+            </div>
+        </div>
     </footer>
     <script>
         fetch('/data/eagle-coins.json').then(r => r.json()).then(coins => {
