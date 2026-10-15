@@ -43,12 +43,12 @@
             </div>
         </div>
     </nav>
-    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 py-12 w-full">
-        <h1 class="text-3xl md:text-4xl font-bold tracking-widest text-center mb-4">美國鷹揚銀幣</h1>
-        <p class="text-zinc-500 text-center mb-12">American Silver Eagle</p>
-        <div id="eagle-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-        <div class="text-center mt-12 text-zinc-600 text-sm">
-            <p>目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>
+    <main class="flex-grow max-w-6xl mx-auto px-6 py-12 w-full space-y-8">
+        <div class="border-b border-zinc-900 pb-6">
+            <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-zinc-200 leading-tight uppercase">美國鷹揚銀幣<br><span class="text-2xl md:text-3xl block mt-1.5 text-zinc-500 font-normal tracking-wide uppercase">American Silver Eagle</span></h1>
+        </div>
+        <div id="eagle-content" class="space-y-16">
+            <!-- 由 JS 載入每枚幣的左右佈局 -->
         </div>
     </main>
     <footer class="border-t border-zinc-900 py-8 text-center text-zinc-600 text-xs">
@@ -56,27 +56,32 @@
     </footer>
     <script>
         fetch('/data/eagle-coins.json').then(r => r.json()).then(coins => {
-            const grid = document.getElementById('eagle-grid');
+            const container = document.getElementById('eagle-content');
             if (!coins.length) {
-                grid.innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
+                container.innerHTML = '<p class="text-center text-zinc-600">照片準備中，敬請期待</p>';
                 return;
             }
-            grid.innerHTML = coins.map(c => {
-                var coinBox = function(src, z) {
-                    return '<div class="relative w-64 aspect-square sm:w-80 sm:aspect-square md:w-96 md:aspect-square rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)] ' + z + '">' +
+            container.innerHTML = coins.map(c => {
+                var coinBox = function(src) {
+                    return '<div class="relative w-72 aspect-square sm:w-80 sm:aspect-square md:w-96 md:aspect-square rounded-full bg-zinc-950/40 border border-zinc-900/60 flex items-center justify-center overflow-hidden shadow-[inset_-25px_0px_50px_rgba(0,0,0,1),0_15px_40px_rgba(0,0,0,0.85)]">' +
                         '<img src="/images/eagle/' + src + '" loading="lazy" class="w-[92%] h-[92%] object-cover rounded-full">' +
                         '</div>';
                 };
-                var imgs = '<div class="flex flex-row justify-center items-center gap-6 md:gap-10 w-full px-2">' +
-                    coinBox(c.img, 'z-20') +
-                    (c.img_rev ? coinBox(c.img_rev, 'z-10') : '') +
+                var imgs = '<div class="flex flex-row justify-center items-center gap-8 md:gap-12 w-full">' +
+                    coinBox(c.img) +
+                    (c.img_rev ? coinBox(c.img_rev) : '') +
                     '</div>';
-                return '<div class="flex flex-col items-center text-center">' + imgs +
-                    '<p class="mt-4 text-sm">' + c.title + '</p>' +
-                    (c.subtitle ? '<p class="text-xs text-zinc-500">' + c.subtitle + '</p>' : '') + '</div>';
+                return '<div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">' +
+                    '<div class="md:col-span-7 flex flex-col justify-between min-h-full">' +
+                    '<article class="space-y-6 text-zinc-300 leading-relaxed tracking-wide text-base md:text-lg py-2 font-medium">' +
+                    '<p class="font-medium text-zinc-200 text-xl border-l-2 border-zinc-200 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">' + c.title + '</p>' +
+                    '<p class="font-medium text-zinc-400 text-xl border-l-2 border-zinc-700 pl-3 font-sans mb-6 mt-0 leading-relaxed tracking-wide">目前沒空寫這枚介紹。有靈感或是入手此幣，就會開始寫啦！</p>' +
+                    '</article></div>' +
+                    '<div class="md:col-span-5 flex flex-col space-y-6 items-center select-none py-2">' + imgs + '</div>' +
+                    '</div>';
             }).join('');
         }).catch(() => {
-            document.getElementById('eagle-grid').innerHTML = '<p class="col-span-full text-center text-zinc-600">照片準備中，敬請期待</p>';
+            document.getElementById('eagle-content').innerHTML = '<p class="text-center text-zinc-600">照片準備中，敬請期待</p>';
         });
     </script>
 </body>
