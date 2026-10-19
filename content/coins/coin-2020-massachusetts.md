@@ -6,5 +6,5 @@ state_en: "Massachusetts"
 nickname: "電話幣"
 img: "coin-2020-massachusetts.webp"
 basename: "coin-2020-massachusetts"
-keywords: "用過就透漏年齡"
+keywords: "用過就透漏年齡 轉盤電話 1876 第一通電話"
 ---
