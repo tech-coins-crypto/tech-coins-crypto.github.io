@@ -6,5 +6,5 @@ state_en: "Louisiana"
 nickname: "登陸艇幣"
 img: "coin-2023-louisiana.webp"
 basename: "coin-2023-louisiana"
-keywords: "二戰"
+keywords: "二戰 諾曼第登陸 木頭船"
 ---
